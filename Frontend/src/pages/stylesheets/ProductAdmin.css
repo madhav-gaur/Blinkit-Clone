@@ -1,0 +1,235 @@
+.product-admin-head {
+  border-bottom: 1px solid #d1d1d1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding-bottom: 1rem;
+  justify-content: space-between;
+  height: 3rem;
+}
+
+.product-admin-head h2 {
+  font-weight: 500;
+}
+
+.product-admin-search {
+  border: 1px solid #ddd;
+  display: flex;
+  border-radius: 6px;
+  align-items: center;
+  padding: 10px;
+  width: 100%;
+  max-width: 18rem;
+
+  input {
+    padding: 0 10px;
+    border: none;
+    font-size: 1rem;
+    height: 100%;
+  }
+}
+
+.product-admin-search:focus-within {
+  border-color: #000;
+}
+
+.admin-product-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
+  height: 100%;
+  padding: 1rem;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.admin-product {
+  max-height: 400px;
+  position: relative;
+  z-index: 20;
+  overflow: hidden;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-right: 0.5rem;
+}
+
+.product-card-admin {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+  padding: 12px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-family: sans-serif;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: rgb(250, 250, 250);
+  }
+}
+
+.image-box img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 7px;
+  border: 1px solid #ccc;
+}
+
+.product-card-detail-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+}
+
+.product-card-detail-box p {
+  margin: 0;
+  font-size: 14px;
+  color: #444;
+  line-height: 1.4;
+}
+
+.product-card-detail-box p strong {
+  color: #000;
+  margin-right: 5px;
+}
+
+.product-card-admin-functions {
+  position: absolute;
+  right: 1.5rem;
+  cursor: pointer;
+}
+.product-card-admin-function-btn {
+  position: absolute;
+  display: flex;
+  top: 0;
+  left: -8rem;
+  z-index: 10;
+  background-color: white;
+  border-radius: 10px;
+  flex-direction: column;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  justify-content: center;
+  div {
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    padding-right: 2rem;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 10px;
+  }
+  div:first-child {
+    color: #038c1f;
+    &:hover {
+      background-color: #d7ffd4;
+    }
+  }
+  div:last-child {
+    color: red;
+    &:hover {
+      background-color: #ffe5e5;
+    }
+  }
+}
+.admin-product-pagination {
+  display: flex;
+  padding: 0 1rem;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.admin-pagination-btn {
+  display: flex;
+  align-items: center;
+  background-color: white;
+  border: 2px solid var(--primary);
+  padding: 0.3rem 1.2rem;
+  gap: 10px;
+  cursor: pointer;
+  font-size: 1rem;
+  color: black;
+  border-radius: 6px;
+  transition: background 0.3s ease;
+
+  &:hover {
+    background-color: var(--primary);
+  }
+}
+
+.admin-product-page-no {
+  display: flex;
+  gap: 10px;
+  max-width: 100%;
+  overflow-x: auto;
+
+  button {
+    width: 2.5rem !important;
+    height: 2.5rem !important;
+    border-radius: 50%;
+    border: 2px solid var(--primary);
+    background-color: transparent;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease;
+
+    &:hover {
+      background-color: var(--primary);
+    }
+  }
+
+  button.active-page {
+    background-color: var(--primary);
+  }
+}
+
+.pagination-type2 {
+  font-size: 1rem;
+}
+
+@media (max-width: 740px) {
+  .admin-product-wrapper {
+    padding: 0;
+    padding-top: 1rem;
+  }
+
+  .admin-product-page-no {
+    display: none;
+  }
+
+  .pagination-type2 {
+    display: flex !important;
+  }
+
+  .admin-product-pagination {
+    padding: 0;
+  }
+}
+
+@media (max-width: 500px) {
+  .product-card-admin {
+    flex-direction: column;
+  }
+
+  .product-card-admin .image-box {
+    display: flex;
+    justify-content: center;
+
+    img {
+      width: 12rem;
+      height: auto;
+      object-fit: contain;
+    }
+  }
+
+  .admin-product-pagination button {
+    gap: 5px;
+    padding: 0.3rem 8px;
+  }
+}
