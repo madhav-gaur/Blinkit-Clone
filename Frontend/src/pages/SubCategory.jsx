@@ -5,7 +5,7 @@ import SummaryApi from '../common/summaryAPI'
 import './stylesheets/Category.css'
 import ConfirmBox from '../components/ConfirmBox';
 import UploadSubCategoryModal from '../components/UploadSubCategoryModal';
-import SubCategoryTable from '../components/subCategoryTable';
+import SubCategoryTable from '../components/SubCategoryTable';
 import EditSubCategoryModal from '../components/EditSubCategoryModal';
 import { toast } from 'react-toastify';
 
@@ -65,10 +65,10 @@ const SubCategory = () => {
               setSelectedSubCategory(item);
               setOpenEditSubCategory(true);
             }}
-            onDelete={(item)=>{
+            onDelete={(item) => {
               setConfirmBox(true)
               setSelectedSubCategory(item)
-              
+
             }}
           />
 
