@@ -18,10 +18,22 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 
+const allowedOrigins = [
+  "https://blinkit-clone-wi73.vercel.app",
+  "https://blinkit-clone-wi73-bm2x0xlbp-madhav-gaurs-projects-9013d5a2.vercel.app", // current deployment
+  "http://localhost:5173", // for local dev
+];
+
 app.use(
   cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("CORS not allowed for this origin: " + origin));
+      }
+    },
     credentials: true,
-    origin: process.env.FRONTEND_URL,
   })
 );
 
@@ -36,13 +48,12 @@ app.get("/", (req, res) => {
   res.send("SERVER RUNNIG");
 });
 
-
-app.use('/api/user', userRouter)
-app.use('/api/category', categoryRouter)
-app.use('/api/file', uploadRouter)
-app.use('/api/subCategory', subCategoryRouter)
-app.use('/api/product', productRouter)
-app.use('/api/cart', cartRouter)
+app.use("/api/user", userRouter);
+app.use("/api/category", categoryRouter);
+app.use("/api/file", uploadRouter);
+app.use("/api/subCategory", subCategoryRouter);
+app.use("/api/product", productRouter);
+app.use("/api/cart", cartRouter);
 
 const PORT = 4000 || process.env.PORT;
 
