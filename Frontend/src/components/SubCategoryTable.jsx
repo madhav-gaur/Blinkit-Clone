@@ -4,7 +4,7 @@ import { MdEdit, MdDelete } from 'react-icons/md';
 import { ImEnlarge } from "react-icons/im";
 import ViewImage from './ViewImage';
 
-const SubCategoryTable = ({ subCategory, onEdit, onDelete }) => {
+export const SubCategoryTable = ({ subCategory, onEdit, onDelete }) => {
     const [viewImageUrl, setViewImageUrl] = useState('');
 
     return (
