@@ -3,7 +3,8 @@ import { userModel } from "../models/userModel.js";
 
 export const generatedRefreshToken = async (userId) => {
   if (!process.env.JWT_SECRET_REFRESH_TOKEN) {
-    console.log("Provide JWT SECRET");
+    console.error("Missing JWT_SECRET_REFRESH_TOKEN environment variable. Please set JWT_SECRET_REFRESH_TOKEN in your environment to generate refresh tokens.");
+    return null;
   }
   const token = await jwt.sign(
     { id: userId },

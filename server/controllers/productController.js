@@ -58,7 +58,7 @@ export const createProduct = async (req, res) => {
 export const getProduct = async (req, res) => {
   try {
     let { page, limit, search } = req.body;
-    if (!page) page = 2;
+    if (!page) page = 1;
     if (!limit) limit = 10;
 
     const skip = (page - 1) * limit;

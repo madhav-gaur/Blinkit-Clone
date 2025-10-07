@@ -4,7 +4,8 @@ import jwt from "jsonwebtoken";
 export const auth = async (req, res, next) => {
   try {
     const token =
-      req.cookies.accessToken || req.headers.authorization.split(" ")[1];
+      req.cookies.accessToken ||
+      (req.headers.authorization ? req.headers.authorization.split(" ")[1] : undefined);
     if (!token) {
       res.json({
         success: false,

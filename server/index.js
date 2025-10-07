@@ -32,9 +32,9 @@ app.use(
     crossOriginResourcePolicy: false,
   })
 );
-// app.get("/", (req, res) => {
-//   res.send("hi");
-// });
+app.get("/", (req, res) => {
+  res.send("SERVER RUNNIG");
+});
 
 
 app.use('/api/user', userRouter)

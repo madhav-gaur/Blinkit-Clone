@@ -58,7 +58,7 @@ export const verifyEmailControler = async (req, res) => {
     const user = await userModel.findOne({ _id: code });
     if (!user) {
       return res.json({
-        success: fasle,
+        success: false,
         message: "Invalid Request!!",
       });
     }

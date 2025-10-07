@@ -39,7 +39,6 @@ const HomeProductCard = ({ data }) => {
           userId: user._id
         }
       })
-      // console.log(response)
       if (response.data.success) await getCartItem()
     } catch (error) {
       console.error(error)

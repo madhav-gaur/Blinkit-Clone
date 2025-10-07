@@ -11,18 +11,18 @@ const addressSchema = new mongoose.Schema(
       default: "",
     },
     state: {
-      type: string,
+      type: String,
       default: "",
     },
     pincode: {
-      type: string,
+      type: String,
     },
     country: {
-      type: string,
+      type: String,
       default: "India",
     },
     mobile: {
-      type: mobile,
+      type: String,
       default: "",
     },
     status: {
