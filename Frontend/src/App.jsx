@@ -15,7 +15,7 @@ import { setUserDetails } from "./store/userSlice";
 import { useDispatch } from "react-redux";
 import Account from "./layout/Account";
 import Profile from "./pages/Profile";
-import Addresses from "./pages/Addresses";
+import Address from "./pages/Address";
 import Orders from "./pages/Orders";
 import Privacy from "./pages/Privacy";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -38,6 +38,7 @@ import Loading from "./components/Loading";
 import ProductListPage from "./pages/ProductListPage";
 import ProductDisplayPage from "./pages/ProductDisplayPage";
 import { Checkout } from "./pages/Checkout";
+import { NoInternet } from "./components/NoInternet";
 
 export const App = () => {
   const dispatch = useDispatch();
@@ -114,13 +115,14 @@ export const App = () => {
         autoClose={3000}
         pauseOnFocusLoss={false}
       />
+      <NoInternet />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/search" element={<SearchPage />} />
         <Route path=":category">
           <Route path=":subCategory" element={<ProductListPage />} />
         </Route>
-        <Route path=":product/:productId"/>
+        <Route path=":product/:productId" />
         <Route path="product/:product" element={<ProductDisplayPage />}></Route>
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
@@ -148,10 +150,10 @@ export const App = () => {
             }
           />
           <Route
-            path="addresses"
+            path="address"
             element={
               <LoginProtect>
-                <Addresses />
+                <Address />
               </LoginProtect>
             }
           />

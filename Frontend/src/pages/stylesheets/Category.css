@@ -33,6 +33,15 @@
     }
   }
 }
+@media (max-width: 500px) {
+  .category-head {
+    gap: 10px;
+    flex-direction: column;
+    button {
+      padding: 5px 1rem;
+    }
+  }
+}
 
 .category-item-wrapper {
   display: flex;
@@ -265,7 +274,25 @@
     background-color: var(--primary);
   }
 }
-
+@media (max-width: 500px) {
+  .confirm-box {
+    padding: 1rem;
+    padding-top: 2rem;
+    max-width: 22rem;
+    width: 100%;
+  }
+  .confirm-box div:first-child {
+    button {
+      top: -1.5rem;
+    }
+    p {
+      font-size: 15px;
+    }
+    span{
+      font-size: 13px;
+    }
+  }
+}
 .category-selection {
   width: 100%;
   display: flex;

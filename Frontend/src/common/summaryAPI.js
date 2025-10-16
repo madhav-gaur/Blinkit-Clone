@@ -109,6 +109,10 @@ const SummaryApi = {
     url: "/api/product/delete-product",
     method: "delete",
   },
+  deleteCartProductOnProductDelete: {
+    url: "/api/cart/delete-cart-product-on-product-delete",
+    method: "delete",
+  },
   searchProduct: {
     url: "/api/product/search-product",
     method: "post",

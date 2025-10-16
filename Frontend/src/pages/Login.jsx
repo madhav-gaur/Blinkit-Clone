@@ -10,12 +10,14 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setUserDetails } from '../store/userSlice';
 import fetchUserDetails from '../utils/userDetails';
+import ButtonLoading from '../components/ButtonLoading';
 
 const Login = () => {
   const [data, setData] = useState({
     email: '',
     password: '',
   });
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate()
 
   const [showPassword, setShowPassword] = useState(false);
@@ -34,6 +36,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
+      setLoading(true)
       const response = await Axios.request({
         method: SummaryApi.login.method,
         url: SummaryApi.login.url,
@@ -47,7 +50,7 @@ const Login = () => {
         toast.success(response.data.message || "User Logged In Successfully")
         localStorage.setItem("accessToken", response.data.data.accessToken)
         localStorage.setItem("refreshToken", response.data.data.refreshToken)
-
+        setLoading(false)
         const userDetails = await fetchUserDetails()
         dispatch(setUserDetails(userDetails.data.data))
         // console.log(response)
@@ -103,7 +106,7 @@ const Login = () => {
           <Link className='forgot-link' to='/forgot-password'>Forgot Password?</Link>
           {/* //! FORGOT PASSWORD  3:15 to 4:20 playlist video 2 */}
           <span className="auth-msg">{message}</span>
-          <button disabled={!validateData} className={`auth-btn ${validateData ? "" : "btn-disable"} `}>Login</button>
+          <button disabled={!validateData} className={`auth-btn ${validateData ? "" : "btn-disable"} `}>{loading ? <><span style={{ marginRight: "5px" }}>Authenticating  </span> <ButtonLoading />  </> : "Login"}</button>
         </form>
         <p className='auth-footer-link'>New User? <Link to="/register">Register</Link></p>
       </div>

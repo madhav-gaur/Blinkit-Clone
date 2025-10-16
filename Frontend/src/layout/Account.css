@@ -73,25 +73,21 @@
   color: #333;
   border-left: 4px solid var(--secondary);
   background-color: #f9f9f9;
-
 }
 
 .accountToHome {
   display: none;
 }
 
-
 .account-content {
   padding: 2rem;
   max-width: 900px;
+  min-height: 400px;
   width: 100%;
   /* min-width: 600px; */
 }
 
-
-
-@media (max-width:1020px) {
-
+@media (max-width: 1020px) {
   .account-content {
     padding: 0;
   }
@@ -158,22 +154,31 @@
   .account-wrapper.show-menu .accountToHome:hover {
     background-color: rgb(245, 245, 245);
   }
+
+  .account-content {
+    max-width: 1000px;
+  }
 }
 
-@media (max-width:850px) {
-  .account-wrapper.show-menu .account-menu{
+@media (max-width: 850px) {
+  .account-wrapper.show-menu .account-menu {
     min-width: 500px;
   }
+  .account-wrapper {
+    margin-bottom: 4rem;
+  }
+  .account-wrapper.show-menu {
+    margin-bottom: 5rem !important;
+  }
   .admin-tag {
-    /* display: none; */ 
-    top: 1rem;
-    left: 12rem;
+    top: 1.1rem;
+    left: 10.4rem;
     padding: 6px 1rem;
     width: fit-content;
   }
 }
 
-@media (max-width:740px) {
+@media (max-width: 740px) {
   .account-wrapper {
     min-width: 200px;
     min-height: 200px;

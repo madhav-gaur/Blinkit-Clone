@@ -145,7 +145,15 @@ const EditProductAdminModel = ({ close, data, fetchProductData, setOpenMenuId, s
         {data &&
 
             <section onClick={close} className='upload-category-modal-wrapper' style={{ zIndex: '1000 !important' }}>
-                <div onClick={(e)=>e.stopPropagation()} className='upload-category-modal' style={{ height: '80%', overflow: 'hidden', maxWidth: '1000px', position: 'absolute', top: '60%', transform: 'translateY(-60%)', animation: 'none' }} >
+                <div onClick={(e) => e.stopPropagation()} className='upload-category-modal' style={{
+                    height: '80%',
+                    overflowY: 'auto',
+                    maxWidth: '1000px',
+                    position: 'absolute',
+                    top: '60%',
+                    transform: 'translateY(-60%)',
+                    animation: 'none'
+                }} >
                     <div className='category-model-head'>
                         <h1>Update Product Details</h1>
                         <button onClick={() => {
@@ -198,7 +206,8 @@ const EditProductAdminModel = ({ close, data, fetchProductData, setOpenMenuId, s
                                     {product.image[0] && (
                                         <div className='added-image-container'>
                                             {
-                                                product.image.map((item, index) => {
+                                                product.image.map((item,
+                                                    index) => {
                                                     return <div key={item + index} className='added-image'>
                                                         <img
                                                             src={item}

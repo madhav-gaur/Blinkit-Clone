@@ -13,6 +13,7 @@ header {
 
 .header-item-wrapper {
   display: flex;
+
   align-items: center;
   height: 100%;
 }
@@ -180,7 +181,7 @@ header {
   position: absolute;
   right: 50%;
   transform: translateX(50%);
-  top: 5.3rem;
+  top: 5.2rem;
   background-color: white;
   padding: 1.4rem;
   padding-top: 10px;
@@ -210,7 +211,6 @@ header {
   gap: 10px;
   font-size: 0.8rem;
 }
-
 .user-menu {
   display: flex;
   flex-direction: column;
@@ -239,37 +239,70 @@ header {
 .sc-cart-info {
   position: fixed;
   bottom: 12px;
-  left: 12px;
-  right: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 18rem;
+  width: 100%;
   box-shadow: rgba(0, 0, 0, 0.5) 0px 10px 50px;
   background-color: var(--secondary);
   justify-content: space-between;
   cursor: pointer;
   align-items: center;
   padding: 5px 10px;
-  border-radius: 10px;
+  border-radius: 3rem;
   display: none;
   color: white;
+  max-height: 3.5rem;
+  height: 100%;
   .sc-cart-info-left {
     display: flex;
-    gap: 10px;
+    gap: 7px;
+    margin-left: 15px;
     align-items: center;
   }
   .sc-cart-info-left div:first-child {
-    padding: 5px;
     display: flex;
+    justify-content: center;
     align-items: center;
-    border-radius: 5px;
+    border-radius: 50%;
     font-size: 1.6rem;
-    background-color: rgba(255, 255, 255, 0.15);
+    span {
+      border-radius: 50%;
+      overflow: hidden;
+      width: 2.6rem;
+      height: 2.6rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--secondary);
+      /* background-color: red; */
+      margin-left: -15px;
+    }
+    span img {
+      border-radius: 50%;
+      width: 90%;
+      object-fit: cover;
+    }
   }
   .sc-cart-info-left div:last-child {
+    display: flex;
+    flex-direction: column;
+    p {
+      font-weight: 600;
+    }
     span {
+      margin-top: -3px;
       font-size: 12px;
     }
   }
   .sc-cart-info-right {
     display: flex;
+    width: 2rem;
+    height: 2rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: #ffffff36;
     align-items: center;
     gap: 5px;
     font-size: 1rem;
@@ -315,8 +348,9 @@ html.overlay {
     flex-direction: column;
     border-bottom: none;
     height: auto;
-    gap: 10px;
-    padding: 0 1rem 1rem 1rem;
+    gap: 0;
+    padding: 0.5rem;
+    padding-top: 0;
   }
 
   .user-controls {
@@ -343,6 +377,10 @@ html.overlay {
 
   .header-item-mobile {
     display: block;
+    a svg{
+      font-size: 1.5rem;
+      color: rgb(50, 50, 50);
+    }
   }
 
   .displayNone {
@@ -363,7 +401,7 @@ html.overlay {
   .user-dropdown {
     display: none !important;
   }
-  .sc-cart-info{
+  .sc-cart-info {
     display: flex !important;
   }
 

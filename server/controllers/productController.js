@@ -1,3 +1,5 @@
+import mongoose from "mongoose";
+import { cartProductModel } from "../models/cartProductModel.js";
 import { productModel } from "../models/productModel.js";
 
 // ? create product
@@ -180,28 +182,36 @@ export const updateProductDetails = async (req, res) => {
 export const deleteProduct = async (req, res) => {
   try {
     const { _id } = req.body;
-    console.log(req.body)
     if (!_id) {
       return res.json({
         success: false,
         message: "Provide Product Id",
       });
     }
+
+    const objectId = new mongoose.Types.ObjectId(_id);
+    console.log(objectId);
+
     const product = await productModel.findByIdAndDelete(_id);
+    const deletedCartItems = await cartProductModel.deleteMany({
+      productId: objectId,
+    });
+    console.log("product ", product);
     return res.json({
       success: true,
       message: "Product Deleted",
+      data: { product, deletedCartItems },
     });
   } catch (error) {
     console.log(error);
     res.json({ success: false, message: error.message || error });
   }
 };
-// ? Search 
+
+// ? Search
 
 export const searchProduct = async (req, res) => {
   try {
-    
     return res.json({
       success: true,
       message: "",

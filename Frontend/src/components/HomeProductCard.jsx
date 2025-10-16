@@ -12,6 +12,7 @@ import SummaryApi from '../common/summaryAPI';
 import { UpdateCartItemQty } from './UpdateCartItemQuantity';
 import { setCartPaybleAmount, setCartSliceData } from '../store/cartSlice';
 import { calcBill } from './calcBill';
+import ButtonLoading from './ButtonLoading';
 // import { getCartItem } from './getCartItem';
 
 
@@ -20,7 +21,7 @@ const HomeProductCard = ({ data }) => {
   const user = useSelector((state) => state.user)
   const [editProductAdminModel, setEditProductAdminModel] = useState(null)
   const cartData = useSelector((state) => state.cart.cartSliceData)
-
+  const [loading, setLoading] = useState(false)
   const dispatch = useDispatch()
   useEffect(() => {
     // console.log(data._id)
@@ -39,13 +40,19 @@ const HomeProductCard = ({ data }) => {
           userId: user._id
         }
       })
-      if (response.data.success) await getCartItem()
+      setLoading(true)
+      if (response.data.success) {
+        await getCartItem()
+        setLoading(false)
+      }
     } catch (error) {
       console.error(error)
       toast.error(error.message || "Something went Wrong !")
+    } finally {
+      setLoading(false)
     }
   }
-  const cartItem = cartData.find((item) => item.productId._id === data._id);
+  const cartItem = cartData.find((item) => item?.productId?._id === data._id);
   const getCartItem = async () => {
     try {
       const response = await Axios({
@@ -80,13 +87,17 @@ const HomeProductCard = ({ data }) => {
         <p>{data.unit}</p>
         <div className='product-price-add' onClick={(e) => e.stopPropagation()}>
           <span>₹{data.price}.00</span>
-          {!cartItem && user._id &&
-            <button className='add-button' style={{ width: "65px", height: "35px", }} onClick={(e) => {
+          {!cartItem &&
+            <button className='add-button' disabled={loading ? true : false} style={{ width: "65px", height: "35px", }} onClick={(e) => {
+              if(!user._id) navigate("/login  ")
               e.stopPropagation()
+              setLoading(true)
               addToCart()
-            }}>ADD</button>}
-          {cartItem && user._id &&
-            <div className='quantity-controls' style={{ width: " 1" }}>
+            }}>
+              {loading ? <ButtonLoading /> : "ADD"}
+            </button>}
+          {cartItem &&
+            <div className='quantity-controls' style={{ width: "1 " }}>
               <div className='qnt-control-hero' style={{ width: "65px", height: "35px" }}>
                 <button onClick={() => handleItemUpdate("remove", data._id)}>-</button>
                 <span>{cartItem.quantity}</span>
@@ -96,6 +107,10 @@ const HomeProductCard = ({ data }) => {
           }
         </div>
       </div>
+      {(data.discount > 15 || data.price > 500) && <div className='discount-badge'>
+        <p>{data.discount}%</p>
+        <span>off</span>
+      </div>}
       {
         editProductAdminModel &&
         <EditProductAdminModel

@@ -50,7 +50,7 @@ const CategoryWiseProduct = ({ id, name }) => {
                 <h3>{name}</h3>
             </div>
 
-            <div className="category-wise-wrapper" style={{ position: 'relative' }}>
+            <div className="category-wise-wrapper-layer-2" style={{ position: 'relative' }}>
                 {
                     data[0] &&
                     <div className="home-product-scroll-btns">
@@ -61,7 +61,7 @@ const CategoryWiseProduct = ({ id, name }) => {
 
                 <div className="category-wise-products" ref={containerRef}>
                     {
-                        loading && (
+                            loading && (
                             Array.from({ length: 6 }).map((_, index) => {
                                 return <HomeProductLoading key={`home-product-skeleton-${index}`} />
                             })

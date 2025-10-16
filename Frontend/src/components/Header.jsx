@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { IoMdArrowDropdown } from "react-icons/io";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import { useEffect, useState } from 'react';
+import { FaChevronRight } from "react-icons/fa";
 import Axios from '../utils/axios';
 import SummaryApi from '../common/summaryAPI';
 import { logout } from '../store/userSlice';
@@ -22,7 +23,7 @@ import { setCartPaybleAmount } from '../store/cartSlice';
 import { setCartSliceData } from '../store/cartSlice';
 import { calcBill } from "../components/calcBill"
 import { HiOutlineShoppingCart } from "react-icons/hi";
-import { FaCaretRight } from "react-icons/fa";
+import { FiUser } from "react-icons/fi";
 const Header = () => {
   const cartPaybleAmount = useSelector((state) => state.cart.cartPaybleAmount)
   const [userDropDown, setUserDropDown] = useState(false)
@@ -114,7 +115,7 @@ const Header = () => {
               </div>
             ) : (
               <Link to="/login" style={{ fontSize: "2rem", color: "#555" }}>
-                <FaRegCircleUser />
+                <FiUser />
               </Link>
             )}
           </div>
@@ -152,18 +153,19 @@ const Header = () => {
                   <p>{user?.name}<FaExternalLinkAlt /></p>
                 </Link>
                 {isAdmin(user.role) ? <p style={{ fontSize: "1rem", color: "red", "border": "1px solid red", "padding": "2px 4rem", "marginTop": "10px", "borderRadius": "1rem" }}>Admin</p> : null}
+                <div className='user-menu-wrapper'>
+                  <div className='user-menu'>
 
-                <div className='user-menu'>
-
-                  {isAdmin(user.role) && (
-                    <>
-                      <Link to='/account/product' onClick={() => (setUserDropDown(false))}>All Products</Link>
-                      <Link to='/account/upload-product' onClick={() => (setUserDropDown(false))}>Upload Product</Link>
-                    </>
-                  )}
-                  <Link to='/account/orders' onClick={() => (setUserDropDown(false))} >My Orders</Link>
-                  <Link to='/account/addresses' onClick={() => (setUserDropDown(false))} >Saved Address</Link>
-                  <button onClick={handleLogout}>Log Out</button>
+                    {isAdmin(user.role) && (
+                      <>
+                        <Link to='/account/product' onClick={() => (setUserDropDown(false))}>All Products</Link>
+                        <Link to='/account/upload-product' onClick={() => (setUserDropDown(false))}>Upload Product</Link>
+                      </>
+                    )}
+                    <Link to='/account/orders' onClick={() => (setUserDropDown(false))} >My Orders</Link>
+                    <Link to='/account/address' onClick={() => (setUserDropDown(false))} >Saved Address</Link>
+                    <button onClick={handleLogout}>Log Out</button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -200,16 +202,20 @@ const Header = () => {
             <div className="sc-cart-info" onClick={() => setIsCart(true)}>
               <div className="sc-cart-info-left">
                 <div>
-                  <HiOutlineShoppingCart />
+                  {cartData.length >= 1 ? cartData?.slice(-3).map((item, idx) => {
+                    return <span key={item._id + idx}> <img src={item.productId.image[0]} /></span>
+                  }) :
+                    <HiOutlineShoppingCart />
+                  }
                 </div>
                 <div>
+                  <p>View Cart</p>
                   <span>{cartData?.length} Items</span>
-                  <p>₹ {cartPaybleAmount}</p>
                 </div>
               </div>
               <div className="sc-cart-info-right">
-                View Cart
-                <FaCaretRight />
+
+                <FaChevronRight />
               </div>
             </div>
           </div>}

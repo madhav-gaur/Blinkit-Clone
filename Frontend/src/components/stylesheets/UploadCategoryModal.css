@@ -121,7 +121,7 @@
     padding: 1rem;
     border-radius: 5px;
     max-height: 13rem;
-    border: 1px solid #c2c2c2;
+    border: 1px solid #d4d4d4;
 }
 
 
@@ -155,5 +155,10 @@
 
     .category-img-upload {
         height: 10rem;
+    }
+    .category-img-upload img{
+        width: 100%;
+        padding: 0;
+        border-color: transparent;
     }
 }

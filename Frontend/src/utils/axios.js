@@ -1,5 +1,5 @@
 import axios from "axios";
-import SummaryApi from "../common/summaryAPI.js"
+import SummaryApi from "../common/summaryAPI.js";
 
 const Axios = axios.create({
   baseURL: "https://blinkit-clone-nine-delta.vercel.app/",

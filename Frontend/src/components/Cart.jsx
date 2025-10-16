@@ -11,9 +11,13 @@ import { useSelector } from 'react-redux'
 import { UpdateCartItemQty } from './UpdateCartItemQuantity'
 import emptyCart from "../assets/emptyCart.png"
 import { useNavigate } from 'react-router-dom'
+import { validUrlConvert } from '../utils/ValidUrlConvert'
 export const Cart = ({ isCart, setIsCart, cartData, totalSaving, handlingCharge, productTotal, setCartData }) => {
 
     const navigate = useNavigate()
+    const url = (name, id) => {
+        return `/product/${validUrlConvert(name)}-${id}`
+    }
 
     const getCartItem = async () => {
         try {
@@ -75,17 +79,20 @@ export const Cart = ({ isCart, setIsCart, cartData, totalSaving, handlingCharge,
                             cartData.map((item, index) => {
                                 let product = item.productId
                                 return (
-                                    <div key={product._id + index} className='cart-product' >
-                                        <div className='cart-product-hero'>
+                                    <div key={product?._id + index} className='cart-product' >
+                                        <div className='cart-product-hero' onClick={() => {
+                                            navigate(url(product._name, product._id))
+                                            setIsCart(false)
+                                        }}>
                                             <div className='cart-product-img'>
-                                                <img src={product.image[0]} alt={product.name} />
+                                                <img src={product?.image[0]} alt={product?.name} />
                                             </div>
                                             <div className='cart-product-details'>
-                                                <p>{product.name}</p>
-                                                <span>{product.unit}</span>
+                                                <p>{product?.name}</p>
+                                                <span>{product?.unit}</span>
                                                 <legend>
-                                                    <strong>₹{Math.floor(product.price - product.price * product.discount / 100)}</strong>
-                                                    <strike>₹{product.price}</strike>
+                                                    <strong>₹{Math.floor(product?.price - product?.price * product?.discount / 100)}</strong>
+                                                    <strike>₹{product?.price}</strike>
                                                 </legend>
                                             </div>
                                         </div>

@@ -16,5 +16,3 @@ productRouter.post("/get", getProduct);
 productRouter.get("/get-all", getAllProduct);
 productRouter.put("/update-product-details", auth, admin, updateProductDetails);
 productRouter.delete("/delete-product", auth, deleteProduct);
-// categoryRouter.put("/update", auth, updateCategory);
-// categoryRouter.delete("/delete", auth, deleteCategory);

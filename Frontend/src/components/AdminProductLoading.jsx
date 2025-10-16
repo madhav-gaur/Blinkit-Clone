@@ -3,18 +3,13 @@ import React from 'react';
 const AdminProductLoading = () => {
   return (
     <div style={{
-      position: 'absolute',
+      position: 'fixed',
       top: '50%',
       left: '50%',
       transform: 'translate(-50%, -50%)',
-      width: '100%',
-      height: '100%',
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
-      flexDirection: 'column',
-      fontFamily: 'Arial, sans-serif',
-      backgroundColor: 'rgba(255, 255, 255, 0.6)'
     }}>
       <div style={{
         border: '6px solid #f3f3f3',

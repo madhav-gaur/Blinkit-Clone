@@ -24,7 +24,7 @@ const Account = () => {
       <div className='account-detail'>
         {/*//? left side  */}
         <div className='account-menu' >
-          {isAdmin(user.role) ? <p className='admin-tag'>Admin Panel</p> : null}
+          {isAdmin(user.role) ? <p className='admin-tag'>Admin</p> : null}
           <div className='accountToHome' onClick={() => navigate('/')}>
             <IoIosArrowRoundBack size={30} />
             Home
@@ -57,7 +57,7 @@ const Account = () => {
             <span><FiUser /></span>
             My Profile
           </NavLink>
-          <NavLink to='addresses'>
+          <NavLink to='address'>
             <span><LuMapPinned /></span>
             My Addresses
           </NavLink>

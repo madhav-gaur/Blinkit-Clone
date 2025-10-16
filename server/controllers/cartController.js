@@ -1,6 +1,6 @@
 // ? add to cart
 
-import { cartProductModel } from "../models/cartProductodel.js";
+import { cartProductModel } from "../models/cartProductModel.js";
 
 export const addTocart = async (req, res) => {
   try {
@@ -11,7 +11,7 @@ export const addTocart = async (req, res) => {
       userId,
     });
     if (existingCartItem) {
-      console.log(existingCartItem);
+      // console.log(existingCartItem);
       existingCartItem.quantity += quantity || 1;
       await existingCartItem.save();
 
@@ -101,6 +101,36 @@ export const updateCartItemQty = async (req, res) => {
   }
 };
 
+export const deleteCartProductOnProductDelete = async (req, res) => {
+  try {
+    const { _id } = req.body;
+    if (!_id) {
+      return res.json({
+        success: false,
+        message: "Provide Product Id",
+      });
+    }
+    const objectId = new mongoose.Types.ObjectId(_id);
+
+    const cartProductFind = await cartProductModel.find({
+      productId: _id,
+    });
+    const cartProduct = await cartProductModel.deleteMany({
+      productId: objectId,
+    });
+    console.log("cartProductFind ", cartProductFind);
+    // console.log("cartProduct ", cartProduct);
+
+    return res.json({
+      success: true,
+      message: "Product Deleted",
+      data: { cartProductFind },
+    });
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: error.message || error });
+  }
+};
 // ? Delete Cart Item
 
 export const deleteCartItem = async (req, res) => {

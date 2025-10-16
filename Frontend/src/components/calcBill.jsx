@@ -1,6 +1,7 @@
 export const calcBill = (cartData = []) => {
     const { totalSaving, productTotal } = cartData.reduce(
         (acc, item) => {
+            // console.log(item)
             const { price, discount } = item.productId;
             acc.totalSaving += Math.floor((price * discount) / 100) * item.quantity;
             acc.productTotal += Math.floor(price - (price * discount) / 100) * item.quantity;
