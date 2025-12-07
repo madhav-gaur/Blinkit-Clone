@@ -143,9 +143,12 @@
         background-color: var(--primary);
     }
 }
-.catgory-form button:disabled{
+.catgory-form button[disabled]{
     cursor: not-allowed;
     color: #555;
+    &:hover{
+        background-color: white;
+    }
 }
 @media (max-width: 480px) {
     .upload-category-modal {

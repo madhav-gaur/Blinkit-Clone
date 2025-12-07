@@ -19,7 +19,7 @@ const addressSchema = new mongoose.Schema(
     },
     country: {
       type: String,
-      default: "India",
+      default: "",
     },
     mobile: {
       type: String,
@@ -28,6 +28,11 @@ const addressSchema = new mongoose.Schema(
     status: {
       type: Boolean,
       default: true,
+    },
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "user",
+      required: true,
     },
   },
   {

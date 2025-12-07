@@ -5,7 +5,9 @@ export const auth = async (req, res, next) => {
   try {
     const token =
       req.cookies.accessToken ||
-      (req.headers.authorization ? req.headers.authorization.split(" ")[1] : undefined);
+      (req.headers.authorization
+        ? req.headers.authorization.split(" ")[1]
+        : undefined);
     if (!token) {
       res.json({
         success: false,
@@ -19,7 +21,7 @@ export const auth = async (req, res, next) => {
         message: "Unauthorized Access",
       });
     }
-    req.userId = decode.id;
+    req.userId = decode._id || decode.id;
     next();
   } catch (error) {
     console.log(error);

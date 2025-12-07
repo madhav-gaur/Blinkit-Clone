@@ -2,16 +2,22 @@ import React, { useState } from 'react'
 import { IoClose } from 'react-icons/io5'
 import Axios from '../utils/axios'
 import SummaryApi from '../common/summaryAPI'
+import { toast } from 'react-toastify'
+import { useSelector } from 'react-redux'
 
 export const UploadAddressModal = ({ close }) => {
+    const user = useSelector((state) => state.user);
+
     const [address, setAddress] = useState({
-        address_line: "dd",
-        city: "fa",
-        state: "afds",
-        pincode: "54512",
+        address_line: "",
+        city: "",
+        state: "",
+        pincode: "",
         country: "India",
-        mobile: "17845",
+        mobile: "",
+        userId: user._id
     })
+    const [loading, setLoading] = useState("Save Address");
     const handleChange = (e) => {
         const { name, value } = e.target
         setAddress((prev) => {
@@ -20,19 +26,36 @@ export const UploadAddressModal = ({ close }) => {
     }
     const handleSubmit = async (e) => {
         try {
+            if (address.address_line == "" || address.city == "" || address.state == "" || address.pincode == "" || !address.country || !address.mobile) return;
             e.preventDefault()
+            setLoading("Saving Data...")
             const response = await Axios({
                 ...SummaryApi.createAddress,
-                data: { address }
+                data: address
             })
+            if (response.data.success) {
+                toast.success("Address added sucessfully")
+                setLoading("Address Added")
+            }
             console.log(response)
         } catch (error) {
             console.error(error)
+        } finally {
+            setAddress({
+                address_line: "",
+                city: "",
+                state: "",
+                pincode: "",
+                country: "",
+                mobile: "",
+            })
+            close()
+            setLoading("Save Address")
         }
     }
     return (
-        <section className='upload-category-modal-wrapper'>
-            <div className='upload-category-modal'>
+        <section className='upload-category-modal-wrapper' onClick={close}>
+            <div className='upload-category-modal' onClick={(e) => e.stopPropagation()}>
                 <div className='category-model-head'>
                     <h1>
                         Add Address
@@ -110,11 +133,11 @@ export const UploadAddressModal = ({ close }) => {
                             />
                         </label>
 
-                        <button>Save Address</button>
+                        <button disabled={address.address_line == "" || address.city == "" || address.state == "" || address.pincode == "" || !address.country || !address.mobile ? true : false}>{loading}</button>
                     </form>
                 </div>
             </div>
-        </section>
+        </section >
     )
 }
 
