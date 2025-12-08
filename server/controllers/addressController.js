@@ -44,7 +44,7 @@ export const getAddress = async (req, res) => {
 
     const userWithAddresses = await userModel
       .findById(userId)
-      .select("address_details") // only load the address ids
+      .select("address_details")
       .populate({
         path: "address_details",
         model: "address",

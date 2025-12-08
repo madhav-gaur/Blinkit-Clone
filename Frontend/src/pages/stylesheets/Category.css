@@ -13,6 +13,7 @@
   justify-content: space-between;
   padding-bottom: 1rem;
   border-bottom: 1px solid #d1d1d1;
+  align-items: center;
 
   h2 {
     font-weight: 500;
@@ -24,7 +25,7 @@
     border-radius: 7px;
     cursor: pointer;
     cursor: pointer;
-    padding: 0 1rem;
+    padding: 5px 1rem;
     font-size: 1rem;
 
     &:hover {
@@ -37,8 +38,10 @@
   .category-head {
     gap: 10px;
     flex-direction: column;
+    align-items: flex-start ;
     button {
       padding: 5px 1rem;
+      width: 100%;
     }
   }
 }
@@ -288,7 +291,7 @@
     p {
       font-size: 15px;
     }
-    span{
+    span {
       font-size: 13px;
     }
   }

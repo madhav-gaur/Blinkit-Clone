@@ -7,27 +7,34 @@ import Axios from '../utils/axios'
 import "../pages/stylesheets/Address.css"
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { IoClose } from 'react-icons/io5';
-import "../components/Loading"
 import Loading from '../components/Loading';
 import ConfirmBox from '../components/ConfirmBox';
+import { useDispatch } from 'react-redux';
+import { setAddressSlice } from '../store/addressSlice';
 const Address = () => {
   const [isUploadAdd, setIsUploadAdd] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
   const [isMenu, setIsMenu] = useState("");
   const [address, setAddress] = useState([])
   const [isConfirmBox, setIsConfirmBox] = useState("")
+  const dispatch = useDispatch();
   const fetchAddress = async () => {
     try {
       const response = await Axios({
         ...SummaryApi.getAddress
       })
-      console.log(response)
+      setIsLoading(true)
       if (response.data.success) {
-        setAddress(response.data.data)
+        let add = (response.data.data).filter(item => item.status)
+        dispatch(setAddressSlice(add))
+        setAddress(add)
+        setIsLoading(false)
       }
     } catch (error) {
       console.error(error)
     }
   }
+
   const deleteAddress = async (id) => {
     try {
       const response = await Axios({
@@ -35,14 +42,23 @@ const Address = () => {
         data: { _id: id }
       })
       console.log(response)
+      if (response.data.success) {
+        setIsConfirmBox("")
+        setIsMenu("")
+        fetchAddress()
+      }
     } catch (error) {
       console.error(error)
     }
   }
 
   useEffect(() => {
-    console.log(isConfirmBox)
+    setTimeout(() => {
+      setIsLoading(true)
+    }, 300);
     fetchAddress()
+    setIsLoading(false)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   return (
     <section className='address-section-wrapper'>
@@ -53,12 +69,15 @@ const Address = () => {
         </div>
         <div className='saved-address-wrapper'>
           <div className='saved-address-hero'>
-            {!address[0] && <Loading />}
+            {isLoading && <Loading />}
+            {!address[0] && !isLoading && <div className='no-address-msg'>
+              <p>No Saved Address</p>
+              <button onClick={() => setIsUploadAdd(true)}>+ Add Address</button>
+            </div>}
             {
               address.map((item, idx) => {
                 return <div key={item._id + idx} className='address-item'>
                   <span>{item.address_line}, {item.city}</span>
-                  <br />
                   <span>{item.state}, {item.pincode}</span>
                   <p>{item.country}</p>
                   <p>{item.mobile}</p>
@@ -73,7 +92,6 @@ const Address = () => {
                       </div>}
                   </div>
                 </div>
-
               })
             }
           </div>
@@ -86,7 +104,7 @@ const Address = () => {
         {isUploadAdd && <UploadAddressModal setIsUploadAdd={setIsUploadAdd} close={() => setIsUploadAdd(false)} fetchAddress={() => fetchAddress()} />}
         {isConfirmBox && <ConfirmBox close={() => setIsConfirmBox("")} cancel={() => setIsConfirmBox("")} confirm={() => deleteAddress(isConfirmBox)} />}
       </div>
-    </section>
+    </section >
   )
 }
 export default Address

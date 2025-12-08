@@ -68,7 +68,7 @@ padding-bottom: 6rem;
   }
 }
 .cart-product-wrapper {
-  display: flex;
+  display: flex !important;
   flex-direction: column;
   gap: 1.5rem;
   margin: 0 1rem;
@@ -178,9 +178,10 @@ padding-bottom: 6rem;
   .qnt-control-hero {margin: 0 !important};
 }
 .bill-wrapper {
-  margin: 1rem;
   border-radius: 10px;
   background-color: white;
+  height: fit-content;
+  width: 100% !important;
 }
 .bill-hero {
   padding: 1rem;

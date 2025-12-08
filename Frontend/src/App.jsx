@@ -39,6 +39,8 @@ import ProductListPage from "./pages/ProductListPage";
 import ProductDisplayPage from "./pages/ProductDisplayPage";
 import { Checkout } from "./pages/Checkout";
 import { NoInternet } from "./components/NoInternet";
+import { setAddressSlice } from "./store/addressSlice";
+// import { setAddress} from "./store/addressSlice";
 
 export const App = () => {
   const dispatch = useDispatch();
@@ -97,12 +99,25 @@ export const App = () => {
       dispatch(setLoadingProduct(false));
     }
   };
+  const fetchAddress = async () => {
+    try {
+      const response = await Axios({
+        ...SummaryApi.getAddress
+      })
+      if (response.data.success) {
+        dispatch(setAddressSlice(response.data.data))
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
 
   useEffect(() => {
     fetchUser();
     fetchCategory();
     fetchSubCategory();
     fetchProduct();
+    fetchAddress()
   }, []);
 
 
