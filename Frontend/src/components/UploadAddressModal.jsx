@@ -5,7 +5,7 @@ import SummaryApi from '../common/summaryAPI'
 import { toast } from 'react-toastify'
 import { useSelector } from 'react-redux'
 
-export const UploadAddressModal = ({ close }) => {
+export const UploadAddressModal = ({ close, fetchAddress }) => {
     const user = useSelector((state) => state.user);
 
     const [address, setAddress] = useState({
@@ -36,6 +36,7 @@ export const UploadAddressModal = ({ close }) => {
             if (response.data.success) {
                 toast.success("Address added sucessfully")
                 setLoading("Address Added")
+                fetchAddress()
             }
             console.log(response)
         } catch (error) {
@@ -51,6 +52,7 @@ export const UploadAddressModal = ({ close }) => {
             })
             close()
             setLoading("Save Address")
+            fetchAddress()
         }
     }
     return (

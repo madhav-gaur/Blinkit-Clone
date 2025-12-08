@@ -15,7 +15,7 @@ export const createAddress = async (req, res) => {
       pincode,
       country,
       mobile,
-      userId
+      userId,
     });
     await newAddress.save();
     console.log(newAddress);
@@ -36,22 +36,6 @@ export const createAddress = async (req, res) => {
 };
 // ? Get address
 
-// export const getAddress = async (req, res) => {
-//   try {
-//     const userId = req.userId;
-//     const address = await addressModel.find({
-//       userId: mongoose.Types.ObjectId(userId),
-//     });
-//     return res.json({
-//       success: true,
-//       message: "Address Loaded",
-//       data: address,
-//     });
-//   } catch (error) {
-//     console.log(error);
-//     res.json({ success: false, message: error.message || error });
-//   }
-// };
 export const getAddress = async (req, res) => {
   try {
     const userId = req.userId;
@@ -63,8 +47,8 @@ export const getAddress = async (req, res) => {
       .select("address_details") // only load the address ids
       .populate({
         path: "address_details",
-        model: "address", // make sure this matches your address model name
-        options: { sort: { createdAt: -1 } }, // optional: sort addresses
+        model: "address",
+        options: { sort: { createdAt: -1 } },
       })
       .lean();
 
@@ -80,6 +64,27 @@ export const getAddress = async (req, res) => {
     return res
       .status(500)
       .json({ success: false, message: err.message || err });
+  }
+};
+// ? Delete
+
+export const disableAddress = async (req, res) => {
+  try {
+    const { _id } = req.body;
+    const userId = req.userId;
+    await addressModel.updateOne(
+      { _id: _id, userId },
+      {
+        status: false,
+      }
+    );
+    return res.json({
+      success: true,
+      message: "Address Deleted",
+    });
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: error.message || error });
   }
 };
 // ? Template
