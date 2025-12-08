@@ -11,14 +11,25 @@ const orderSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
-    productId: {
-      type: mongoose.Schema.ObjectId,
-      ref: "product",
-    },
-    product_details: {
-      name: String,
-      image: [],
-    },
+    items: [
+      {
+        productId: {
+          type: mongoose.Schema.ObjectId,
+          ref: "product",
+          required: true,
+        },
+        quantity: {
+          type: Number,
+          required: true,
+        },
+        product_details: {
+          name: String,
+          image: [String],
+          price: Number,
+          discount: Number,
+        },
+      },
+    ],
     paymentId: {
       type: String,
       default: "",
@@ -29,14 +40,14 @@ const orderSchema = new mongoose.Schema(
     },
     delivery_address: {
       type: mongoose.Schema.ObjectId,
-      ref: 'address',
+      ref: "address",
     },
     subTotalAmt: Number,
     totalAmt: Number,
-    invoice_receipt:{
-        type: String,
-        default: null,
-    }
+    invoice_receipt: {
+      type: String,
+      default: null,
+    },
   },
   {
     timestamps: true,

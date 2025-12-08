@@ -39,10 +39,15 @@ export const Checkout = () => {
             const response = await Axios({
                 ...SummaryApi.CashOnDeliveryOrder,
                 data: {
-                    productId: cartData.map(item => item.productId),
-                    product_details: cartData.map(item => ({
-                        name: item.name,
-                        image: item.image
+                    items: cartData.map(item => ({
+                        productId: item.productId._id,
+                        quantity: item.quantity,
+                        product_details: {
+                            name: item.productId.name,
+                            image: item.productId.image,
+                            price: item.productId.price,
+                            discount: item.productId.discount
+                        }
                     })),
                     delivery_address: selectedAddress,
                     totalPayblePrice: totalPayblePrice,

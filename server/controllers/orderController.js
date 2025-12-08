@@ -7,8 +7,7 @@ export const placeCODOrder = async (req, res) => {
   try {
     const userId = req.userId;
     const {
-      productId,
-      product_details,
+        items
       delivery_address,
       totalAmt,
       totalPayblePrice,
@@ -24,8 +23,7 @@ export const placeCODOrder = async (req, res) => {
     const order = await orderModel.create({
       userId,
       orderId,
-      productId,
-      product_details,
+      items,
       paymentId: "",
       payment_status: "COD_PENDING",
       delivery_address,
