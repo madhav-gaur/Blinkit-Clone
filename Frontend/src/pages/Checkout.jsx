@@ -40,11 +40,11 @@ export const Checkout = () => {
                 ...SummaryApi.CashOnDeliveryOrder,
                 data: {
                     productId: cartData.map(item => item.productId),
-                    productDetails: cartData.map(item => ({
+                    product_details: cartData.map(item => ({
                         name: item.name,
                         image: item.image
                     })),
-                    deliveryAddress: selectedAddress,
+                    delivery_address: selectedAddress,
                     totalPayblePrice: totalPayblePrice,
                     totalAmt: productTotal
                 }

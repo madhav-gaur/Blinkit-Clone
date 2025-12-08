@@ -7,8 +7,8 @@ export const placeCODOrder = async (req, res) => {
     const userId = req.userId;
     const {
       productId,
-      productDetails,
-      deliveryAddress,
+      product_details,
+      delivery_address,
       totalAmt,
       totalPayblePrice,
     } = req.body;
@@ -24,10 +24,10 @@ export const placeCODOrder = async (req, res) => {
       userId,
       orderId,
       productId,
-      productDetails,
+      product_details,
       paymentId: "",
       payment_status: "COD_PENDING",
-      deliveryAddress,
+      delivery_address,
       totalPayblePrice,
       totalAmt,
       invoice_receipt: null,
