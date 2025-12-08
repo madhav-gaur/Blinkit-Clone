@@ -6,12 +6,7 @@ import { orderModel } from "../models/orderModel.js";
 export const placeCODOrder = async (req, res) => {
   try {
     const userId = req.userId;
-    const {
-        items
-      delivery_address,
-      totalAmt,
-      totalPayblePrice,
-    } = req.body;
+    const { items, delivery_address, totalAmt, totalPayblePrice } = req.body;
 
     if (!productId || !delivery_address || !totalAmt) {
       return res.status(400).json({
