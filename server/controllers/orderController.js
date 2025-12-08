@@ -2,6 +2,7 @@
 import { nanoid } from "nanoid";
 import { productModel } from "../models/productModel.js";
 import { cartProductModel } from "../models/cartProductModel.js";
+import { orderModel } from "../models/orderModel.js";
 export const placeCODOrder = async (req, res) => {
   try {
     const userId = req.userId;
