@@ -8,7 +8,7 @@ export const placeCODOrder = async (req, res) => {
     const userId = req.userId;
     const { items, delivery_address, totalAmt, totalPayblePrice } = req.body;
 
-    if (!productId || !delivery_address || !totalAmt) {
+    if (!items || !delivery_address || !totalAmt) {
       return res.status(400).json({
         success: false,
         message: "Missing required fields",
@@ -26,8 +26,11 @@ export const placeCODOrder = async (req, res) => {
       totalAmt,
       invoice_receipt: null,
     });
-
-    await productModel.findOneAndUpdate(productId, { $inc: { stock: -1 } });
+    for (const item of items) {
+      await productModel.findByIdAndUpdate(item.productId, {
+        $inc: { stock: -item.quantity },
+      });
+    }
     await cartProductModel.deleteMany({ userId });
     return res.json({
       success: true,
