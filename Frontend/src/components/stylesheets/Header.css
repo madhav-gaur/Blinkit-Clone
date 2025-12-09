@@ -241,7 +241,7 @@ header {
   bottom: 12px;
   left: 50%;
   transform: translateX(-50%);
-  max-width: 18rem;
+  max-width: 14rem;
   width: 100%;
   box-shadow: rgba(0, 0, 0, 0.5) 0px 10px 50px;
   background-color: var(--secondary);

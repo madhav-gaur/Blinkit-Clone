@@ -40,6 +40,7 @@ import ProductDisplayPage from "./pages/ProductDisplayPage";
 import { Checkout } from "./pages/Checkout";
 import { NoInternet } from "./components/NoInternet";
 import { setAddressSlice } from "./store/addressSlice";
+import OrderSuccess from "./pages/OrderSuccess";
 // import { setAddress} from "./store/addressSlice";
 
 export const App = () => {
@@ -149,6 +150,13 @@ export const App = () => {
             </LoginProtect>}
         />
         <Route
+          path="/success/:order"
+          element={
+            <LoginProtect>
+              <OrderSuccess />
+            </LoginProtect>}
+        />
+        <Route
           path="/account"
           element={
             <LoginProtect>
@@ -227,3 +235,4 @@ export const App = () => {
     </>
   );
 };
+

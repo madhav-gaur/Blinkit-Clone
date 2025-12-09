@@ -11,12 +11,17 @@ import { UpdateCartItemQty } from '../components/UpdateCartItemQuantity'
 import Axios from '../utils/axios'
 import SummaryApi from '../common/summaryAPI'
 import { IoClose } from 'react-icons/io5'
+import emptyCart from "../assets/emptyCart.png"
+import ButtonLoading from '../components/ButtonLoading'
+import { HiOutlineShoppingCart } from 'react-icons/hi2'
+import { FaChevronRight } from 'react-icons/fa6'
 export const Checkout = () => {
     const cartData = useSelector((state) => state.cart.cartSliceData)
     const address = useSelector((state) => state.address.address).filter(item => item.status)
     const { totalPayblePrice, totalSaving, productTotal, handlingCharge } = calcBill(cartData)
     const [selectedAddress, setSelectedAddress] = useState({})
     const [isOrderConfirmOpen, setIsOrderConfirmOpen] = useState(false);
+    const [isLoading, setIsLoading] = useState(false)
     const [paymentMode, setPaymentMode] = useState("");
     const url = (name, id) => {
         return `/product/${validUrlConvert(name)}-${id}`
@@ -33,26 +38,11 @@ export const Checkout = () => {
             console.error(error)
         }
     }
-    useEffect(() => {
-        const data = {
-            items: cartData.map(item => ({
-                productId: item.productId._id,   // ✅ must be _id
-                quantity: item.quantity,
-                product_details: {
-                    name: item.productId.name,
-                    image: item.productId.image,
-                    price: item.productId.price,
-                    discount: item.productId.discount
-                }
-            }))
-        };
-
-        console.log(data.items);
-    }, []);
 
     const placeCODOrder = async () => {
 
         try {
+            setIsLoading(true)
             const response = await Axios({
                 ...SummaryApi.CashOnDeliveryOrder,
                 data: {
@@ -72,6 +62,18 @@ export const Checkout = () => {
                 }
             })
             console.log(response)
+            if (response.data.success) {
+                setIsLoading(false)
+                const orderId = response.data.data.orderId;
+
+                navigate(`/success/${orderId}`, {
+                    state: {
+                        fromCheckout: true,
+                        orderId,
+                    },
+                    replace: true,
+                });
+            }
         } catch (error) {
             console.error(error)
         }
@@ -94,7 +96,17 @@ export const Checkout = () => {
     // console.log(selectedAddress)
     return (
         <section className='checkout-wrapper'>
-            <div className='checkout-hero'>
+            {!cartData[0] && <div className='empty-cart-wrapper'>
+                <div className='empty-cart-hero'>
+                    <img src={emptyCart} alt="" />
+                    <h2>You don't have any items in your cart to Checkout</h2>
+                    <p>Your favourite items are just a click away</p>
+                    <button onClick={() => {
+                        navigate("/")
+                    }}>Start Shopping</button>
+                </div>
+            </div>}
+            {cartData[0] && <div className='checkout-hero'>
                 <div className='checkout-left'>
                     <div className='checkout-address-wrapper'>
                         {address[0] && <>
@@ -223,9 +235,9 @@ export const Checkout = () => {
                         }
                     </div>
                 </div>
-            </div>
-            {isOrderConfirmOpen && <div className='final-confirmation-wrapper'>
-                <div className='final-confirmation'>
+            </div>}
+            {isOrderConfirmOpen && <div className='final-confirmation-wrapper' onClick={() => setIsOrderConfirmOpen(false)}>
+                <div className={`final-confirmation ${isOrderConfirmOpen ? "final-confirmation-animation" : ""}`} onClick={(e) => e.stopPropagation()}>
                     <div>
                         <div className='final-confirmation-close' onClick={() => setIsOrderConfirmOpen(false)}><IoClose /></div>
                         <h3>Confirm Your Order</h3>
@@ -244,10 +256,32 @@ export const Checkout = () => {
                             setIsOrderConfirmOpen(false)
                             setPaymentMode("")
                         }}>Cancel</button>
-                        <button onClick={() => placeCODOrder()}>Confirm Order</button>
+                        <button onClick={() => placeCODOrder()}> {isLoading ? <ButtonLoading /> : "Confirm Order "} </button>
                     </div>
                 </div>
             </div>}
+            {cartData[0] && location.pathname.startsWith("/checkout") &&
+                <div>
+                    <div className="sc-cart-info" style={{ maxWidth: "20rem" }} onClick={() => setIsOrderConfirmOpen(true)}>
+                        <div className="sc-cart-info-left">
+                            <div>
+                                {cartData.length >= 1 ? cartData?.slice(-3).map((item, idx) => {
+                                    return <span key={item._id + idx}> <img src={item.productId.image[0]} /></span>
+                                }) :
+                                    <HiOutlineShoppingCart />
+                                }
+                            </div>
+                            <div>
+                                <p>Confirm To Order </p>
+                                <span>(View Details), {cartData?.length} Items</span>
+                            </div>
+                        </div>
+                        <div className="sc-cart-info-right">
+                            <FaChevronRight />
+                        </div>
+                    </div>
+                </div>
+            }
         </section>
     )
 }

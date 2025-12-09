@@ -27,9 +27,8 @@
     cursor: pointer;
     padding: 5px 1rem;
     font-size: 1rem;
-
+      transition: all 400ms ease-in-out;
     &:hover {
-      transition: all 400ms ease;
       background-color: var(--primary);
     }
   }
