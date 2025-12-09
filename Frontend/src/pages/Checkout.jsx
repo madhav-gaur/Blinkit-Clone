@@ -5,7 +5,7 @@ import { calcBill } from '../components/calcBill'
 import { RiEBike2Fill, RiFileList2Fill } from 'react-icons/ri'
 import { GiShoppingBag } from 'react-icons/gi'
 import "../pages/stylesheets/Checkout.css"
-import { data, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { validUrlConvert } from '../utils/ValidUrlConvert'
 import { UpdateCartItemQty } from '../components/UpdateCartItemQuantity'
 import Axios from '../utils/axios'
@@ -33,22 +33,22 @@ export const Checkout = () => {
             console.error(error)
         }
     }
-    // useEffect(() => {
-    //     const data = {
-    //         items: cartData.map(item => ({
-    //             productId: item.productId._id,   // ✅ must be _id
-    //             quantity: item.quantity,
-    //             product_details: {
-    //                 name: item.productId.name,
-    //                 image: item.productId.image,
-    //                 price: item.productId.price,
-    //                 discount: item.productId.discount
-    //             }
-    //         }))
-    //     };
+    useEffect(() => {
+        const data = {
+            items: cartData.map(item => ({
+                productId: item.productId._id,   // ✅ must be _id
+                quantity: item.quantity,
+                product_details: {
+                    name: item.productId.name,
+                    image: item.productId.image,
+                    price: item.productId.price,
+                    discount: item.productId.discount
+                }
+            }))
+        };
 
-    //     console.log(data.items);
-    // }, [cartData]);
+        console.log(data.items);
+    }, []);
 
     const placeCODOrder = async () => {
 
@@ -66,7 +66,7 @@ export const Checkout = () => {
                             discount: item.productId.discount
                         }
                     })),
-                    delivery_address: selectedAddress,
+                    delivery_address: selectedAddress._id,
                     totalPayblePrice: totalPayblePrice,
                     totalAmt: productTotal
                 }
