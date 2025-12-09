@@ -58,7 +58,10 @@ app.use("/api/product", productRouter);
 app.use("/api/cart", cartRouter);
 app.use("/api/address", addressRouter);
 app.use("/api/order", orderRouter);
-
+app.get('/loaderio-c719def3bb6016b7456cd3cac6b006a0.txt', (req, res) => {
+  res.type('text/plain');
+  res.send('loaderio-c719def3bb6016b7456cd3cac6b006a0');
+});
 const PORT = process.env.PORT || 4000;
 
 connectDB().then(() => {
