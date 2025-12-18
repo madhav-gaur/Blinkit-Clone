@@ -38,6 +38,25 @@ const orderSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
+    order_status: {
+      type: String,
+      enum: [
+        "CONFIRMED",
+        "PACKED",
+        "OUT_FOR_DELIVERY",
+        "DELIVERED", 
+
+        "CANCELLED_BY_USER",
+        "CANCELLED_BY_ADMIN",
+        "CANCELLED_OUT_OF_STOCK",
+
+        "DELIVERY_FAILED",
+        "RETURN_REQUESTED",
+        "RETURNED",
+        "REFUNDED",
+      ],
+      default: "DELIVERED",
+    },
     delivery_address: {
       type: mongoose.Schema.ObjectId,
       ref: "address",

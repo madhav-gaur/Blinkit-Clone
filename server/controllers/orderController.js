@@ -14,7 +14,9 @@ export const placeCODOrder = async (req, res) => {
         message: "Missing required fields",
       });
     }
-    const orderId = "ORD-" + nanoid(10).toLowerCase();
+    const orderId = "ORD" + Date.now().toString().slice(-8);
+
+
     const order = await orderModel.create({
       userId,
       orderId,
