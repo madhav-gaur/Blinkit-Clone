@@ -10,7 +10,7 @@ const Orders = () => {
         ...SummaryApi.getOrderItems,
       })
       if (response.data.success) {
-        const temp = response.data.data.reverse()
+        const temp = response.data.data
         setOrders(temp)
       }
     } catch (error) {

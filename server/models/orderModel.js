@@ -55,7 +55,7 @@ const orderSchema = new mongoose.Schema(
         "RETURNED",
         "REFUNDED",
       ],
-      default: "DELIVERED",
+      default: "CONFIRMED",
     },
     delivery_address: {
       type: mongoose.Schema.ObjectId,

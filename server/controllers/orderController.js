@@ -16,7 +16,6 @@ export const placeCODOrder = async (req, res) => {
     }
     const orderId = "ORD" + Date.now().toString().slice(-8);
 
-
     const order = await orderModel.create({
       userId,
       orderId,
@@ -37,7 +36,7 @@ export const placeCODOrder = async (req, res) => {
     return res.json({
       success: true,
       message: "Order Placed Successfully (COD)",
-      data: order
+      data: order,
     });
   } catch (error) {
     console.log(error);
@@ -49,11 +48,13 @@ export const placeCODOrder = async (req, res) => {
 export const getOrderItems = async (req, res) => {
   try {
     const userId = req.userId;
-    const orders = await orderModel.find({userId})
+    const orders = (await orderModel.find({ userId })).toSorted({
+      createdAt: -1,
+    });
     return res.json({
       success: true,
       message: "Orders Fetched Successfully",
-      data: orders
+      data: orders,
     });
   } catch (error) {
     console.log(error);
