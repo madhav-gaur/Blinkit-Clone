@@ -48,7 +48,7 @@ export const placeCODOrder = async (req, res) => {
 export const getOrderItems = async (req, res) => {
   try {
     const userId = req.userId;
-    const orders = (await orderModel.find({ userId })).sort({
+    const orders = await orderModel.find({ userId }).sort({
       createdAt: -1,
     });
     return res.json({
