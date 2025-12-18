@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import Axios from '../utils/axios'
 import SummaryApi from '../common/summaryAPI'
 import "../components/stylesheets/Cart.css"
@@ -11,57 +11,15 @@ import { useSelector } from 'react-redux'
 import { UpdateCartItemQty } from './UpdateCartItemQuantity'
 import emptyCart from "../assets/emptyCart.png"
 import { useNavigate } from 'react-router-dom'
-import { validUrlConvert } from '../utils/ValidUrlConvert'
+import { CartItem } from './CartItem'
 export const Cart = ({ isCart, setIsCart, cartData, totalSaving, handlingCharge, productTotal, setCartData }) => {
 
     const navigate = useNavigate()
-    const url = (name, id) => {
-        return `/product/${validUrlConvert(name)}-${id}`
-    }
+    // const [localQty, setLocalQty] = useState(cartItem.quantity)
 
-    const getCartItem = async () => {
-        try {
-            const response = await Axios({
-                ...SummaryApi.getCartItem
-            })
-            setCartData(response.data.data || [])
-        }
-        catch (error) {
-            console.error(error)
-        }
-    }
-    useEffect(() => {
-        getCartItem()
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+
+
     const totalPayblePrice = useSelector((state) => state.cart.cartPaybleAmount)
-    const handleUpdate = (updation, id) => {
-        UpdateCartItemQty(updation, id, cartData, getCartItem);
-        getCartItem()
-    };
-
-    // const deleteCartItem = async (id) => {
-    //     try {
-    //         const suspectProduct = data.find((item) => item._id == id);
-    //         console.log(suspectProduct._id)
-    //         const response = await Axios({
-    //             ...SummaryApi.deleteCartItem,
-    //             data: {
-    //                 cartItemId: suspectProduct._id,
-    //             }
-    //         })
-    //         console.log(response)
-    //     }
-    //     catch (error) {
-    //         console.error(error)
-    //     } finally {
-    //         getCartItem()
-    //     }
-    // }
-    useEffect(() => {
-        getCartItem()
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [totalPayblePrice])
     return (
         <section className="cart-wrapper" onClick={() => setIsCart(false)}>
             <div onClick={(e) => e.stopPropagation()} className={`cart-hero ${isCart ? "cart-animation" : ""}`}>
@@ -78,32 +36,14 @@ export const Cart = ({ isCart, setIsCart, cartData, totalSaving, handlingCharge,
                         {
                             cartData.map((item, index) => {
                                 let product = item.productId
-                                return (
-                                    <div key={product?._id + index} className='cart-product' >
-                                        <div className='cart-product-hero' onClick={() => {
-                                            navigate(url(product._name, product._id))
-                                            setIsCart(false)
-                                        }}>
-                                            <div className='cart-product-img'>
-                                                <img src={product?.image[0]} alt={product?.name} />
-                                            </div>
-                                            <div className='cart-product-details'>
-                                                <p>{product?.name}</p>
-                                                <span>{product?.unit}</span>
-                                                <legend>
-                                                    <strong>₹{Math.floor(product?.price - product?.price * product?.discount / 100)}</strong>
-                                                    <strike>₹{product?.price}</strike>
-                                                </legend>
-                                            </div>
-                                        </div>
-                                        <div className='quantity-controls'>
-                                            <div className='qnt-control-hero'>
-                                                <button onClick={() => handleUpdate("remove", item.productId._id)}>-</button>
-                                                <span>{item.quantity}</span>
-                                                <button onClick={() => handleUpdate("add", item.productId._id)} disabled={item.quantity == 9 ? true : false}>+</button>
-                                            </div>
-                                        </div>
-                                    </div>)
+                                return <CartItem
+                                    key={item._id + index}
+                                    item={item}
+                                    product={product}
+                                    cartData={cartData}
+                                    setIsCart={setIsCart}
+                                    setCartData={setCartData}
+                                />
                             })
                         }
                     </div>

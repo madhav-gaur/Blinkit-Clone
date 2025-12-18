@@ -1,37 +1,18 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import HomeProductCard from './HomeProductCard';
 import Axios from '../utils/axios';
 import SummaryApi from '../common/summaryAPI';
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa6';
 import HomeProductLoading from './HomeProductLoading';
+import { useSelector } from 'react-redux';
 
 const CategoryWiseProduct = ({ id, name }) => {
-    const [data, setData] = useState([]);
-    const [loading, setLoading] = useState(false)
-    const fetchProduct = async () => {
-        try {
-            setLoading(true)
-            const response = await Axios({
-                ...SummaryApi.getAllProduct
-            })
-            if (response.data.success) {
-                const tempProduct = response.data.data
-                const result = tempProduct.filter(product =>
-                    product.category?.includes(id)
-                );
-                setData(result)
-            }
-        } catch (error) {
-            console.log(error);
-        } finally {
-            setLoading(false)
-        }
-    }
-    useEffect(() => {
-        fetchProduct()
-    }, [id])
+    const products = useSelector(state => state.product.product)
+    const loading = useSelector(state => state.product.loadingProduct)
 
+    const data = products.filter(product =>
+        product.category?.includes(id)
+    )
     const containerRef = useRef(null);
 
     const scroll = (direction) => {
@@ -61,8 +42,8 @@ const CategoryWiseProduct = ({ id, name }) => {
 
                 <div className="category-wise-products" ref={containerRef}>
                     {
-                            loading && (
-                            Array.from({ length: 6 }).map((_, index) => {
+                        loading && (
+                            Array.from({ length: 8 }).map((_, index) => {
                                 return <HomeProductLoading key={`home-product-skeleton-${index}`} />
                             })
                         )

@@ -45,6 +45,7 @@ const EditProductAdminModel = ({ close, data, fetchProductData, setOpenMenuId, s
     const [selectSubCategory, setSelectSubCategory] = useState("")
     const [openAddField, setOpenAddField] = useState(false)
     const [fieldName, setFieldName] = useState('')
+    // console.log(selectSubCategory)
     const handleChange = (e) => {
         const { name, value } = e.target
         setProduct((prev) => {
@@ -93,12 +94,13 @@ const EditProductAdminModel = ({ close, data, fetchProductData, setOpenMenuId, s
             category: prev.category.filter(item => item != category)
         }))
     }
-    const handleRemoveSelectedSubCategory = (subCategory) => {
-        // const find = product.subCategory.find(item => item === subCategory)
+    const handleRemoveSelectedSubCategory = (subCateg) => {
+        // console.log(subCategory)
+        // const find = product.subCategory.find(item => (console.log(item._id)))
         // console.log(find)
         setProduct((prev) => ({
             ...prev,
-            subCategory: prev.subCategory.filter(item => item != subCategory)
+            subCategory: prev.subCategory.filter(item => item._id != subCateg._id)
         }))
     }
     const handleAddField = () => {
@@ -283,24 +285,21 @@ const EditProductAdminModel = ({ close, data, fetchProductData, setOpenMenuId, s
                                                         subCategory: [...prev.subCategory, subCategoryCopy]
                                                     }
                                                 })
-                                                setSelectSubCategory('')
+                                                // setSelectSubCategory('')
                                             }}
                                         >
                                             <option disabled value="">Select Sub Category</option>
-                                            {subCategory.map((subCategory, index) => {
-                                                return <option key={index} value={subCategory?._id}>{subCategory?.name}</option>
+                                            {subCategory.map((subCateg, index) => {
+                                                return <option key={index} value={subCateg?._id}>{subCateg?.name}</option>
                                             })}
                                         </select>
                                         <div className='upload-selected-category-wrapper'>
                                             {
                                                 product.subCategory.map((subCateg, index) => {
-                                                    // const subCategoryObj = subCategor.find(c => c._id === subCategor);
-                                                    // const subCategoryObj = subCategory.find(c => c._id === subCateg);
                                                     return <div key={subCateg + index} className='selected-category'>
                                                         <span>
-                                                            {/* {subCategoryObj.name} */}
                                                             {subCateg.name}
-                                                            <p onClick={() => handleRemoveSelectedSubCategory(subCategory)}><IoClose /></p>
+                                                            <p onClick={() => handleRemoveSelectedSubCategory(subCateg)}><IoClose /></p>
                                                         </span>
                                                     </div>
                                                 })

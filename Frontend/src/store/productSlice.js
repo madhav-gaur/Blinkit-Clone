@@ -6,6 +6,7 @@ const initialVal = {
   loadingCategory: false,
   loadingProduct: false,
   product: [],
+  isLoaded: false,
 };
 
 const productSlice = createSlice({
@@ -27,6 +28,9 @@ const productSlice = createSlice({
     setProduct: (state, action) => {
       state.product = [...action.payload];
     },
+    setIsLoaded: (state, action) => {
+      state.isLoaded = action.payload;
+    },
   },
 });
 
@@ -35,7 +39,8 @@ export const {
   setLoadingCategory,
   setSubCategory,
   setProduct,
-  setLoadingProduct
+  setLoadingProduct,
+  setIsLoaded,
 } = productSlice.actions;
 
 export default productSlice.reducer;

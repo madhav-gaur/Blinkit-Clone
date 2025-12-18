@@ -141,7 +141,7 @@ padding-bottom: 6rem;
 .qnt-control-hero {
   cursor: pointer;
   /* padding: 0 8px; */
-  border-radius: 7px;
+  border-radius: 4px;
   background-color: var(--secondary);
   display: flex;
   /* gap: 10px; */

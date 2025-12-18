@@ -20,7 +20,7 @@ const UploadSubCategoryModal = ({ close, fetchData }) => {
     })
     useEffect(() => {
         if (allCategory.length > 0) {
-            const defaultCategory = allCategory.find(cat => cat.name === "Masala, Oil & More");
+            const defaultCategory = allCategory.find(cat => cat.name === "Snacks & Munchies");
             if (defaultCategory) {
                 setSubCategory(prev => ({
                     ...prev,
@@ -76,7 +76,7 @@ const UploadSubCategoryModal = ({ close, fetchData }) => {
                 category: [],
             })
             if (allCategory.length > 0) {
-                const defaultCategory = allCategory.find(cat => cat.name === "Masala, Oil & More");
+                const defaultCategory = allCategory.find(cat => cat.name === "Snacks & Munchies");
                 if (defaultCategory) {
                     setSubCategory(prev => ({
                         ...prev,

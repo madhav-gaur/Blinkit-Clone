@@ -83,8 +83,6 @@ const Header = () => {
   }
   useEffect(() => {
     getCartItem()
-    // setCartData(getCartItem())
-    // console.log(cart)
   }, [cartData])
   const { totalSaving, totalPayblePrice, productTotal, handlingCharge } = calcBill(cartData)
   useEffect(() => {
@@ -148,7 +146,7 @@ const Header = () => {
               </div>
 
               <div className='user-dropdown' style={{ "display": userDropDown ? "flex" : "none" }}>
-                <Link to="/account" onClick={() => (setUserDropDown(false))} >
+                <Link to="/account/profile" onClick={() => (setUserDropDown(false))} >
                   <span>My Account</span>
                   <p>{user?.name}<FaExternalLinkAlt /></p>
                 </Link>

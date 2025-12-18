@@ -42,6 +42,22 @@ export const placeCODOrder = async (req, res) => {
     res.json({ success: false, message: error.message || error });
   }
 };
+// ? Get Orders
+
+export const getOrderItems = async (req, res) => {
+  try {
+    const userId = req.userId;
+    const orders = await orderModel.find({userId})
+    return res.json({
+      success: true,
+      message: "Orders Fetched Successfully",
+      data: orders
+    });
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: error.message || error });
+  }
+};
 // ? Template
 
 // export const registerUser = async (req, res) => {

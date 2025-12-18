@@ -12,7 +12,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import fetchUserDetails from "./utils/userDetails";
 import { setUserDetails } from "./store/userSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Account from "./layout/Account";
 import Profile from "./pages/Profile";
 import Address from "./pages/Address";
@@ -33,6 +33,7 @@ import {
   setSubCategory,
   setProduct,
   setLoadingProduct,
+  setIsLoaded,
 } from "./store/productSlice";
 import Loading from "./components/Loading";
 import ProductListPage from "./pages/ProductListPage";
@@ -85,28 +86,55 @@ export const App = () => {
       console.log(error);
     }
   };
+  // const fetchProduct = async () => {
+  //   try {
+  //     setLoadingProduct(true);
+  //     const response = await Axios({
+  //       ...SummaryApi.getAllProduct,
+  //     });
+  //     if (response.data.success) {
+  //       dispatch(setProduct(response.data.data));
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   } finally {
+  //     dispatch(setLoadingProduct(false));
+  //   }
+  // };
+  const isLoaded = useSelector(state => state.product.isLoaded)
   const fetchProduct = async () => {
     try {
-      setLoadingProduct(true);
+      dispatch(setLoadingProduct(true))
       const response = await Axios({
-        ...SummaryApi.getAllProduct,
-      });
+        ...SummaryApi.getAllProduct
+      })
       if (response.data.success) {
-        dispatch(setProduct(response.data.data));
+        const tempProduct = response.data.data
+        dispatch(setProduct(tempProduct))
+        dispatch(setIsLoaded(true))
       }
     } catch (error) {
       console.log(error);
     } finally {
-      dispatch(setLoadingProduct(false));
+      dispatch(setLoadingProduct(false))
     }
-  };
+  }
+  useEffect(() => {
+    if (!isLoaded) {
+      fetchProduct()
+    }
+  }, [])
   const fetchAddress = async () => {
     try {
       const response = await Axios({
         ...SummaryApi.getAddress
       })
       if (response.data.success) {
-        dispatch(setAddressSlice(response.data.data))
+        let arr = response.data.data;
+        // arr.sort((a, b) =>
+        //   a.name.localeCompare(b.name)
+        // );
+        dispatch(setAddressSlice(arr))
       }
     } catch (error) {
       console.error(error)
@@ -117,7 +145,6 @@ export const App = () => {
     fetchUser();
     fetchCategory();
     fetchSubCategory();
-    fetchProduct();
     fetchAddress()
   }, []);
 

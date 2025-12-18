@@ -38,7 +38,7 @@ const ProductAdmin = () => {
   const [selectSubCategory, setSelectSubCategory] = useState("")
   const [openAddField, setOpenAddField] = useState(false)
   const [fieldName, setFieldName] = useState('')
-
+  console.log(selectSubCategory)
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -341,7 +341,7 @@ const ProductAdmin = () => {
               return (
                 <div key={key + index} className='upload-product-item'>
                   <label htmlFor={key}>{key}</label>
-                  <textarea 
+                  <textarea
                     type="text"
                     placeholder={key}
                     id={key}

@@ -6,7 +6,6 @@ import { RiEBike2Fill, RiFileList2Fill } from 'react-icons/ri'
 import { GiShoppingBag } from 'react-icons/gi'
 import "../pages/stylesheets/Checkout.css"
 import { useNavigate } from 'react-router-dom'
-import { validUrlConvert } from '../utils/ValidUrlConvert'
 import { UpdateCartItemQty } from '../components/UpdateCartItemQuantity'
 import Axios from '../utils/axios'
 import SummaryApi from '../common/summaryAPI'
@@ -15,24 +14,36 @@ import emptyCart from "../assets/emptyCart.png"
 import ButtonLoading from '../components/ButtonLoading'
 import { HiOutlineShoppingCart } from 'react-icons/hi2'
 import { FaChevronRight } from 'react-icons/fa6'
+import Loading from '../components/Loading'
+import { CartItem } from '../components/CartItem'
+import { toast } from 'react-toastify'
 export const Checkout = () => {
     const cartData = useSelector((state) => state.cart.cartSliceData)
-    const address = useSelector((state) => state.address.address).filter(item => item.status)
     const { totalPayblePrice, totalSaving, productTotal, handlingCharge } = calcBill(cartData)
     const [selectedAddress, setSelectedAddress] = useState({})
     const [isOrderConfirmOpen, setIsOrderConfirmOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false)
-    const [paymentMode, setPaymentMode] = useState("");
-    const url = (name, id) => {
-        return `/product/${validUrlConvert(name)}-${id}`
-    }
+    const [paymentMode, setPaymentMode] = useState("Cash On Delivery");
+    const [address, setAddress] = useState([])
 
+    const fetchAddress = async () => {
+        try {
+            const response = await Axios({
+                ...SummaryApi.getAddress
+            })
+            if (response.data.success) {
+                let add = (response.data.data).filter(item => item.status)
+                setAddress(add)
+            }
+        } catch (error) {
+            console.error(error)
+        }
+    }
     const getCartItem = async () => {
         try {
             await Axios({
                 ...SummaryApi.getCartItem
             })
-            // setCartData(response.data.data || [])
         }
         catch (error) {
             console.error(error)
@@ -80,12 +91,9 @@ export const Checkout = () => {
 
     }
     useEffect(() => {
+        fetchAddress()
         getCartItem()
     }, [])
-    const handleUpdate = (updation, id) => {
-        UpdateCartItemQty(updation, id, cartData, getCartItem);
-        getCartItem()
-    };
 
     const navigate = useNavigate();
     useEffect(() => {
@@ -93,7 +101,6 @@ export const Checkout = () => {
             setSelectedAddress(address[0])
         }
     }, [])
-    // console.log(selectedAddress)
     return (
         <section className='checkout-wrapper'>
             {!cartData[0] && <div className='empty-cart-wrapper'>
@@ -189,7 +196,8 @@ export const Checkout = () => {
                                 <button>Online Payment (Not Available)</button>
                                 <button onClick={() => {
                                     setPaymentMode("Cash On Delivery")
-                                    if (selectedAddress && totalPayblePrice && paymentMode) {
+                                    if (!selectedAddress._id) toast.error("Please Select an Address")
+                                    if (selectedAddress._id && totalPayblePrice && paymentMode) {
                                         setIsOrderConfirmOpen(true)
                                     }
                                 }}>Cash on Delivery</button>
@@ -203,40 +211,20 @@ export const Checkout = () => {
                 </div>
                 <div className='checkout-right'>
                     <div className='cart-product-wrapper'>
-                        {
-                            cartData.map((item, index) => {
-                                let product = item.productId
-                                return (
-                                    <div key={product?._id + index} className='cart-product' >
-                                        <div className='cart-product-hero' onClick={() => {
-                                            navigate(url(product._name, product._id))
-                                        }}>
-                                            <div className='cart-product-img'>
-                                                <img src={product?.image[0]} alt={product?.name} />
-                                            </div>
-                                            <div className='cart-product-details'>
-                                                <p>{product?.name}</p>
-                                                <span>{product?.unit}</span>
-                                                <legend>
-                                                    <strong>₹{Math.floor(product?.price - product?.price * product?.discount / 100)}</strong>
-                                                    <strike>₹{product?.price}</strike>
-                                                </legend>
-                                            </div>
-                                        </div>
-                                        <div className='quantity-controls'>
-                                            <div className='qnt-control-hero'>
-                                                <button onClick={() => handleUpdate("remove", item.productId._id)}>-</button>
-                                                <span>{item.quantity}</span>
-                                                <button onClick={() => handleUpdate("add", item.productId._id)} disabled={item.quantity == 9 ? true : false}>+</button>
-                                            </div>
-                                        </div>
-                                    </div>)
-                            })
+                        {cartData.map((item, index) => {
+                            let product = item.productId
+                            return <CartItem
+                                key={item._id + index}
+                                item={item}
+                                product={product}
+                                cartData={cartData}
+                            />
+                        })
                         }
                     </div>
                 </div>
             </div>}
-            {isOrderConfirmOpen && <div className='final-confirmation-wrapper' onClick={() => setIsOrderConfirmOpen(false)}>
+            {isOrderConfirmOpen && selectedAddress._id && <div className='final-confirmation-wrapper' onClick={() => setIsOrderConfirmOpen(false)}>
                 <div className={`final-confirmation ${isOrderConfirmOpen ? "final-confirmation-animation" : ""}`} onClick={(e) => e.stopPropagation()}>
                     <div>
                         <div className='final-confirmation-close' onClick={() => setIsOrderConfirmOpen(false)}><IoClose /></div>
@@ -262,7 +250,12 @@ export const Checkout = () => {
             </div>}
             {cartData[0] && location.pathname.startsWith("/checkout") &&
                 <div>
-                    <div className="sc-cart-info" style={{ maxWidth: "20rem" }} onClick={() => setIsOrderConfirmOpen(true)}>
+                    <div className="sc-cart-info" style={{ maxWidth: "20rem" }} onClick={() => {
+                        if (!selectedAddress._id) toast.error("Please Select an Address")
+                        if (selectedAddress._id && totalPayblePrice && paymentMode) {
+                            setIsOrderConfirmOpen(true)
+                        }
+                    }}>
                         <div className="sc-cart-info-left">
                             <div>
                                 {cartData.length >= 1 ? cartData?.slice(-3).map((item, idx) => {

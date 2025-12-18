@@ -81,7 +81,7 @@ header {
 .cart-btn {
   padding: 0.5rem 5px;
   background-color: var(--secondary);
-  border-radius: 0.7rem;
+  border-radius: 7px;
   border: none;
   outline: none;
   min-width: 7rem;
@@ -241,7 +241,7 @@ header {
   bottom: 12px;
   left: 50%;
   transform: translateX(-50%);
-  max-width: 14rem;
+  max-width: 15.4rem;
   width: 100%;
   box-shadow: rgba(0, 0, 0, 0.5) 0px 10px 50px;
   background-color: var(--secondary);

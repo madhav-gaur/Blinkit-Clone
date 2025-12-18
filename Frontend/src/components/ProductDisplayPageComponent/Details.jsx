@@ -11,12 +11,11 @@ import { UpdateCartItemQty } from "../../components/UpdateCartItemQuantity"
 const Details = ({ productData }) => {
     const user = useSelector((state) => state.user)
     const data = useSelector((state) => state.cart.cartSliceData)
-    // eslint-disable-next-line no-unused-vars
     const [cartData, setCartData] = useState(data)
-    useEffect(() => {
-        console.log(user)
-        console.log(data)
-    }, [])
+    // useEffect(() => {
+    //     console.log(user)
+    //     console.log(data)
+    // }, [])
     const currProduct = data.find((item) => item.productId._id === productData._id)
     const getCartItem = async () => {
         try {
