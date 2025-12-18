@@ -48,9 +48,7 @@ export const placeCODOrder = async (req, res) => {
 export const getOrderItems = async (req, res) => {
   try {
     const userId = req.userId;
-    const orders = await orderModel.find({ userId }).sort({
-      createdAt: -1,
-    });
+    const orders = await orderModel.find({ userId })
     return res.json({
       success: true,
       message: "Orders Fetched Successfully",
