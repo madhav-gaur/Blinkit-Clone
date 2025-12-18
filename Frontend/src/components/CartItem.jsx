@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { validUrlConvert } from '../utils/ValidUrlConvert'
-import { UpdateCartItemQty } from './UpdateCartItemQuantity'
-import { HandleQntUpdate } from './handleQntUpdate'
+import { HandleQntUpdate } from './HandleQntUpdate'
 
 export const CartItem = ({ item, cartData, product, setIsCart }) => {
     const navigate = useNavigate()

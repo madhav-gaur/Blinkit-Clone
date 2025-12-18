@@ -2,18 +2,18 @@ import React, { useEffect } from 'react'
 import Axios from '../utils/axios'
 import SummaryApi from '../common/summaryAPI'
 
-export const Orders = () => {
+const Orders = () => {
   const fetchOrders = async () => {
     try {
       const response = await Axios({
-        ...SummaryApi.getOrderItems, 
+        ...SummaryApi.getOrderItems,
       })
       console.log(response)
     } catch (error) {
-        console.log(error)
+      console.log(error)
     }
   }
-  useEffect(()=>{
+  useEffect(() => {
     fetchOrders()
   }, [])
   return (
@@ -22,3 +22,5 @@ export const Orders = () => {
     </div>
   )
 }
+
+export default Orders

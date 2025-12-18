@@ -1,7 +1,5 @@
 import React, { useRef } from 'react';
 import HomeProductCard from './HomeProductCard';
-import Axios from '../utils/axios';
-import SummaryApi from '../common/summaryAPI';
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa6';
 import HomeProductLoading from './HomeProductLoading';
 import { useSelector } from 'react-redux';

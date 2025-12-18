@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import{ useEffect, useState } from 'react';
+import {useNavigate } from 'react-router-dom';
 import { validUrlConvert } from '../utils/ValidUrlConvert';
 import { MdEdit } from "react-icons/md";
 import isAdmin from '../utils/isAdmin';
@@ -9,13 +9,10 @@ import EditProductAdminModel from './EditProductAdminModel';
 import { toast } from 'react-toastify';
 import Axios from '../utils/axios';
 import SummaryApi from '../common/summaryAPI';
-import { UpdateCartItemQty } from './UpdateCartItemQuantity';
 import { setCartPaybleAmount, setCartSliceData } from '../store/cartSlice';
 import { calcBill } from './calcBill';
 import ButtonLoading from './ButtonLoading';
-import { HandleQntUpdate } from './handleQntUpdate';
-// import { getCartItem } from './getCartItem';
-
+import { HandleQntUpdate } from './HandleQntUpdate';
 
 const HomeProductCard = ({ data }) => {
   const url = `/product/${validUrlConvert(data.name)}-${data._id}`
