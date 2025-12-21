@@ -1,5 +1,4 @@
 .category-wrapper {
-  max-width: 900px;
   width: 100%;
 }
 
@@ -53,22 +52,22 @@
   justify-content: space-evenly;
   gap: 1rem;
   margin: 1rem 0;
-  max-height: 500px;
+  max-height: 595px;
   overflow: auto;
 }
 
-.category-item-wrapper::-webkit-scrollbar {
+/* .category-item-wrapper::-webkit-scrollbar {
   background-color: rgb(240, 240, 240);
   width: 5px;
   height: 5px;
-}
+} */
 
-.category-item-wrapper::-webkit-scrollbar-thumb {
+/* .category-item-wrapper::-webkit-scrollbar-thumb {
   background-color: rgb(220, 220, 220);
   border-radius: 1rem;
   width: 5px;
   height: 5px;
-}
+} */
 
 .category-item {
   display: flex;

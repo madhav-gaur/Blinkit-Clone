@@ -48,12 +48,13 @@
   align-items: center;
   color: #666;
   font-size: 14px;
-  gap: 10px;
+  gap: 1rem;
   text-decoration: none;
   height: 3.5rem;
   background-color: white;
   border-top: 1px solid #eeeeee;
   padding: 0 1.2rem;
+  white-space: nowrap;
 
   span {
     font-size: 1.2rem;
@@ -64,15 +65,28 @@
   }
 
   &:hover {
-    color: #333;
+    color: #1a1a1a;
     background-color: #f9f9f9;
   }
 }
 
 .account-menu a.active {
   color: #333;
-  border-left: 4px solid var(--secondary);
+  position: relative;
+  /* border-left: 4px solid var(--secondary);*/
   background-color: #f9f9f9;
+  &::after {
+    content: "";
+    left: 0;
+    height: 100%;
+    width: 4px;
+    position: absolute;
+    background-color: var(--secondary);
+  }
+  span {
+    position: relative;
+    z-index: 1000;
+  }
 }
 
 .accountToHome {
@@ -182,5 +196,47 @@
   .account-wrapper {
     min-width: 200px;
     min-height: 200px;
+  }
+}
+
+/* ? ADMIN */
+.admin-account-wrapper {
+  height: 100%;
+  .account-detail {
+    border: none;
+    .account-content {
+      max-width: none;
+    }
+  }
+}
+.admin-account-menu {
+  overflow: hidden;
+  position: absolute;
+  height: 100vh;
+  top: 0;
+  background-color: white;
+  z-index: 100;
+  max-width: 14rem;
+  width: 3.35rem;
+  transition: all 1s ease-in-out;
+  padding-top: 8rem;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 5px;
+
+  a.active span::before {
+    content: "";
+    position: absolute;
+    background-color: #d0fbdb;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 2rem;
+    height: 2rem;
+    border-radius: 7px;
+    margin-top: -1px;
+    z-index: -1;
+  }
+  &:hover {
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    width: 100%;
   }
 }

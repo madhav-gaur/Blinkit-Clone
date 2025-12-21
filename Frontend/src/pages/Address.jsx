@@ -2,15 +2,16 @@ import React, { useState } from 'react'
 import { UploadAddressModal } from '../components/UploadAddressModal'
 import SummaryApi from '../common/summaryAPI'
 import { useEffect } from 'react'
-import { MdEdit, MdDelete } from 'react-icons/md';
+import { MdEdit, MdDelete, MdHeight } from 'react-icons/md';
 import Axios from '../utils/axios'
 import "../pages/stylesheets/Address.css"
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { IoClose } from 'react-icons/io5';
 import Loading from '../components/Loading';
 import ConfirmBox from '../components/ConfirmBox';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setAddressSlice } from '../store/addressSlice';
+import isAdmin from '../utils/isAdmin';
 const Address = () => {
   const [isUploadAdd, setIsUploadAdd] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
@@ -18,6 +19,9 @@ const Address = () => {
   const [address, setAddress] = useState([])
   const [isConfirmBox, setIsConfirmBox] = useState("")
   const dispatch = useDispatch();
+
+  const user = useSelector(state => state.user)
+
   const fetchAddress = async () => {
     try {
       const response = await Axios({
@@ -68,7 +72,7 @@ const Address = () => {
           <button onClick={() => setIsUploadAdd(true)}>+ Add Address</button>
         </div>
         <div className='saved-address-wrapper'>
-          <div className='saved-address-hero'>
+          <div className='saved-address-hero' style={{maxHeight: isAdmin(user.role)?"610px": "480px"}}>
             {isLoading && <Loading />}
             {!address[0] && !isLoading && <div className='no-address-msg'>
               <p>No Saved Address</p>

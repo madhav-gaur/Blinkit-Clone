@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import{ useEffect, useState } from 'react';
-import {useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { validUrlConvert } from '../utils/ValidUrlConvert';
 import { MdEdit } from "react-icons/md";
 import isAdmin from '../utils/isAdmin';
@@ -129,7 +129,7 @@ const HomeProductCard = ({ data }) => {
         <h2>{data.name}</h2>
         <p>{data.unit}</p>
         <div className='product-price-add' onClick={(e) => e.stopPropagation()}>
-          <span>₹{data.price}.00</span>
+          <span>₹{Math.round(data.price * (1 - data.discount / 100))}.00</span>
           <div style={{ overflow: "hidden" }}>
             {localQty == 0 ?
               <button className='add-button' disabled={loading ? true : false} style={{ width: "65px", height: "35px", }} onClick={(e) => {

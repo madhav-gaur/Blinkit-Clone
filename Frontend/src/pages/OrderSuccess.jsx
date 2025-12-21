@@ -19,7 +19,7 @@ const OrderSuccess = () => {
         <span className='success-check'><FaCheckCircle /></span>
         <h3>Thankyou for your Purchase</h3>
         <p>Your Order has been successfully placed</p>
-        <b>Order Id: {orderId.order}</b>
+        <b>Order Id: {orderId.orderId}</b>
         <p>Click below to view Order Details</p>
         <div className='order-placed-btns'>
           <button onClick={() => navigate("/account/orders")}>View Order Details</button>

@@ -1,10 +1,38 @@
+// export const calcBill = (cartData = []) => {
+//     const { totalSaving, productTotal } = cartData.reduce(
+//         (acc, item) => {
+//             // console.log(item)
+//             const { price, discount } = item.productId;
+//             acc.totalSaving += Math.floor((price * discount) / 100) * item.quantity;
+//             acc.productTotal += Math.floor(price - (price * discount) / 100) * item.quantity;
+//             return acc;
+//         },
+//         { totalSaving: 0, productTotal: 0 }
+//     );
+
+//     const deliveryCharge = productTotal > 99 ? 0 : 25;
+//     const handlingCharge = 2;
+//     let totalPayblePrice = productTotal + deliveryCharge + handlingCharge;
+//     if (productTotal === 0) {
+//         totalPayblePrice = 0
+//     }
+
+//     return { totalSaving, productTotal, deliveryCharge, handlingCharge, totalPayblePrice };
+// };
 export const calcBill = (cartData = []) => {
     const { totalSaving, productTotal } = cartData.reduce(
         (acc, item) => {
-            // console.log(item)
-            const { price, discount } = item.productId;
-            acc.totalSaving += Math.floor((price * discount) / 100) * item.quantity;
-            acc.productTotal += Math.floor(price - (price * discount) / 100) * item.quantity;
+            const { price, discount } = item.product_details || item.productId;
+
+            const discountedPrice = Math.floor(
+                price - (price * discount) / 100
+            );
+
+            acc.totalSaving +=
+                Math.floor((price * discount) / 100) * item.quantity;
+
+            acc.productTotal += discountedPrice * item.quantity;
+
             return acc;
         },
         { totalSaving: 0, productTotal: 0 }
@@ -12,10 +40,19 @@ export const calcBill = (cartData = []) => {
 
     const deliveryCharge = productTotal > 99 ? 0 : 25;
     const handlingCharge = 2;
-    let totalPayblePrice = productTotal + deliveryCharge + handlingCharge;
+
+    let totalPayblePrice =
+        productTotal + deliveryCharge + handlingCharge;
+
     if (productTotal === 0) {
-        totalPayblePrice = 0
+        totalPayblePrice = 0;
     }
 
-    return { totalSaving, productTotal, deliveryCharge, handlingCharge, totalPayblePrice };
+    return {
+        totalSaving,
+        productTotal,
+        deliveryCharge,
+        handlingCharge,
+        totalPayblePrice,
+    };
 };

@@ -67,6 +67,7 @@
 .profile-details {
     display: flex;
     width: 100%;
+    max-width: 500px;
     flex-direction: column;
     gap: 1rem;
     padding: 1rem;

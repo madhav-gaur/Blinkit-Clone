@@ -42,6 +42,9 @@ import { Checkout } from "./pages/Checkout";
 import { NoInternet } from "./components/NoInternet";
 import { setAddressSlice } from "./store/addressSlice";
 import OrderSuccess from "./pages/OrderSuccess";
+import OrderDetails from "./pages/OrderDetails";
+import { setIsOrderLoaded, setOrderSliceData } from "./store/orderSlice";
+import AdminOrders from "./pages/AdminOrders";
 // import { setAddress} from "./store/addressSlice";
 
 export const App = () => {
@@ -134,6 +137,7 @@ export const App = () => {
         // arr.sort((a, b) =>
         //   a.name.localeCompare(b.name)
         // );
+        // console.log(arr)
         dispatch(setAddressSlice(arr))
       }
     } catch (error) {
@@ -141,11 +145,33 @@ export const App = () => {
     }
   }
 
+  const fetchOrders = async () => {
+    try {
+      setIsOrderLoaded(false)
+      const response = await Axios({
+        ...SummaryApi.getOrderItems,
+      })
+      if (response.data.success) {
+        const temp = response.data.data.reverse()
+        dispatch(setOrderSliceData(temp))
+        dispatch(setIsOrderLoaded(true))
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  const isOrderLoaded = useSelector((state) => state.orders.isOrderLoaded)
+  useEffect(() => {
+    if (!isOrderLoaded) {
+      fetchOrders()
+    }
+  }, [])
   useEffect(() => {
     fetchUser();
     fetchCategory();
     fetchSubCategory();
     fetchAddress()
+    fetchOrders()
   }, []);
 
 
@@ -177,12 +203,13 @@ export const App = () => {
             </LoginProtect>}
         />
         <Route
-          path="/success/:order"
+          path="/success/:orderId"
           element={
             <LoginProtect>
               <OrderSuccess />
             </LoginProtect>}
         />
+
         <Route
           path="/account"
           element={
@@ -223,7 +250,13 @@ export const App = () => {
               </LoginProtect>
             }
           />
-
+          <Route
+            path="/account/orders/:orderId"
+            element={
+              <LoginProtect>
+                <OrderDetails />
+              </LoginProtect>}
+          />
           <Route
             path="category"
             element={
@@ -237,6 +270,14 @@ export const App = () => {
             element={
               <AdminProtect>
                 <SubCategory />
+              </AdminProtect>
+            }
+          />
+          <Route
+            path="all-orders"
+            element={
+              <AdminProtect>
+                <AdminOrders />
               </AdminProtect>
             }
           />
