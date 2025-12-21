@@ -162,7 +162,7 @@ const SummaryApi = {
     method: "get",
   },
   adminOrders: {
-    url: "/api/order/admin-order",
+    url: "/api/order/admin-orders",
     method: "get",
   },
 };
