@@ -1,5 +1,6 @@
 import { Router } from "express";
 import {
+  getAllUser,
   logoutUser,
   refreshToken,
   registerUser,
@@ -23,4 +24,4 @@ userRouter.put("/upload-avatar", auth, upload.single("avatar"), uploadAvatar);
 userRouter.put("/update-user", auth, updateUserDetails);
 userRouter.post("/refresh-token", refreshToken);
 userRouter.get("/user-details", auth, userDetails);
-userRouter.get("/all-user-details", auth, admin, userDetails);
+userRouter.get("/all-user-details", auth, admin, getAllUser);
