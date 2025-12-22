@@ -33,11 +33,17 @@ export const placeCODOrder = async (req, res) => {
         $inc: { stock: -item.quantity },
       });
     }
-    await userModel.findByIdAndUpdate(userId, {
-      $push: {
-        order_history: order._id,
-      },
-    });
+    const user = await userModel.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    user.order_history.push(order._id);
+    await user.save();
     await cartProductModel.deleteMany({ userId });
     return res.json({
       success: true,
