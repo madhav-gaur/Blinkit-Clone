@@ -29,6 +29,10 @@ const SummaryApi = {
     url: "/api/user/user-details",
     method: "get",
   },
+  allUserDetails: {
+    url: "/api/user/all-user-details",
+    method: "get",
+  },
   logout: {
     url: "/api/user/logout",
     method: "get",

@@ -221,12 +221,10 @@ export const updateUserDetails = async (req, res) => {
     });
   } catch (error) {
     console.error(error);
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: error.message || "Something went wrong",
-      });
+    res.status(500).json({
+      success: false,
+      message: error.message || "Something went wrong",
+    });
   }
 };
 // ? Forgot Password
@@ -302,16 +300,18 @@ export const userDetails = async (req, res) => {
   }
 };
 
-// ? Template
+// ? All Users
 
-// export const registerUser = async (req, res) => {
-//     try {
-// return res.json({
-//   success: true,
-//   message: "",
-// });
-//     } catch (error) {
-//         console.log(error)
-//         res.json({success: false, message :error.message || error})
-//     }
-// };
+export const getAllUser = async (req, res) => {
+  try {
+    const user = await userModel.find();
+    return res.json({
+      success: true,
+      message: "Users Fetched",
+      data: user,
+    });
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: error.message || error });
+  }
+};
