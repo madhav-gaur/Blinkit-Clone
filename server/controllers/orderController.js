@@ -3,6 +3,7 @@ import { nanoid } from "nanoid";
 import { productModel } from "../models/productModel.js";
 import { cartProductModel } from "../models/cartProductModel.js";
 import { orderModel } from "../models/orderModel.js";
+import { userModel } from "../models/userModel.js";
 export const placeCODOrder = async (req, res) => {
   try {
     const userId = req.userId;
@@ -32,6 +33,11 @@ export const placeCODOrder = async (req, res) => {
         $inc: { stock: -item.quantity },
       });
     }
+    await userModel.findByIdAndUpdate(userId, {
+      $push: {
+        order_history: order._id,
+      },
+    });
     await cartProductModel.deleteMany({ userId });
     return res.json({
       success: true,
