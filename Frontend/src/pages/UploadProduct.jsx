@@ -8,11 +8,13 @@ import { FaCloudUploadAlt } from 'react-icons/fa'
 import { uploadImage } from '../utils/uploadImage'
 import { IoClose } from 'react-icons/io5';
 import ViewImage from '../components/ViewImage';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import AddFieldComponent from '../components/AddFieldComponent';
 import sweetAlert from '../utils/sweetAlert'
+import { setIsLoaded } from '../store/productSlice';
 const ProductAdmin = () => {
 
+  const dispatch = useDispatch()
   const [product, setProduct] = useState({
     name: "",
     image: [],
@@ -122,6 +124,7 @@ const ProductAdmin = () => {
       })
       if (response.data.success) {
         sweetAlert(response.data.message)
+        dispatch(setIsLoaded(false))
       }
       // console.log(response)
     } catch (error) {

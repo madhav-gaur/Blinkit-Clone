@@ -1,0 +1,173 @@
+{
+  "atta, rice & dal": {
+    "synonyms": [
+      "atta","flour","dal","dals","pulse","pulses","lentil","lentils",
+      "chana","besan","maida","sooji","rava","grain","grains","rice"
+    ],
+    "subCategories": {
+      "atta": ["atta","wheat atta","chakki","whole wheat"],
+      "besan, sooji & maida": ["besan","gram flour","sooji","rava","maida","refined flour"],
+      "millet & other flours": ["millet","jowar","bajra","ragi","multigrain"],
+      "moong & masoor": ["moong","green gram","masoor","red lentil"],
+      "poha, daliya & other grains": ["poha","aval","daliya","broken wheat"],
+      "rajma, chhole & others": ["rajma","kidney beans","chhole","chickpeas"],
+      "rice": ["rice","basmati","sona masoori","brown rice"],
+      "toor, urad & chana": ["toor","arhar","urad","chana","dal"]
+    }
+  },
+
+  "baby care": {
+    "synonyms": ["baby","infant","newborn"],
+    "subCategories": {
+      "baby accessories & apparel": ["baby clothes","baby wear","infant wear"],
+      "baby food": ["baby food","infant food","cerelac"],
+      "baby gifting & toys": ["baby toys","baby gift"],
+      "baby wipes": ["wipes","baby wipes"],
+      "bathing needs": ["baby bath","baby soap","baby shampoo"],
+      "diapers & more": ["diaper","diapers","nappies"],
+      "feeding": ["feeding bottle","sipper","feeder"],
+      "health & safety": ["baby health","baby safety"],
+      "hygiene": ["baby hygiene"],
+      "nursing": ["nursing","breastfeeding"],
+      "oral & nasal care": ["oral care","nasal care"],
+      "skin & hair care": ["baby oil","baby lotion","baby cream"]
+    }
+  },
+
+  "bakery & biscuits": {
+    "synonyms": ["bakery","biscuit","biscuits","cookie","cookies","cake"],
+    "subCategories": {
+      "bread & pav": ["bread","pav","bun"],
+      "cakes & rolls": ["cake","cakes","rolls"],
+      "cookies": ["cookie","cookies"],
+      "cream biscuits": ["cream biscuit","cream biscuits"],
+      "glucose & marie": ["glucose biscuit","marie biscuit"],
+      "rusks & wafers": ["rusk","rusks","wafer","wafers"]
+    }
+  },
+
+  "breakfast & instant food": {
+    "synonyms": ["breakfast","instant","quick food","ready to eat"],
+    "subCategories": {
+      "dessert & cake mixes": ["cake mix","dessert mix"],
+      "herbs & seasoning": ["seasoning","herbs"],
+      "imported noodles & pasta": ["imported noodles","imported pasta"],
+      "instant mixes": ["instant mix","ready mix"],
+      "noodles": ["noodles"],
+      "pasta": ["pasta"],
+      "ready to cook & eat": ["ready to eat","ready to cook"],
+      "soup": ["soup","instant soup"]
+    }
+  },
+
+  "cleaning essentials": {
+    "synonyms": ["cleaning","cleaner","detergent"],
+    "subCategories": {
+      "cleaning tools": ["broom","mop"],
+      "detergent powder & bars": ["detergent","washing powder"],
+      "dishwashing accessories": ["scrubber","dish brush"],
+      "dishwashing bars": ["dish bar"],
+      "dishwashing gels & powder": ["dishwash liquid","dish gel"],
+      "disinfectant & more": ["disinfectant","phenyl"],
+      "floor cleaners & more": ["floor cleaner"],
+      "fresheners": ["air freshener"],
+      "garbage bags": ["garbage bag","trash bag"],
+      "laundry additives": ["fabric conditioner"],
+      "liquid detergents": ["liquid detergent"]
+    }
+  },
+
+  "cold drinks & juices": {
+    "synonyms": ["drink","drinks","juice","beverage"],
+    "subCategories": {
+      "beverages gift packs": ["gift pack","beverage pack"],
+      "coconut water": ["coconut water"],
+      "cold coffee & ice tea": ["cold coffee","iced tea"],
+      "concentrates & syrups": ["syrup","concentrate"],
+      "energy drinks": ["energy drink"],
+      "fruit juices": ["fruit juice"],
+      "herbal drinks": ["herbal drink"],
+      "imported beverages": ["imported drink"],
+      "milk drinks": ["milk drink"],
+      "mango drinks": ["mango drink"],
+      "pure juices": ["pure juice"],
+      "soda & mixers": ["soda","mixer"],
+      "soft drinks": ["soft drink","cola"],
+      "water & ice cubes": ["water","ice"]
+    }
+  },
+
+  "dairy, bread & eggs": {
+    "synonyms": ["dairy","milk","bread","eggs"],
+    "subCategories": {
+      "batter": ["batter","idli batter"],
+      "bread & pav": ["bread","pav"],
+      "breakfast mixes": ["breakfast mix"],
+      "butter & more": ["butter"],
+      "cheese": ["cheese"],
+      "condensed milk": ["condensed milk"],
+      "cream & whitener": ["cream","whitener"],
+      "curd & yogurt": ["curd","yogurt"],
+      "eggs": ["egg","eggs"],
+      "energy bars": ["energy bar"],
+      "flakes & kids cereals": ["flakes","cereal"],
+      "honey & chyawanprash": ["honey","chyawanprash"],
+      "milk": ["milk"],
+      "muesli & granola": ["muesli","granola"],
+      "oats": ["oats"],
+      "paneer & tofu": ["paneer","tofu"],
+      "peanut butter": ["peanut butter"],
+      "sausages, salami & ham": ["sausage","salami","ham"],
+      "vermicelli": ["vermicelli","seviyan"]
+    }
+  },
+
+  "fruits & vegetables": {
+    "synonyms": ["fruit","fruits","vegetable","vegetables","veggies"],
+    "subCategories": {
+      "certified organic": ["organic"],
+      "combo & recipes": ["combo","recipe"],
+      "flowers & leaves": ["flowers","leaves"],
+      "fresh fruits": ["fresh fruits"],
+      "fresh juice & dips": ["juice","dips"],
+      "fresh vegetables": ["vegetables"],
+      "freshly cut sprouts": ["sprouts"],
+      "frozen veg": ["frozen vegetables"],
+      "hydroponic": ["hydroponic"],
+      "leafies & herbs": ["leafy","herbs"]
+    }
+  },
+
+  "masala, oil & more": {
+    "synonyms": ["masala","spice","spices","oil"],
+    "subCategories": {
+      "dates & seeds": ["dates","seeds"],
+      "dry fruits gift packs": ["dry fruit gift"],
+      "dry fruits": ["dry fruits","nuts"],
+      "ghee & vanaspati": ["ghee","vanaspati"],
+      "oil": ["oil","cooking oil"],
+      "papad & fryums": ["papad","fryums"],
+      "powdered spices": ["powder spice"],
+      "salt, sugar & jaggery": ["salt","sugar","jaggery"],
+      "whole spices": ["whole spice"]
+    }
+  },
+
+  "snacks & munchies": {
+    "synonyms": ["snack","snacks","munchies","namkeen"],
+    "subCategories": {
+      "bhujia & mixtures": ["bhujia","mixture"],
+      "chips & crisps": ["chips","crisps"],
+      "energy bars": ["energy bar"],
+      "granola": ["granola"],
+      "imported snacks": ["imported snacks"],
+      "makhana & more": ["makhana","foxnut"],
+      "munchies gift packs": ["snack gift"],
+      "nachos": ["nachos"],
+      "namkeen snacks": ["namkeen"],
+      "papad & fryums": ["papad","fryums"],
+      "popcorn": ["popcorn"],
+      "rusks & wafers": ["rusk","wafer"]
+    }
+  }
+}

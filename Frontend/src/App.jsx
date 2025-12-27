@@ -122,11 +122,12 @@ export const App = () => {
       dispatch(setLoadingProduct(false))
     }
   }
+
   useEffect(() => {
     if (!isLoaded) {
       fetchProduct()
     }
-  }, [])
+  }, [isLoaded])
   const fetchAddress = async () => {
     try {
       const response = await Axios({

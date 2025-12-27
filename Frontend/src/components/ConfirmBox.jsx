@@ -8,11 +8,20 @@ const ConfirmBox = ({ close, confirm, cancel }) => {
                 <div>
                     <p style={{ maxWidth: '25rem' }}>Are you sure you want to permanently delete this item?</p>
                     <span>This action cannot be undone.</span>
-                    <button onClick={close}><IoClose /></button>
+                    <button onClick={(e) => {
+                        close()
+                        e.stopPropagation()
+                    }}><IoClose /></button>
                 </div>
                 <div>
-                    <button onClick={cancel}>Cancel</button>
-                    <button onClick={confirm}>Delete</button>
+                    <button onClick={(e) => {
+                        cancel()
+                        e.stopPropagation()
+                    }}>Cancel</button>
+                    <button onClick={(e) => {
+                        confirm()
+                        e.stopPropagation()
+                    }}>Delete</button>
                 </div>
             </div>
         </section>

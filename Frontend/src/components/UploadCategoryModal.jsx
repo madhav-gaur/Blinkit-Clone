@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { IoClose } from 'react-icons/io5'
 // import './stylesheets/UploadCategoryModal.css'
 import { MdCloudUpload } from 'react-icons/md'
@@ -11,7 +11,19 @@ const UploadCategoryModal = ({ close, fetchData }) => {
     const [image, setImage] = useState("")
 
     const [loading, setLoading] = useState("+ Add Category")
+    useEffect(() => {
+        const handleEsc = (e) => {
+            if (e.key === "Escape") {
+                close()
+            }
+        };
 
+        window.addEventListener("keydown", handleEsc);
+
+        return () => {
+            window.removeEventListener("keydown", handleEsc);
+        };
+    }, [close]);
     const handleCategoryImg = async (e) => {
         const file = e.target.files[0]
         if (!file) return

@@ -59,7 +59,8 @@ const HomeProductCard = ({ data }) => {
       const response = await Axios({
         ...SummaryApi.getCartItem
       })
-      dispatch(setCartSliceData(response.data.data))
+      if (response.data.success)
+        dispatch(setCartSliceData(response?.data.data))
     }
     catch (error) {
       console.error(error)

@@ -16,6 +16,7 @@
   padding: 3rem 10rem;
   border-radius: 7px;
   gap: 10px;
+    text-align: center;
   flex-direction: column;
   h3 {
     font-size: 1.4rem;
@@ -59,4 +60,18 @@
   font-size: 7rem;
   color: var(--secondary);
   margin-bottom: -2.5rem;
+}
+@media (max-width:670px) {
+  .order-placed-container{
+    padding: 0;
+    box-shadow: none;
+    border: none;
+    .order-placed-btns{
+      gap: 1rem;
+      flex-direction: column;
+      button{
+        margin-top: 0;
+      }
+    }
+  }
 }

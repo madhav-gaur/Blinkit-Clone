@@ -14,11 +14,25 @@ const EditCategoryModal = ({ close, fetchData, category }) => {
 
   useEffect(() => {
     if (category) {
-        console.log(category)
+      console.log(category)
       setName(category.name || '');
       setImage(category.image || '');
     }
   }, [category]);
+
+  useEffect(() => {
+    const handleEsc = (e) => {
+      if (e.key === "Escape") {
+        close()
+      }
+    };
+
+    window.addEventListener("keydown", handleEsc);
+
+    return () => {
+      window.removeEventListener("keydown", handleEsc);
+    };
+  }, [close]);
 
   const handleCategoryImg = async (e) => {
     const file = e.target.files[0];
@@ -41,7 +55,7 @@ const EditCategoryModal = ({ close, fetchData, category }) => {
         },
       });
       console.log(response);
-      
+
 
       if (response.data.success) {
         fetchData();

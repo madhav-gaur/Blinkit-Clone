@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Axios from '../utils/axios'
 import SummaryApi from '../common/summaryAPI'
 import "../components/stylesheets/Cart.css"
@@ -17,12 +17,28 @@ export const Cart = ({ isCart, setIsCart, cartData, totalSaving, handlingCharge,
     const navigate = useNavigate()
     // const [localQty, setLocalQty] = useState(cartItem.quantity)
 
+    useEffect(() => {
+        const handleEsc = (e) => {
+            if (e.key === "Escape") {
+                setIsCart(false);
+            }
+        };
+
+        window.addEventListener("keydown", handleEsc);
+
+        return () => {
+            window.removeEventListener("keydown", handleEsc);
+        };
+    }, [setIsCart]);
 
 
     const totalPayblePrice = useSelector((state) => state.cart.cartPaybleAmount)
     return (
         <section className="cart-wrapper" onClick={() => setIsCart(false)}>
-            <div onClick={(e) => e.stopPropagation()} className={`cart-hero ${isCart ? "cart-animation" : ""}`}>
+            <div onClick={(e) => {
+                e.stopPropagation()
+            }}
+                className={`cart-hero ${isCart ? "cart-animation" : ""}`}>
                 <div className='cart-head'>
                     <h2>My Cart</h2>
                     <button onClick={() => setIsCart(false)}><IoClose /></button>

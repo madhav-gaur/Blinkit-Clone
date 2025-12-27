@@ -1,6 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 // Search.jsx
 import React, { useEffect, useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import { HiMiniMagnifyingGlass } from "react-icons/hi2";
 import { TypeAnimation } from 'react-type-animation'
 import { IoIosArrowRoundBack } from "react-icons/io";
@@ -9,10 +10,26 @@ const Search = () => {
   const navigate = useNavigate()
   const location = useLocation()
   const [isSearchPage, setIsSearchPage] = useState(false)
+  // const [input, setInput] = useState("");
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const query = searchParams.get("query") || "";
 
   useEffect(() => {
     setIsSearchPage(location.pathname === "/search");
   }, [location.pathname]);
+  const onChange = (e) => {
+    setSearchParams({ query: e.target.value })
+  }
+  // useEffect(() => {
+  //   if (input == "") setInput("")
+  //   const timer = setTimeout(() => {
+  //     if (input.trim()) {
+  //       navigate(`/search?query=${encodeURIComponent(input)}`);
+  //     }
+  //   }, 400)
+  //   return () => clearTimeout(timer)
+  // }, [input]);
 
   return (
     <div
@@ -20,8 +37,12 @@ const Search = () => {
       onClick={() => !isSearchPage && navigate('/search')}
     >
       <button className='search'>
-        <HiMiniMagnifyingGlass className={isSearchPage? "displayNone": ""} />
-        <IoIosArrowRoundBack onClick={()=>navigate('/')} className={`backArrowSearch ${!isSearchPage? "displayNone": ""}`} />
+        <HiMiniMagnifyingGlass className={isSearchPage ? "displayNone" : ""} />
+        <IoIosArrowRoundBack onClick={() => {
+          navigate('/')
+          // setInput("")
+        }}
+          className={`backArrowSearch ${!isSearchPage ? "displayNone" : ""}`} />
       </button>
 
       {!isSearchPage ? (
@@ -45,9 +66,16 @@ const Search = () => {
         </div>
       ) : (
         <div className='input-search'>
-          <input type="text" autoFocus placeholder='Search for atta dal and more' />
+          <input
+            type="text"
+            autoFocus
+            placeholder='Search for atta dal and more'
+            value={query}
+            onChange={onChange}
+          />
         </div>
       )}
+      {/* <SearchPage/> */}
     </div>
   )
 }

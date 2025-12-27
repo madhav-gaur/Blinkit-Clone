@@ -9,29 +9,21 @@ import { toast } from 'react-toastify';
 import ConfirmBox from './ConfirmBox';
 import { validUrlConvert } from '../utils/ValidUrlConvert';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch} from 'react-redux';
+import { setIsLoaded } from '../store/productSlice';
 
-const ProductCardAdmin = ({ data, openMenuId, setOpenMenuId, fetchProductData }) => {
+const ProductCardAdmin = ({ data, openMenuId, setOpenMenuId }) => {
     // const [productCardAdminFunctions, setProductCardAdminFunctions] = useState(null);
     const toggleId = (id) => {
         setOpenMenuId(openMenuId === id ? null : id);
     }
+    const dispatch = useDispatch()
+    // const isLoaded = useSelector(state=> state.product.isLoaded)
     const navigate = useNavigate()
     const url = (name, id) => {
-            return `/product/${validUrlConvert(name)}-${id}`
-        }
-    const [confirmBox, setConfirmBox] = useState(false)
-    // const deleteCartProductOnProductDelete = async () => {
-    //     try {
-    //         const response = await Axios({
-    //             ...SummaryApi.deleteCartProductOnProductDelete,
-    //             data: { _id: openMenuId}
-    //         })
-    //         console.log(response)
-    //     } catch (error) {
-    //         console.log(error)
-    //         toast.error(error)
-    //     }
-    // }
+        return `/product/${validUrlConvert(name)}-${id}`
+    }
+    const [confirmBox, setConfirmBox] = useState(false) 
     const deleteProduct = async () => {
         try {
             const response = await Axios({
@@ -41,6 +33,7 @@ const ProductCardAdmin = ({ data, openMenuId, setOpenMenuId, fetchProductData })
             console.log(response)
             if (response.data.success) {
                 toast.success('Product Deleted successfully');
+                dispatch(setIsLoaded(false))
             } else {
                 toast.error(response.data.message || 'Failed to update');
             }
@@ -49,12 +42,11 @@ const ProductCardAdmin = ({ data, openMenuId, setOpenMenuId, fetchProductData })
             toast.error(error)
         } finally {
             setOpenMenuId(null)
-            fetchProductData();
         }
     }
     const [editProductAdminModel, setEditProductAdminModel] = useState(null)
     return (
-        <div className="product-card-admin" onClick={()=> navigate(url(data.name, data._id))}>
+        <div className="product-card-admin" onClick={() => navigate(url(data.name, data._id))}>
             <div className="image-box">
                 <img src={data.image[0]} alt={data.name} />
             </div>
@@ -64,19 +56,22 @@ const ProductCardAdmin = ({ data, openMenuId, setOpenMenuId, fetchProductData })
                 <p><strong>Stock:</strong> {data.stock}</p>
                 <p><strong>Unit:</strong> {data.unit}</p>
             </div>
-            <div className='product-card-admin-functions' onClick={(e)=>e.stopPropagation()}>
+            <div className='product-card-admin-functions' onClick={(e) => e.stopPropagation()}>
                 <span onClick={() => toggleId(data._id)}>
                     {openMenuId == data._id ? <IoClose /> : <BsThreeDotsVertical />}
                 </span>
                 {openMenuId == data._id && <div className='product-card-admin-function-btn'>
                     <div onClick={() => setEditProductAdminModel(data)} ><MdEdit /> Edit</div>
-                    <div onClick={() => setConfirmBox(true)} ><MdDelete /> Delete</div>
+                    <div onClick={(e) => {
+                        setConfirmBox(true)
+                        e.stopPropagation()
+                    }} ><MdDelete /> Delete</div>
                 </div>}
             </div>
             {editProductAdminModel &&
                 <EditProductAdminModel
                     data={editProductAdminModel}
-                    fetchProductData={fetchProductData}
+                    // fetchProductData={fetchProductData}
                     close={() => setEditProductAdminModel(null)}
                     setOpenMenuId={setOpenMenuId}
                 />}
@@ -86,7 +81,7 @@ const ProductCardAdmin = ({ data, openMenuId, setOpenMenuId, fetchProductData })
                         setConfirmBox(false)
                         setOpenMenuId(null)
                     }}
-                    confirm={()=>{
+                    confirm={() => {
                         deleteProduct()
                     }}
                     cancel={() => {

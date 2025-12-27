@@ -8,6 +8,7 @@ import UploadSubCategoryModal from '../components/UploadSubCategoryModal';
 import SubCategoryTable from '../components/SubCategoryTable';
 import EditSubCategoryModal from '../components/EditSubCategoryModal';
 import { toast } from 'react-toastify';
+import { IoMdArrowDropdown } from 'react-icons/io';
 
 const SubCategory = () => {
 
@@ -16,7 +17,10 @@ const SubCategory = () => {
   const [subCategory, setSubCategory] = useState([])
   const [selectedSubCategory, setSelectedSubCategory] = useState(null)
   const [confirmBox, setConfirmBox] = useState(false)
-
+  const [selectDrop, setSelectDrop] = useState(false)
+  const [page, setPage] = useState(1)
+  const [itemPerPage, setItemPerPage] = useState(10)
+  const totalPage = Math.ceil(subCategory.length / itemPerPage);
   const fetchSubCategory = async () => {
     try {
       const response = await Axios({
@@ -56,10 +60,42 @@ const SubCategory = () => {
       <div className='category'>
         <div className='category-head'>
           <h2>Sub Category</h2>
-          <button onClick={() => setOpenUploadSubCategory(true)}>+ Add Sub Category</button>
+          <div style={{display:"flex", gap:"10px"}}>
+            <button onClick={() => setOpenUploadSubCategory(true)}>+ Add Sub Category</button>
+            <div className='item-per-page-container'>
+              <button className='item-per-page-btn' onClick={() => setSelectDrop(!selectDrop)}>{itemPerPage}<IoMdArrowDropdown /> </button>
+              {selectDrop && <div className='item-per-page-menu'>
+                <button onClick={() => {
+                  setItemPerPage(10)
+                  setPage(1)
+                  setSelectDrop(false)
+                }}>10</button>
+                <button onClick={() => {
+                  setItemPerPage(20)
+                  setPage(1)
+                  setSelectDrop(false)
+                }}>20</button>
+                <button onClick={() => {
+                  setItemPerPage(50)
+                  setPage(1)
+                  setSelectDrop(false)
+                }}>50</button>
+                <button onClick={() => {
+                  setItemPerPage(100)
+                  setPage(1)
+                  setSelectDrop(false)
+                }}>100</button>
+              </div>
+              }
+            </div>
+          </div>
         </div>
         <div className='category-item-wrapper'>
           <SubCategoryTable
+            page={page}
+            setPage={setPage}
+            itemPerPage={itemPerPage}
+            totalPage={totalPage}
             subCategory={subCategory}
             onEdit={(item) => {
               setSelectedSubCategory(item);

@@ -50,7 +50,19 @@ const UploadSubCategoryModal = ({ close, fetchData }) => {
             category: prev.category.filter((item) => item._id !== categoryId)
         }));
     };
+    useEffect(() => {
+        const handleEsc = (e) => {
+            if (e.key === "Escape") {
+                close()
+            }
+        };
 
+        window.addEventListener("keydown", handleEsc);
+
+        return () => {
+            window.removeEventListener("keydown", handleEsc);
+        };
+    }, [close]);
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {

@@ -10,9 +10,12 @@ import { uploadImage } from '../utils/uploadImage'
 import ViewImage from '../components/ViewImage';
 import AddFieldComponent from '../components/AddFieldComponent';
 import sweetAlert from '../utils/sweetAlert'
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
-const EditProductAdminModel = ({ close, data, fetchProductData, setOpenMenuId, setEditProductAdminModel }) => {
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setIsLoaded } from '../store/productSlice';
+const EditProductAdminModel = ({ close, data, setOpenMenuId, setEditProductAdminModel }) => {
+
+    const dispatch = useDispatch()
 
     const allCategory = useSelector(state => state.product.allCategory)
     const subCategory = useSelector(state => state.product.subCategory)
@@ -46,6 +49,21 @@ const EditProductAdminModel = ({ close, data, fetchProductData, setOpenMenuId, s
     const [openAddField, setOpenAddField] = useState(false)
     const [fieldName, setFieldName] = useState('')
     // console.log(selectSubCategory)
+    useEffect(() => {
+        const handleEsc = (e) => {
+            if (e.key === "Escape") {
+                close()
+                setOpenMenuId("")
+                setEditProductAdminModel(false)
+            }
+        };
+
+        window.addEventListener("keydown", handleEsc);
+
+        return () => {
+            window.removeEventListener("keydown", handleEsc);
+        };
+    }, []);
     const handleChange = (e) => {
         const { name, value } = e.target
         setProduct((prev) => {
@@ -78,26 +96,18 @@ const EditProductAdminModel = ({ close, data, fetchProductData, setOpenMenuId, s
         }
     }
     const handleDelete = (image) => {
-        // setProduct((prev))
-        // const find = product.image.find(item => item === image)
-        // console.log(find)
         setProduct((prev) => ({
             ...prev,
             image: prev.image.filter(item => item != image)
         }))
     }
     const handleRemoveSelectedCategory = (category) => {
-        // const find = product.category.find(item => item === category)
-        // console.log(find)
         setProduct((prev) => ({
             ...prev,
             category: prev.category.filter(item => item != category)
         }))
     }
     const handleRemoveSelectedSubCategory = (subCateg) => {
-        // console.log(subCategory)
-        // const find = product.subCategory.find(item => (console.log(item._id)))
-        // console.log(find)
         setProduct((prev) => ({
             ...prev,
             subCategory: prev.subCategory.filter(item => item._id != subCateg._id)
@@ -129,12 +139,12 @@ const EditProductAdminModel = ({ close, data, fetchProductData, setOpenMenuId, s
             })
             if (response.data.success) {
                 sweetAlert(response.data.message)
+                dispatch(setIsLoaded(false))
             }
         } catch (error) {
             console.error(error)
             toast.error('Something went Wrong !!')
         } finally {
-            if (fetchProductData) fetchProductData();
             if (close) close();
             if (setOpenMenuId) setOpenMenuId(null);
             if (setEditProductAdminModel) setEditProductAdminModel(false)

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { IoClose } from 'react-icons/io5';
 import { MdCloudUpload } from 'react-icons/md';
 import './stylesheets/UploadCategoryModal.css';
@@ -18,7 +18,19 @@ const EditSubCategoryModal = ({ close, data, fetchData }) => {
   });
 
   const [loading, setLoading] = useState('Save Changes');
+  useEffect(() => {
+    const handleEsc = (e) => {
+      if (e.key === "Escape") {
+        close()
+      }
+    };
 
+    window.addEventListener("keydown", handleEsc);
+
+    return () => {
+      window.removeEventListener("keydown", handleEsc);
+    };
+  }, [close]);
   const handleSubCategoryImg = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
