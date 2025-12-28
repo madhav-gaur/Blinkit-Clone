@@ -26,8 +26,12 @@
     cursor: pointer;
     padding: 5px 1rem;
     font-size: 1rem;
-      transition: all 400ms ease-in-out;
+    transition: all 400ms ease-in-out;
     &:hover {
+      background-color: var(--primary);
+    }
+    ransition: all 400ms ease-in-out;
+    &:active {
       background-color: var(--primary);
     }
   }
@@ -36,7 +40,7 @@
   .category-head {
     gap: 10px;
     flex-direction: column;
-    align-items: flex-start ;
+    align-items: flex-start;
     button {
       padding: 5px 1rem;
       width: 100%;
@@ -80,6 +84,14 @@
 
   &:hover {
     box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 5px;
+  }
+}
+@media (max-width: 370px) {
+  .category-item-wrapper {
+    gap: 0;
+  }
+  .category-item {
+    max-width: 8rem;
   }
 }
 
@@ -136,6 +148,9 @@
 .menu-icon:hover {
   color: var(--primary);
 }
+.menu-icon:active {
+  color: var(--primary);
+}
 
 .category-dot-menu {
   position: absolute;
@@ -177,12 +192,18 @@
   &:hover {
     background-color: #d7ffd4;
   }
+  &:active {
+    background-color: #d7ffd4;
+  }
 }
 
 .category-dot-menu button.category-delete-btn {
   color: #e53935;
 
   &:hover {
+    background-color: #ffe5e5;
+  }
+  &:active {
     background-color: #ffe5e5;
   }
 }
@@ -258,6 +279,9 @@
     &:hover {
       transition: 0.2s all ease;
       background-color: #ffbf003e;
+    }&:active {
+      transition: 0.2s all ease;
+      background-color: #ffbf003e;
     }
   }
 
@@ -266,6 +290,8 @@
     border: 2px solid #ff7371;
 
     &:hover {
+      background-color: #ff3e3a27;
+    }    &:active {
       background-color: #ff3e3a27;
     }
   }
@@ -327,6 +353,10 @@
       background-color: #e9f3ff;
       color: #136dff;
     }
+    &:active {
+      background-color: #e9f3ff;
+      color: #136dff;
+    }
   }
 
   .remove-selected-category {
@@ -350,7 +380,6 @@
 
     &:hover {
       background-color: var(--secondary);
-
       transform: scale(0.45);
     }
   }

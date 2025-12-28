@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { calcBill } from '../components/calcBill'
 import { RiEBike2Fill, RiFileList2Fill } from 'react-icons/ri'
 import { GiShoppingBag } from 'react-icons/gi'
@@ -17,6 +17,7 @@ import { FaChevronRight } from 'react-icons/fa6'
 import Loading from '../components/Loading'
 import { CartItem } from '../components/CartItem'
 import { toast } from 'react-toastify'
+import { setIsOrderLoaded } from '../store/orderSlice'
 export const Checkout = () => {
     const cartData = useSelector((state) => state.cart.cartSliceData)
     const { totalPayblePrice, totalSaving, productTotal, handlingCharge } = calcBill(cartData)
@@ -25,7 +26,7 @@ export const Checkout = () => {
     const [isLoading, setIsLoading] = useState(false)
     const [paymentMode, setPaymentMode] = useState("Cash On Delivery");
     const [address, setAddress] = useState([])
-
+    const dispatch = useDispatch();
     const fetchAddress = async () => {
         try {
             const response = await Axios({
@@ -76,7 +77,7 @@ export const Checkout = () => {
             if (response.data.success) {
                 setIsLoading(false)
                 const orderId = response.data.data.orderId;
-
+                dispatch(setIsOrderLoaded(false))
                 navigate(`/success/${orderId}`, {
                     state: {
                         fromCheckout: true,

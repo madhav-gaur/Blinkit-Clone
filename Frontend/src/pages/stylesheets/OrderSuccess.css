@@ -48,9 +48,14 @@
       color: white;
       &:hover {
         background-color: #027519;
+      }&:active {
+        background-color: #027519;
       }
     }
     &:hover {
+      background-color: var(--secondary);
+      color: white;
+    }&:active {
       background-color: var(--secondary);
       color: white;
     }

@@ -54,6 +54,10 @@
       transition: all 400ms ease;
       background-color: var(--primary);
     }
+    &:active {
+      transition: all 400ms ease;
+      background-color: var(--primary);
+    }
   }
 }
 .address-item {
@@ -136,11 +140,15 @@
       color: #179530;
       &:hover {
         background-color: #d7ffd4;
+      }&:active {
+        background-color: #d7ffd4;
       }
     }
     &:last-child {
       color: #f44336;
       &:hover {
+        background-color: #ffe5e5;
+      }&:active {
         background-color: #ffe5e5;
       }
     }

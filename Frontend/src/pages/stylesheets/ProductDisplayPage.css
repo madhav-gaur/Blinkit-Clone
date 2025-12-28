@@ -34,6 +34,9 @@
     &:hover {
       background-color: #00841a;
     }
+    &:active {
+      background-color: #00841a;
+    }
   }
 }
 
@@ -63,6 +66,9 @@
   z-index: 100;
   cursor: pointer;
   &:hover {
+    color: black;
+  }
+  &:active {
     color: black;
   }
 }
@@ -119,6 +125,9 @@
     &:hover {
       box-shadow: rgba(0, 0, 0, 0.4) 0px 5px 15px;
       transform: scale(1.2);
+    }
+    &:active {
+      box-shadow: rgba(0, 0, 0, 0.4) 0px 5px 15px;
     }
   }
 }
@@ -193,6 +202,9 @@
       background-color: #f7f7f7;
       box-shadow: rgba(0, 0, 0, 0.4) 0px 5px 15px;
       transform: scale(1.2);
+    }&:active {
+      background-color: #f7f7f7;
+      box-shadow: rgba(0, 0, 0, 0.4) 0px 5px 15px;
     }
 
     &:first-child {
@@ -289,6 +301,8 @@
 
     &:hover {
       background-color: #017d1a;
+    }&:active {
+      background-color: #017d1a;
     }
   }
 }
@@ -369,6 +383,8 @@
     align-items: center;
 
     &:hover {
+      color: #076d1b;
+    }&:active {
       color: #076d1b;
     }
   }
@@ -462,6 +478,8 @@
 
   &:hover {
     background-color: #f1f1f1;
+  }&:active {
+    background-color: #f1f1f1;
   }
 }
 
@@ -529,6 +547,9 @@
       cursor: pointer;
 
       &:hover {
+        background-color: #444;
+      }
+      &:active {
         background-color: #444;
       }
     }

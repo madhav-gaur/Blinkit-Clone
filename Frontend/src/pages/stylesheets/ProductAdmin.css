@@ -51,6 +51,9 @@
     &:hover {
       background-color: rgb(250, 250, 250);
     }
+    &:active {
+      background-color: rgb(250, 250, 250);
+    }
   }
 }
 .product-admin-search {
@@ -126,6 +129,9 @@
   &:hover {
     background-color: rgb(250, 250, 250);
   }
+  &:active {
+    background-color: rgb(250, 250, 250);
+  }
 }
 
 .image-box img {
@@ -185,10 +191,16 @@
     &:hover {
       background-color: #d7ffd4;
     }
+    &:active {
+      background-color: #d7ffd4;
+    }
   }
   div:last-child {
     color: red;
     &:hover {
+      background-color: #ffe5e5;
+    }
+    &:active {
       background-color: #ffe5e5;
     }
   }
@@ -221,6 +233,12 @@
   &:hover {
     background-color: var(--primary);
   }
+  &:active {
+    background-color: var(--primary);
+  }
+  &:active {
+    background-color: var(--primary);
+  }
 }
 
 .admin-product-page-no {
@@ -241,6 +259,9 @@
     transition: background 0.3s ease;
 
     &:hover {
+      background-color: var(--primary);
+    }
+    &:active {
       background-color: var(--primary);
     }
   }

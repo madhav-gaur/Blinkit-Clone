@@ -18,6 +18,7 @@ import isAdmin from '../utils/isAdmin';
 
 const Account = () => {
   const location = useLocation()
+  console.log(location)
   const navigate = useNavigate()
   const [isSidebar, setIsSidebar] = useState(false)
   const user = useSelector(state => state.user)
@@ -26,9 +27,9 @@ const Account = () => {
     ${isAdmin(user.role) ? "admin-account-wrapper" : "account-wrapper "}`}>
       <div className='account-detail'>
         {/*//? left side  */}
-        <div onClick={() => setIsSidebar(!isSidebar)} className={`${isAdmin(user.role) ? "admin-account-menu-toggle" : ""}`}>{!isSidebar ? <FaBars /> : <IoMdClose />}</div>
+        {isAdmin(user.role) && <div onClick={() => setIsSidebar(!isSidebar)} className={`${isAdmin(user.role) ? "admin-account-menu-toggle" : ""}`}>{!isSidebar ? <FaBars /> : <IoMdClose />}</div>}
         <div
-          className={isAdmin(user.role) && isSidebar && "sidebar-wrapper"}
+          className={(isAdmin(user.role) && isSidebar) ? "sidebar-wrapper" : ""}
           onClick={(e) => {
             setIsSidebar(false)
             e.stopPropagation()
@@ -90,9 +91,9 @@ const Account = () => {
             </NavLink>
           </div>
         </div>
-        <div className='account-content' style={{ marginLeft: isAdmin(user.role) ? "3.5rem" : "" }}>
+        {location.pathname != "/account" && <div className='account-content' style={{ marginLeft: isAdmin(user.role) ? "3.5rem" : "" }}>
           <Outlet />
-        </div>
+        </div>}
       </div>
     </section >
   )

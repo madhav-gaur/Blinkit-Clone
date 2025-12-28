@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
+import emptyCart from "../assets/emptyCart.png"
 import { useNavigate, useParams } from 'react-router-dom'
 import HomeProductCard from '../components/HomeProductCard';
 import '../pages/stylesheets/ProductListPage.css'
@@ -52,6 +53,19 @@ const ProductListPage = () => {
               return <HomeProductCard data={item} />
             })}
           </div>
+          {
+            !filteredProducts[0] && <div className='empty-cart-wrapper'>
+              <div className='empty-cart-hero'>
+                <img src={emptyCart} alt="" />
+                <h2>No Matching Items Found</h2>
+                <p>View Other Items</p>
+                <button onClick={() => {
+                  navigate("/")
+                  // setIsCart(false)
+                }}>Back Home</button>
+              </div>
+            </div>
+          }
         </div>
       </div>
     </section>

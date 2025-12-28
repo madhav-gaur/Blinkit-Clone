@@ -119,6 +119,9 @@
     &:hover {
         background-color: #d2fcdb;
     }
+    &:active {
+        background-color: #d2fcdb;
+    }
 }
 
 .profile-edit-btn-group {
@@ -140,6 +143,9 @@
         background-color: #e0fee6;
 
         &:hover {
+            background-color: #c4f6d0;
+        }
+        &:active {
             background-color: #c4f6d0;
         }
     }

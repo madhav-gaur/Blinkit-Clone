@@ -100,6 +100,9 @@
   &:hover {
     background-color: #e8f2fb;
   }
+  &:active {
+    background-color: #e8f2fb;
+  }
 }
 
 .added-image-container {
@@ -198,6 +201,9 @@
   &:hover {
     background-color: rgb(0, 0, 0);
   }
+  &:active {
+    background-color: rgb(0, 0, 0);
+  }
 }
 
 .added-image:hover p {
@@ -277,6 +283,9 @@
   display: flex;
   justify-content: center;
   &:hover {
+    background-color: rgb(3, 126, 27);
+  }
+  &:active {
     background-color: rgb(3, 126, 27);
   }
 }
@@ -362,6 +371,8 @@
 
     &:hover {
       background-color: var(--primary);
+    }&:active {
+      background-color: var(--primary);
     }
   }
 }
@@ -383,12 +394,14 @@
 
   &:hover {
     background-color: var(--primary);
+  }&:active {
+    background-color: var(--primary);
   }
 }
 @media (max-width: 480px) {
-    .add-product-btn{
-        width: 100%;
-    }
+  .add-product-btn {
+    width: 100%;
+  }
 }
 
 .add-product-btn:disabled {

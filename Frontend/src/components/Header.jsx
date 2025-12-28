@@ -104,7 +104,7 @@ const Header = () => {
             {user?._id ? (
               <div
                 className='user-logo'
-                onClick={() => navigate('/account')}
+                onClick={() => isAdmin(user.role)? navigate('/account/profile'):navigate('/account')}
                 style={{ cursor: "pointer" }}
               >
                 {user?.avatar

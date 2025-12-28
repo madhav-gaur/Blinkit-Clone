@@ -130,7 +130,7 @@
     border: none;
     gap: 1.5rem;
     width: 100%;
-    max-width: 300px;
+    /* max-width: 300px; */
   }
 
   .account-wrapper.show-menu .account-menu span {
@@ -177,9 +177,6 @@
 }
 
 @media (max-width: 850px) {
-  .account-wrapper.show-menu .account-menu {
-    min-width: 500px;
-  }
   .account-wrapper {
     margin-bottom: 4rem;
   }
