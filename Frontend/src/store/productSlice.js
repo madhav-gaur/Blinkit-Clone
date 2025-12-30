@@ -4,6 +4,8 @@ const initialVal = {
   allCategory: [],
   subCategory: [],
   loadingCategory: false,
+  isLoadedCategory: false,
+  isLoadedSubCategory: false,
   loadingProduct: false,
   product: [],
   allProduct: [],
@@ -16,12 +18,20 @@ const productSlice = createSlice({
   reducers: {
     setAllCategory: (state, action) => {
       state.allCategory = [...action.payload];
+      state.isLoadedCategory = true;
     },
     setLoadingCategory: (state, action) => {
       state.loadingCategory = action.payload;
     },
+    setIsLoadedCategory: (state, action) => {
+      state.isLoadedCategory = action.payload;
+    },
     setSubCategory: (state, action) => {
       state.subCategory = [...action.payload];
+      state.isLoadedSubCategory = true;
+    },
+    setIsLoadedSubCategory: (state, action) => {
+      state.isLoadedSubCategory = action.payload;
     },
     setLoadingProduct: (state, action) => {
       state.loadingProduct = action.payload;
@@ -41,6 +51,8 @@ const productSlice = createSlice({
 export const {
   setAllCategory,
   setLoadingCategory,
+  setIsLoadedCategory,
+  setIsLoadedSubCategory,
   setSubCategory,
   setProduct,
   setAllProduct,

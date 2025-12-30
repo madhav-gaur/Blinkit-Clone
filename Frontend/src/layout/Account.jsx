@@ -18,7 +18,6 @@ import isAdmin from '../utils/isAdmin';
 
 const Account = () => {
   const location = useLocation()
-  console.log(location)
   const navigate = useNavigate()
   const [isSidebar, setIsSidebar] = useState(false)
   const user = useSelector(state => state.user)

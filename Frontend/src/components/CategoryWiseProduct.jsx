@@ -18,7 +18,8 @@ const CategoryWiseProduct = ({ id, name }) => {
 
     const scroll = (direction) => {
         if (containerRef.current) {
-            const scrollAmount = 300
+            const container = containerRef.current
+            const scrollAmount = container.clientWidth * 0.8;
             containerRef.current.scrollBy({
                 left: direction === 'left' ? -scrollAmount : scrollAmount,
                 behavior: 'smooth',

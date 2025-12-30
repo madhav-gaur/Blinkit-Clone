@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import UploadCategoryModal from '../components/UploadCategoryModal'
 import Axios from '../utils/axios'
 
@@ -11,39 +11,42 @@ import { IoClose } from 'react-icons/io5';
 import EditCategoryModal from '../components/EditCategoryModal';
 import { toast } from 'react-toastify';
 import ConfirmBox from '../components/ConfirmBox';
+import { useDispatch, useSelector } from 'react-redux';
+import { setIsLoadedCategory } from '../store/productSlice';
 const Category = () => {
 
     const [openUploadCategory, setOpenUploadCategory] = useState(false)
     const [openEditCategory, setOpenEditCategory] = useState(false)
-    const [loading, setLoading] = useState(false)
-    const [category, setCategory] = useState([])
+    // const [loading, setLoading] = useState(false)
+    // const [category, setCategory] = useState([])
     const [activeMenuIndex, setActiveMenuIndex] = useState(null);
     const [selectedCategory, setSelectedCategory] = useState(null)
     const [confirmBox, setConfirmBox] = useState(false)
-
-    const toggleMenu = (    index) => {
+    const dispatch = useDispatch()
+    const toggleMenu = (index) => {
         setActiveMenuIndex(activeMenuIndex === index ? null : index);
     };
-
-    const fetchCategory = async () => {
-        try {
-            setLoading(true)
-            const response = await Axios({
-                ...SummaryApi.getCategory
-            })
-            console.log(response)
-            if (response.data.success) {
-                setCategory(response.data.data)
-            }
-        } catch (error) {
-            console.log(error);
-        } finally {
-            setLoading(false)
-        }
-    }
-    useEffect(() => {
-        fetchCategory()
-    }, [])
+    const category = useSelector(state => state.product.allCategory)
+    const loadingCategory = useSelector(state=> state.product.loadingCategory)
+    // const fetchCategory = async () => {
+    //     try {
+    //         setLoading(true)
+    //         const response = await Axios({
+    //             ...SummaryApi.getCategory
+    //         })
+    //         console.log(response)
+    //         if (response.data.success) {
+    //             setCategory(response.data.data)
+    //         }
+    //     } catch (error) {
+    //         console.log(error);
+    //     } finally {
+    //         setLoading(false)
+    //     }
+    // }
+    // useEffect(() => {
+    //     fetchCategory()
+    // }, [])
     const handleDelete = async (item) => {
         try {
             const response = await Axios({
@@ -55,7 +58,7 @@ const Category = () => {
             console.log(response)
             if (response.data.success) {
                 toast.success(response.data.message)
-                fetchCategory()
+                dispatch(setIsLoadedCategory(false))
             }
         } catch (err) {
             toast.error(err)
@@ -72,7 +75,7 @@ const Category = () => {
                     {category.map((item, index) => (
                         <div className='category-item' key={index}>
                             <div className='category-item-details'>
-                                {loading ? (
+                                {loadingCategory ? (
                                     <div className="image-loader"></div>
                                 ) : (
                                     <img src={item.image} alt="category" />
@@ -118,12 +121,12 @@ const Category = () => {
             </div>
 
             {openUploadCategory && (
-                <UploadCategoryModal fetchData={() => fetchCategory()} close={() => setOpenUploadCategory(false)} />
+                <UploadCategoryModal fetchData={() => dispatch(setIsLoadedCategory(false))} close={() => setOpenUploadCategory(false)} />
             )}
 
             {openEditCategory && selectedCategory && (
                 <EditCategoryModal
-                    fetchData={fetchCategory}
+                    fetchData={() => dispatch(setIsLoadedCategory(false))}
                     category={selectedCategory}
                     close={() => {
                         setOpenEditCategory(false);

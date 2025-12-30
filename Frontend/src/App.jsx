@@ -34,23 +34,26 @@ import {
   setProduct,
   setLoadingProduct,
   setIsLoaded,
+  setIsLoadedCategory,
+  setIsLoadedSubCategory,
 } from "./store/productSlice";
 import Loading from "./components/Loading";
 import ProductListPage from "./pages/ProductListPage";
 import ProductDisplayPage from "./pages/ProductDisplayPage";
 import { Checkout } from "./pages/Checkout";
 import { NoInternet } from "./components/NoInternet";
-import { setAddressSlice } from "./store/addressSlice";
+import { setAddressSlice, setAllAddress, setIsAddressLoaded, setIsAllAddressLoaded } from "./store/addressSlice";
 import OrderSuccess from "./pages/OrderSuccess";
 import OrderDetails from "./pages/OrderDetails";
 import { setIsOrderLoaded, setOrderSliceData } from "./store/orderSlice";
 import AdminOrders from "./pages/AdminOrders";
+import isAdmin from "./utils/isAdmin";
 // import { setAddress} from "./store/addressSlice";
 
 export const App = () => {
   const dispatch = useDispatch();
   const [userLoading, setUserLoading] = useState(true);
-
+  const user = useSelector(state => state.user)
   const fetchUser = async () => {
     try {
       const userData = await fetchUserDetails();
@@ -61,6 +64,7 @@ export const App = () => {
       setUserLoading(false);
     }
   };
+  const isLoadedCategory = useSelector(state => state.product.isLoadedCategory)
 
   const fetchCategory = async () => {
     try {
@@ -70,6 +74,7 @@ export const App = () => {
       });
       if (response.data.success) {
         dispatch(setAllCategory(response.data.data));
+        dispatch(setIsLoadedCategory(true))
       }
     } catch (error) {
       console.log(error);
@@ -77,6 +82,14 @@ export const App = () => {
       dispatch(setLoadingCategory(false));
     }
   };
+
+  useEffect(() => {
+    if (!isLoadedCategory) {
+      fetchCategory()
+    }
+  }, [isLoadedCategory])
+
+  const isLoadedSubCategory = useSelector(state => state.product.isLoadedSubCategory)
   const fetchSubCategory = async () => {
     try {
       const response = await Axios({
@@ -84,11 +97,39 @@ export const App = () => {
       });
       if (response.data.success) {
         dispatch(setSubCategory(response.data.data));
+        dispatch(setIsLoadedSubCategory(true))
       }
     } catch (error) {
       console.log(error);
     }
   };
+  useEffect(() => {
+    if (!isLoadedSubCategory) {
+      fetchSubCategory()
+    }
+  }, [isLoadedSubCategory])
+
+  const isAllAddressLoaded = useSelector(state => state.address.isAllAddressLoaded)
+
+  const fetchAllAddress = async () => {
+    try {
+      const response = await Axios({
+        ...SummaryApi.getAllAddress,
+      });
+      if (response.data.success) {
+        dispatch(setAllAddress(response.data.data));
+        dispatch(setIsAllAddressLoaded(true))
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (!isAllAddressLoaded && isAdmin(user.role)) {
+      fetchAllAddress()
+    }
+  }, [isAllAddressLoaded])
   // const fetchProduct = async () => {
   //   try {
   //     setLoadingProduct(true);
@@ -128,6 +169,8 @@ export const App = () => {
       fetchProduct()
     }
   }, [isLoaded])
+  const isAddressLoaded = useSelector(state => state.address.isAddressLoaded)
+
   const fetchAddress = async () => {
     try {
       const response = await Axios({
@@ -135,17 +178,19 @@ export const App = () => {
       })
       if (response.data.success) {
         let arr = response.data.data;
-        // arr.sort((a, b) =>
-        //   a.name.localeCompare(b.name)
-        // );
-        // console.log(arr)
         dispatch(setAddressSlice(arr))
+        dispatch(setIsAddressLoaded(true))
       }
     } catch (error) {
       console.error(error)
     }
   }
 
+  useEffect(() => {
+    if (!isAddressLoaded) {
+      fetchAddress()
+    }
+  }, [isAddressLoaded])
   const fetchOrders = async () => {
     try {
       setIsOrderLoaded(false)

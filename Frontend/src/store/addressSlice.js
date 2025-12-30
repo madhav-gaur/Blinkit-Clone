@@ -2,6 +2,10 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialVal = {
   address: [],
+  isAddressLoaded: false,
+  allAddress: [],
+  isAllAddressLoaded: false,
+  
 };
 
 const addressSlice = createSlice({
@@ -9,11 +13,21 @@ const addressSlice = createSlice({
   initialState: initialVal,
   reducers: {
     setAddressSlice: (state, action) => {
-      state.address = action.payload;
+      state.address = [...action.payload];
+      state.isAddressLoaded = true;
+    },
+    setIsAddressLoaded: (state, action) => {
+      state.isAddressLoaded = action.payload;
+    },
+    setAllAddressSlice: (state, action) => {
+      state.allAddress = [...action.payload];
+      state.isAllAddressLoaded = true;
+    },
+    setIsAllAddressLoaded: (state, action) => {
+      state.isAllAddressLoaded = action.payload;
     },
   },
 });
 
-export const { setAddressSlice } = addressSlice.actions;
-
+export const { setAddressSlice, setIsAddressLoaded, setAllAddress, setIsAllAddressLoaded } = addressSlice.actions;
 export default addressSlice.reducer;

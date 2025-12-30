@@ -145,6 +145,10 @@ const SummaryApi = {
     url: "/api/address/get",
     method: "get",
   },
+  getAllAddress: {
+    url: "/api/address/get-all",
+    method: "get",
+  },
   updateAddress: {
     url: "/api/address/update",
     method: "put",

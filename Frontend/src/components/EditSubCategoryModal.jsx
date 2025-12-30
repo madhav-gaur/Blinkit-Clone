@@ -10,8 +10,7 @@ import { useSelector } from 'react-redux';
 
 const EditSubCategoryModal = ({ close, data, fetchData }) => {
   const allCategory = useSelector((state) => state.product.allCategory);
-
-  const [subCategory, setSubCategory] = useState({
+    const [subCategory, setSubCategory] = useState({
     name: data.name,
     image: data.image,
     category: data.category || [],
@@ -63,6 +62,7 @@ const EditSubCategoryModal = ({ close, data, fetchData }) => {
       });
       if (response.data.success) {
         toast.success('Sub Category updated successfully');
+        // dispatch(setIsLoadedSubCategory(false))
         fetchData();
       } else {
         toast.error(response.data.message || 'Failed to update');

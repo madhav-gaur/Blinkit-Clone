@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import Axios from '../utils/axios'
 
 import SummaryApi from '../common/summaryAPI'
@@ -9,34 +9,25 @@ import SubCategoryTable from '../components/SubCategoryTable';
 import EditSubCategoryModal from '../components/EditSubCategoryModal';
 import { toast } from 'react-toastify';
 import { IoMdArrowDropdown } from 'react-icons/io';
+import { useDispatch, useSelector } from 'react-redux';
+import { setIsLoadedSubCategory } from '../store/productSlice';
 
 const SubCategory = () => {
-
+  
+  const subCategory = useSelector(state => state.product.subCategory)
+  
   const [openUploadSubCategory, setOpenUploadSubCategory] = useState(false)
   const [openEditSubCategory, setOpenEditSubCategory] = useState(false)
-  const [subCategory, setSubCategory] = useState([])
   const [selectedSubCategory, setSelectedSubCategory] = useState(null)
+  
   const [confirmBox, setConfirmBox] = useState(false)
   const [selectDrop, setSelectDrop] = useState(false)
+  
   const [page, setPage] = useState(1)
   const [itemPerPage, setItemPerPage] = useState(10)
   const totalPage = Math.ceil(subCategory.length / itemPerPage);
-  const fetchSubCategory = async () => {
-    try {
-      const response = await Axios({
-        ...SummaryApi.getSubCategory
-      })
-      console.log(response)
-      if (response.data.success) {
-        setSubCategory(response.data.data)
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
-  useEffect(() => {
-    fetchSubCategory()
-  }, [])
+  
+  const dispatch = useDispatch();
   const handleDelete = async (item) => {
     try {
       const response = await Axios({
@@ -48,7 +39,7 @@ const SubCategory = () => {
       console.log(response)
       if (response.data.success) {
         toast.success(response.data.message)
-        fetchSubCategory()
+        dispatch(setIsLoadedSubCategory(false))
       }
     } catch (err) {
       toast.error(err)
@@ -60,7 +51,7 @@ const SubCategory = () => {
       <div className='category'>
         <div className='category-head'>
           <h2>Sub Category</h2>
-          <div style={{display:"flex", gap:"10px"}}>
+          <div style={{ display: "flex", gap: "10px", width: "100%" }}>
             <button onClick={() => setOpenUploadSubCategory(true)}>+ Add Sub Category</button>
             <div className='item-per-page-container'>
               <button className='item-per-page-btn' onClick={() => setSelectDrop(!selectDrop)}>{itemPerPage}<IoMdArrowDropdown /> </button>
@@ -113,12 +104,12 @@ const SubCategory = () => {
       </div>
 
       {openUploadSubCategory && (
-        <UploadSubCategoryModal fetchData={() => fetchSubCategory()} close={() => setOpenUploadSubCategory(false)} />
+        <UploadSubCategoryModal fetchData={() => dispatch(setIsLoadedSubCategory(false))} close={() => setOpenUploadSubCategory(false)} />
       )}
 
       {openEditSubCategory && selectedSubCategory && (
         <EditSubCategoryModal
-          fetchData={fetchSubCategory}
+          fetchData={() => dispatch(setIsLoadedSubCategory(false))}
           data={selectedSubCategory}
           close={() => {
             setOpenEditSubCategory(false);
@@ -137,7 +128,7 @@ const SubCategory = () => {
             setConfirmBox(false);
             setSelectedSubCategory(null);
             handleDelete(selectedSubCategory)
-            fetchSubCategory()
+            dispatch(setIsLoadedSubCategory(false))
           }}
         />
       )}

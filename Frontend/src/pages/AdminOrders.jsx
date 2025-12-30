@@ -11,8 +11,9 @@ const AdminOrders = () => {
     const [itemPerPage, setItemPerPage] = useState(3)
     const totalPage = Math.ceil(orders.length / itemPerPage);
     const [users, setUsers] = useState([])
-    const address = useSelector((state) => state.address.address)
-    // console.log(address)
+    const [isUpdateStatus, setIsUpdateStatus] = useState("")
+    const address = useSelector((state) => state.address.allAddress)
+    console.log(address)
     const fetchAdminOrders = async () => {
         try {
             const response = await Axios({
@@ -55,21 +56,25 @@ const AdminOrders = () => {
         <div>
             {orders?.slice((page - 1) * itemPerPage, page * itemPerPage).map((item, idx) => {
                 const temp = users?.find((u) => u._id === item.userId);
-                // console.log(item)
                 // console.log(temp)
+                // console.log(item)
+                // console.log(item)
                 // const addr = temp?.address_details?.filter((add) => add == item.delivery_address)
                 // const currAddress = address?.filter((a) => a._id === addr);
-                const currAddress = address?.find(
-                    (a) => a._id === item.delivery_address
+                const currAddressId = temp?.address_details?.find(
+                    (a) => a === item.delivery_address
                 );
+                // console.log(currAddressId)
+                const currAddress = address?.find((item)=> item._id == currAddressId)
+                // console.log(currAddress)
                 return <div key={item._id + idx}>
                     <p>{temp.name}</p>
                     <p>{item.items.length} Products</p>
                     <p>{formatDate(item.createdAt).split(",")[0]}</p>
                     <p>{currAddress?.address_line}</p>
-                    <div>Options</div>
-                    <div>
-                        <div name="status" id="status"> 
+                    <div onClick={() => setIsUpdateStatus(item._id)}>Options</div>
+                    {isUpdateStatus == item._id &&  <div className=''>
+                        <div name="status" id="status">
                             <div><button>CONFIRMED</button></div>
                             <div><button>PACKED</button></div>
                             <div><button>OUT FOR DELIVERY</button></div>
@@ -82,7 +87,7 @@ const AdminOrders = () => {
                             <div><button>RETURNED</button></div>
                             <div><button>REFUNDED</button></div>
                         </div>
-                    </div>
+                    </div>}
                     <br />
                 </div>
             })}

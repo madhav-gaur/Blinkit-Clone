@@ -6,12 +6,10 @@ import { uploadImage } from '../utils/uploadImage';
 import Axios from '../utils/axios';
 import SummaryApi from '../common/summaryAPI';
 import { toast } from 'react-toastify';
-
 const EditCategoryModal = ({ close, fetchData, category }) => {
   const [name, setName] = useState('');
   const [image, setImage] = useState('');
   const [loading, setLoading] = useState('Save Changes');
-
   useEffect(() => {
     if (category) {
       console.log(category)
@@ -58,6 +56,7 @@ const EditCategoryModal = ({ close, fetchData, category }) => {
 
 
       if (response.data.success) {
+        // dispatch(setIsLoadedCategory(false))
         fetchData();
         toast.success('Category updated successfully');
         close();

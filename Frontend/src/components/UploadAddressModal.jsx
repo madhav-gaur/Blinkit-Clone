@@ -3,10 +3,12 @@ import { IoClose } from 'react-icons/io5'
 import Axios from '../utils/axios'
 import SummaryApi from '../common/summaryAPI'
 import { toast } from 'react-toastify'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { setIsAddressLoaded } from '../store/addressSlice'
 
-export const UploadAddressModal = ({ close, fetchAddress }) => {
+export const UploadAddressModal = ({ close }) => {
     const user = useSelector((state) => state.user);
+    const dispatch = useDispatch();
 
     const [address, setAddress] = useState({
         address_line: "",
@@ -36,7 +38,8 @@ export const UploadAddressModal = ({ close, fetchAddress }) => {
             if (response.data.success) {
                 toast.success("Address added sucessfully")
                 setLoading("Address Added")
-                fetchAddress()
+                dispatch(setIsAddressLoaded(false))
+
             }
             console.log(response)
         } catch (error) {
@@ -50,9 +53,9 @@ export const UploadAddressModal = ({ close, fetchAddress }) => {
                 country: "",
                 mobile: "",
             })
+            dispatch(setIsAddressLoaded(false))
             close()
             setLoading("Save Address")
-            fetchAddress()
         }
     }
     return (

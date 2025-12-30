@@ -18,38 +18,26 @@ import Loading from '../components/Loading'
 import { CartItem } from '../components/CartItem'
 import { toast } from 'react-toastify'
 import { setIsOrderLoaded } from '../store/orderSlice'
+import { UploadAddressModal } from '../components/UploadAddressModal'
 export const Checkout = () => {
     const cartData = useSelector((state) => state.cart.cartSliceData)
     const { totalPayblePrice, totalSaving, productTotal, handlingCharge } = calcBill(cartData)
-    const [selectedAddress, setSelectedAddress] = useState({})
     const [isOrderConfirmOpen, setIsOrderConfirmOpen] = useState(false);
+    const [isCartLoading, setIsCartLoading] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [paymentMode, setPaymentMode] = useState("Cash On Delivery");
+    const [isUploadAddress, setIsUploadAddress] = useState(false)
     const [address, setAddress] = useState([])
+    const [selectedAddress, setSelectedAddress] = useState(address[0] || {})
     const dispatch = useDispatch();
-    const fetchAddress = async () => {
-        try {
-            const response = await Axios({
-                ...SummaryApi.getAddress
-            })
-            if (response.data.success) {
-                let add = (response.data.data).filter(item => item.status)
-                setAddress(add)
-            }
-        } catch (error) {
-            console.error(error)
-        }
-    }
-    const getCartItem = async () => {
-        try {
-            await Axios({
-                ...SummaryApi.getCartItem
-            })
-        }
-        catch (error) {
-            console.error(error)
-        }
-    }
+    let tempAdd = useSelector(state => state.address.address)
+    useEffect(() => {
+        tempAdd = tempAdd.filter(item => item.status)
+        setAddress(tempAdd)
+        if (!cartData[0]) setIsCartLoading(true)
+        cartData[0] && setIsCartLoading(false)
+    }, [tempAdd, cartData])
+
 
     const placeCODOrder = async () => {
 
@@ -91,11 +79,6 @@ export const Checkout = () => {
         }
 
     }
-    useEffect(() => {
-        fetchAddress()
-        getCartItem()
-    }, [])
-
     const navigate = useNavigate();
     useEffect(() => {
         if (address[0]) {
@@ -120,7 +103,7 @@ export const Checkout = () => {
                         {address[0] && <>
                             <div className='category-head choose-address-head' style={{ border: "none", padding: "10px 1rem 0 1rem" }}>
                                 <h2 style={{ fontSize: "1.2rem" }}>Choose Your Address</h2>
-                                <button onClick={() => navigate("/account/address")}>+ Add Address</button>
+                                <button onClick={() => setIsUploadAddress(true)}>+ Add Address</button>
                             </div>
                             <div className='checkout-address'>{
                                 address.map((item, idx) => {
@@ -148,7 +131,7 @@ export const Checkout = () => {
                         </>}
                         {!address[0] && (
                             <div className='add-address-checkout'>
-                                <button onClick={() => navigate("/account/address")}>+ Add Address</button>
+                                <button onClick={() => setIsUploadAddress(true)}>+ Add Address</button>
                             </div>
                         )}
                     </div>
@@ -275,6 +258,10 @@ export const Checkout = () => {
                         </div>
                     </div>
                 </div>
+            }
+            {isCartLoading && <Loading />}
+            {
+                isUploadAddress && <UploadAddressModal close={() => setIsUploadAddress(false)} />
             }
         </section>
     )

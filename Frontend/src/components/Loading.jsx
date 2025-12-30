@@ -3,7 +3,9 @@ import React from 'react';
 const Loading = () => {
   return (
     <div style={{
+      position:'fixed',
       height: '100vh',
+      width: '100vw',
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',

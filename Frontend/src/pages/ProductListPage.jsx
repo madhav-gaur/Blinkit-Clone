@@ -25,47 +25,52 @@ const ProductListPage = () => {
   const filteredProducts = products.filter(p =>
     p.subCategory?.includes(activeSubCategory)
   );
-
+  const activeSubCatName = subCategoryList?.find(item => item._id == activeSubCategory)
   console.log(categorySubCategories)
   console.log(filteredProducts)
   return (
-    <section className='product-list-wrapper'>
-      <div className='product-list-hero'>
-        <div className='subcategory-sidebar-wrapper'>
-          <div className='subcategory-sidebar'>
-            {categorySubCategories.map((item, idx) => {
-              return <div
-                className={`subcategory-sidebar-item ${activeSubCategory === item._id ? "active-subcategory" : ""}`}
-                key={item._id + idx}
-                onClick={() => {
-                  setActiveSubcategory(item._id)
-                  navigate(`/${category}/${item._id}`)
-                }}>
-                <img src={item.image} alt="" />
-                <p>{item.name}</p>
-              </div>
-            })}
-          </div>
+    <section className='product-list-wrapper-main'>
+      <div className='product-list-wrapper'>
+        <div className='product-list-wrapper-header'>
+          <h2>Buy {activeSubCatName?.name} online</h2>
         </div>
-        <div className='product-list-container'>
-          <div className='product-list-container-2'>
-            {filteredProducts.map((item) => {
-              return <HomeProductCard data={item} />
-            })}
-          </div>
-          {
-            !filteredProducts[0] && <div className='empty-cart-wrapper'>
-              <div className='empty-cart-hero'>
-                <img src={emptyCart} alt="" />
-                <h2>No Matching Items Found</h2>
-                <p>View Other Items</p>
-                <button onClick={() => {
-                  navigate("/")
-                  // setIsCart(false)
-                }}>Back Home</button>
-              </div>
+        <div className='product-list-hero'>
+          <div className='subcategory-sidebar-wrapper'>
+            <div className='subcategory-sidebar'>
+              {categorySubCategories.map((item, idx) => {
+                return <div
+                  className={`subcategory-sidebar-item ${activeSubCategory === item._id ? "active-subcategory" : ""}`}
+                  key={item._id + idx}
+                  onClick={() => {
+                    setActiveSubcategory(item._id)
+                    navigate(`/${category}/${item._id}`)
+                  }}>
+                  <img src={item.image} alt="" />
+                  <p>{item.name}</p>
+                </div>
+              })}
             </div>
-          }
+          </div>
+          <div className='product-list-container'>
+            <div className='product-list-container-2'>
+              {filteredProducts.map((item) => {
+                return <HomeProductCard key={item._id} data={item} />
+              })}
+            </div>
+            {
+              !filteredProducts[0] && <div className='empty-cart-wrapper'>
+                <div className='empty-cart-hero'>
+                  <img src={emptyCart} alt="" />
+                  <h2>No Matching Items Found</h2>
+                  <p>View Other Items</p>
+                  <button onClick={() => {
+                    navigate("/")
+                    // setIsCart(false)
+                  }}>Back Home</button>
+                </div>
+              </div>
+            }
+          </div>
         </div>
       </div>
     </section>

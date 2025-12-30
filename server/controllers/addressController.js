@@ -87,6 +87,22 @@ export const disableAddress = async (req, res) => {
     res.json({ success: false, message: error.message || error });
   }
 };
+// ? Get All Address
+
+export const getAllAddress = async (req, res) => {
+  try {
+    const allAddress = await addressModel.find();
+    return res.json({
+      success: true,
+      message: "All address fetched",
+      data: allAddress,
+    });
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: error.message || error });
+  }
+};
+
 // ? Template
 
 // export const registerUser = async (req, res) => {

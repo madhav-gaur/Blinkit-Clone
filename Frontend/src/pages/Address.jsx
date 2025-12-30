@@ -10,57 +10,62 @@ import { IoClose } from 'react-icons/io5';
 import Loading from '../components/Loading';
 import ConfirmBox from '../components/ConfirmBox';
 import { useDispatch, useSelector } from 'react-redux';
-import { setAddressSlice } from '../store/addressSlice';
+import { setAddressSlice, setIsAddressLoaded } from '../store/addressSlice'
 import isAdmin from '../utils/isAdmin';
 const Address = () => {
   const [isUploadAdd, setIsUploadAdd] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [isMenu, setIsMenu] = useState("");
-  const [address, setAddress] = useState([])
+  // const [address, setAddress] = useState([])
   const [isConfirmBox, setIsConfirmBox] = useState("")
   const dispatch = useDispatch();
 
   const user = useSelector(state => state.user)
-
-  const fetchAddress = async () => {
-    try {
-      const response = await Axios({
-        ...SummaryApi.getAddress
-      })
-      setIsLoading(true)
-      if (response.data.success) {
-        let add = (response.data.data).filter(item => item.status)
-        dispatch(setAddressSlice(add))
-        setAddress(add)
-        setIsLoading(false)
-      }
-    } catch (error) {
-      console.error(error)
-    }
-  }
-
+  const address = useSelector(state => state.address.address)
+  useEffect(() => {
+    address[0] && setIsLoading(false)
+  }, [address])
+  // const fetchAddress = async () => {
+  //   try {
+  //     const response = await Axios({
+  //       ...SummaryApi.getAddress
+  //     })
+  //     setIsLoading(true)
+  //     if (response.data.success) {
+  //       let add = (response.data.data).filter(item => item.status)
+  //       dispatch(setAddressSlice(add))
+  //       // setAddress(add)
+  //       setIsLoading(false)
+  //     }
+  //   } catch (error) {
+  //     console.error(error)
+  //   }
+  // }
   const deleteAddress = async (id) => {
     try {
       const response = await Axios({
         ...SummaryApi.disableAddress,
         data: { _id: id }
-      })
-      console.log(response)
+      });
+
       if (response.data.success) {
-        setIsConfirmBox("")
-        setIsMenu("")
-        fetchAddress()
+        dispatch(
+          setAddressSlice(
+            address.filter((addr) => addr._id !== id)
+          )
+        );
+
+        setIsConfirmBox("");
+        setIsMenu("");
       }
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
-  }
+  };
+
 
   useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(true)
-    }, 300);
-    fetchAddress()
+    dispatch(setIsAddressLoaded(false))
     setIsLoading(false)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -72,7 +77,7 @@ const Address = () => {
           <button onClick={() => setIsUploadAdd(true)}>+ Add Address</button>
         </div>
         <div className='saved-address-wrapper'>
-          <div className='saved-address-hero' style={{maxHeight: isAdmin(user.role)?"610px": "480px"}}>
+          <div className='saved-address-hero' style={{ maxHeight: isAdmin(user.role) ? "610px" : "480px" }}>
             {isLoading && <Loading />}
             {!address[0] && !isLoading && <div className='no-address-msg'>
               <p>No Saved Address</p>
@@ -105,7 +110,7 @@ const Address = () => {
             <p>Add Address</p>
           </div>
         </div> */}
-        {isUploadAdd && <UploadAddressModal setIsUploadAdd={setIsUploadAdd} close={() => setIsUploadAdd(false)} fetchAddress={() => fetchAddress()} />}
+        {isUploadAdd && <UploadAddressModal setIsUploadAdd={setIsUploadAdd} close={() => setIsUploadAdd(false)} />}
         {isConfirmBox && <ConfirmBox close={() => setIsConfirmBox("")} cancel={() => setIsConfirmBox("")} confirm={() => deleteAddress(isConfirmBox)} />}
       </div>
     </section >

@@ -195,7 +195,7 @@ const Header = () => {
             </button>
           </div>
         </div>
-        {cartData[0] && !location.pathname.startsWith("/checkout") &&
+        {cartData[0] && !location.pathname.startsWith("/checkout") && !location.pathname.startsWith("/account")&&
           <div>
             <div className="sc-cart-info" onClick={() => setIsCart(true)}>
               <div className="sc-cart-info-left">
