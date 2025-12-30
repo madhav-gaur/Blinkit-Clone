@@ -116,6 +116,7 @@ export const App = () => {
       const response = await Axios({
         ...SummaryApi.getAllAddress,
       });
+      console.log(response) 
       if (response.data.success) {
         dispatch(setAllAddress(response.data.data));
         dispatch(setIsAllAddressLoaded(true))
@@ -127,24 +128,9 @@ export const App = () => {
 
   useEffect(() => {
     if (!isAllAddressLoaded && isAdmin(user.role)) {
-      fetchAllAddress()
+      fetchAllAddress() 
     }
   }, [isAllAddressLoaded])
-  // const fetchProduct = async () => {
-  //   try {
-  //     setLoadingProduct(true);
-  //     const response = await Axios({
-  //       ...SummaryApi.getAllProduct,
-  //     });
-  //     if (response.data.success) {
-  //       dispatch(setProduct(response.data.data));
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   } finally {
-  //     dispatch(setLoadingProduct(false));
-  //   }
-  // };
   const isLoaded = useSelector(state => state.product.isLoaded)
   const fetchProduct = async () => {
     try {

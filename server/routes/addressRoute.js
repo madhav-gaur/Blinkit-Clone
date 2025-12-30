@@ -13,4 +13,4 @@ export const addressRouter = Router();
 addressRouter.post("/create", auth, createAddress);
 addressRouter.get("/get", auth, getAddress);
 addressRouter.delete("/disable", auth, disableAddress);
-addressRouter.get("/get", auth, admin, getAllAddress);
+addressRouter.get("/get-all", auth,admin, getAllAddress);
