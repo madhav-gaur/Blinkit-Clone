@@ -173,6 +173,10 @@ const SummaryApi = {
     url: "/api/order/admin-orders",
     method: "get",
   },
+  updateOrderStatus: {
+    url: "/api/order/update-order-status",
+    method: "post",
+  },
 };
 
 export default SummaryApi;

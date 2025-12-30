@@ -29,5 +29,5 @@ const addressSlice = createSlice({
   },
 });
 
-export const { setAddressSlice, setIsAddressLoaded, setAllAddress, setIsAllAddressLoaded } = addressSlice.actions;
+export const { setAddressSlice, setIsAddressLoaded, setAllAddressSlice, setIsAllAddressLoaded } = addressSlice.actions;
 export default addressSlice.reducer;

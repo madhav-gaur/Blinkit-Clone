@@ -86,6 +86,33 @@ export const adminOrders = async (req, res) => {
     res.json({ success: false, message: error.message || error });
   }
 };
+// ? Update Status
+
+export const updateOrderStatus = async (req, res) => {
+  try {
+    const { id, status } = req.body;
+    const updatedOrder = await orderModel.findOneAndUpdate(
+      { _id: id },
+      { order_status: status },
+      { new: true }
+    );
+    if (!updatedOrder) {
+      return res.status(404).json({
+        success: false,
+        message: "Order not found",
+      });
+    }
+    return res.json({
+      success: true,
+      message: "Order Updated Sucessfully",
+      data: updatedOrder
+    });
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: error.message || error });
+  }
+};
+
 // ? Template
 
 // export const registerUser = async (req, res) => {

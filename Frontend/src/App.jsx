@@ -42,18 +42,15 @@ import ProductListPage from "./pages/ProductListPage";
 import ProductDisplayPage from "./pages/ProductDisplayPage";
 import { Checkout } from "./pages/Checkout";
 import { NoInternet } from "./components/NoInternet";
-import { setAddressSlice, setAllAddress, setIsAddressLoaded, setIsAllAddressLoaded } from "./store/addressSlice";
+import { setAddressSlice, setAllAddressSlice, setIsAddressLoaded, setIsAllAddressLoaded } from "./store/addressSlice";
 import OrderSuccess from "./pages/OrderSuccess";
 import OrderDetails from "./pages/OrderDetails";
 import { setIsOrderLoaded, setOrderSliceData } from "./store/orderSlice";
 import AdminOrders from "./pages/AdminOrders";
-import isAdmin from "./utils/isAdmin";
-// import { setAddress} from "./store/addressSlice";
 
 export const App = () => {
   const dispatch = useDispatch();
   const [userLoading, setUserLoading] = useState(true);
-  const user = useSelector(state => state.user)
   const fetchUser = async () => {
     try {
       const userData = await fetchUserDetails();
@@ -116,9 +113,8 @@ export const App = () => {
       const response = await Axios({
         ...SummaryApi.getAllAddress,
       });
-      console.log(response) 
       if (response.data.success) {
-        dispatch(setAllAddress(response.data.data));
+        dispatch(setAllAddressSlice(response.data.data));
         dispatch(setIsAllAddressLoaded(true))
       }
     } catch (error) {
@@ -127,8 +123,8 @@ export const App = () => {
   };
 
   useEffect(() => {
-    if (!isAllAddressLoaded && isAdmin(user.role)) {
-      fetchAllAddress() 
+    if (!isAllAddressLoaded) {
+      fetchAllAddress()
     }
   }, [isAllAddressLoaded])
   const isLoaded = useSelector(state => state.product.isLoaded)
