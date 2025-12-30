@@ -53,7 +53,6 @@ const orderSchema = new mongoose.Schema(
         "DELIVERY_FAILED",
         "RETURN_REQUESTED",
         "RETURNED",
-        "REFUNDED",
       ],
       default: "CONFIRMED",
     },

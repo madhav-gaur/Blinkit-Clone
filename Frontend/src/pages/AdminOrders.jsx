@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react'
 import Axios from '../utils/axios'
@@ -7,7 +8,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setIsAllAddressLoaded } from '../store/addressSlice'
 import { IoClose } from "react-icons/io5";
 import '../pages/stylesheets/AdminOrders.css'
-import { setIsOrderLoaded } from '../store/orderSlice'
 const AdminOrders = () => {
     const [orders, setOrders] = useState([])
     const [page, setPage] = useState(1)
@@ -17,38 +17,61 @@ const AdminOrders = () => {
     const [isUpdateStatus, setIsUpdateStatus] = useState("")
     const address = useSelector((state) => state.address.allAddress)
     const dispatch = useDispatch()
-
-    useEffect(() => {
-        const fetchAdminOrders = async () => {
-            try {
-                const response = await Axios({
-                    ...SummaryApi.adminOrders,
-                })
-                if (response.data.success) {
-                    setOrders(response.data.data)
-                    dispatch(setIsAllAddressLoaded(false))
-                }
-            } catch (error) {
-                console.error(error)
-            }
-        }
-        fetchAdminOrders()
-    }, [dispatch])
-    const updateStatus = async (id, status) => {
+    const [localUpdate, setLocalUpdate] = useState("")
+    const fetchAdminOrders = async () => {
         try {
             const response = await Axios({
-                ...SummaryApi.updateOrderStatus,
-                data:{id, status}
+                ...SummaryApi.adminOrders,
             })
-            console.log(response)
             if (response.data.success) {
-                setIsUpdateStatus("")
-                dispatch(setIsOrderLoaded(false))
+                setOrders(response.data.data)
+                dispatch(setIsAllAddressLoaded(false))
             }
         } catch (error) {
             console.error(error)
         }
     }
+    useEffect(() => {
+        fetchAdminOrders()
+    }, [])
+    console.log(localUpdate)
+    // const updateStatus = async (id, status) => {
+    //     setLocalUpdate(status.replaceAll("_", " "))
+    //     try {
+    //         const response = await Axios({
+    //             ...SummaryApi.updateOrderStatus,
+    //             data: { id, status }
+    //         })
+    //         console.log(response)
+    //         if (response.data.success) {
+    //             setIsUpdateStatus('')
+    //             setLocalUpdate(response.data.data.order_status.replaceAll("_", " "))
+    //             // fetchAdminOrders()
+    //         }
+    //     } catch (error) {
+    //         console.error(error)
+    //     }
+    // }
+    const updateStatus = async (id, orderStatus) => {
+        setOrders(prev =>
+            prev.map(o =>
+                o._id === id
+                    ? { ...o, order_status: orderStatus }
+                    : o
+            )
+        );
+        setIsUpdateStatus("");
+        try {
+            const res = await Axios({
+                ...SummaryApi.updateOrderStatus,
+                data: { id, orderStatus },
+            });
+            console.log(res)
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     const fetchAllUsers = async () => {
         try {
             const response = await Axios({
@@ -97,14 +120,14 @@ const AdminOrders = () => {
                             return <div key={item._id + idx} className='order-list-detail-item'>
                                 <b>#{item.orderId}</b>
                                 <p>{formatDate(item.createdAt).split(",")[0]}</p>
-                                <p>{temp.name}</p>
+                                <p>{temp?.name}</p>
                                 <p>{item.payment_status == "COD_PENDING" ? <a>Pending</a> : <u>Success</u>}</p>
                                 <p>{item.items.length} Products</p>
                                 <p>{item.totalAmt} Rs</p>
-                                <p>{address_line.slice(0, 3).map((i, idx) => {
+                                <p>{address_line?.slice(0, 3).map((i, idx) => {
                                     return <span key={idx}>{i}{idx == 2 ? "" : " "}</span>
-                                })}... {currAddress.city}</p>
-                                <p>{item.order_status}</p>
+                                })}... {currAddress?.city}</p>
+                                <p>{item.order_status.replaceAll("_", " ")}</p>
                                 <div
                                     className='order-update-action-btn'
                                     onClick={() => {
@@ -124,7 +147,6 @@ const AdminOrders = () => {
                                         <div onClick={() => updateStatus(item._id, "DELIVERY_FAILED")}><button>DELIVERY FAILED</button></div>
                                         <div onClick={() => updateStatus(item._id, "RETURN_REQUESTED")}><button>RETURN REQUESTED</button></div>
                                         <div onClick={() => updateStatus(item._id, "RETURNED")}><button>RETURNED</button></div>
-                                        <div onClick={() => updateStatus(item._id, "REFUNDED")}><button>REFUNDED</button></div>
                                     </div>}
                                 </div>
 

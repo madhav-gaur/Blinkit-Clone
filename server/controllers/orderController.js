@@ -10,7 +10,7 @@ export const placeCODOrder = async (req, res) => {
     const { items, delivery_address, totalAmt, totalPayblePrice } = req.body;
 
     if (!items || !delivery_address || !totalAmt) {
-      return res.status(400).json({
+      return res.orderStatus(400).json({
         success: false,
         message: "Missing required fields",
       });
@@ -36,7 +36,7 @@ export const placeCODOrder = async (req, res) => {
     const user = await userModel.findById(userId);
 
     if (!user) {
-      return res.status(404).json({
+      return res.orderStatus(404).json({
         success: false,
         message: "User not found",
       });
@@ -90,26 +90,57 @@ export const adminOrders = async (req, res) => {
 
 export const updateOrderStatus = async (req, res) => {
   try {
-    const { id, status } = req.body;
-    const updatedOrder = await orderModel.findOneAndUpdate(
-      { _id: id },
-      { order_status: status },
-      { new: true }
-    );
-    if (!updatedOrder) {
+    const { id, orderStatus } = req.body;
+
+    const order = await orderModel.findById(id);
+    if (!order) {
       return res.status(404).json({
         success: false,
         message: "Order not found",
       });
     }
+
+    let updatedPaymentStatus = order.payment_status;
+
+    switch (orderStatus) {
+      case "DELIVERED":
+        updatedPaymentStatus = "SUCCESS";
+        break;
+
+      case "CANCELLED_BY_USER":
+      case "CANCELLED_BY_ADMIN":
+      case "RETURNED":
+        if (order.payment_status === "SUCCESS") {
+          updatedPaymentStatus = "REFUNDED";
+        } else {
+          updatedPaymentStatus = orderStatus;
+        }
+        break;
+
+      default:
+        break;
+    }
+
+    const updatedOrder = await orderModel.findByIdAndUpdate(
+      id,
+      {
+        order_status: orderStatus,
+        payment_status: updatedPaymentStatus,
+      },
+      { new: true }
+    );
+
     return res.json({
       success: true,
-      message: "Order Updated Sucessfully",
-      data: updatedOrder
+      message: "Order status updated",
+      data: updatedOrder,
     });
   } catch (error) {
-    console.log(error);
-    res.json({ success: false, message: error.message || error });
+    console.error(error);
+    return res.status(500).json({
+      success: false,
+      message: error.message || "Something went wrong",
+    });
   }
 };
 
