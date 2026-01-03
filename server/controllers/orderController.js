@@ -144,6 +144,22 @@ export const updateOrderStatus = async (req, res) => {
   }
 };
 
+// ? Order Controls by User
+
+export const userOrderControl = async (req, res) => {
+  try {
+    const { id, update } = req.body;
+    await orderModel.findByIdAndUpdate(id, { order_status: update });
+    return res.json({
+      success: true,
+      message: `${update} Sucessfull`,
+    });
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: error.message || error });
+  }
+};
+
 // ? Template
 
 // export const registerUser = async (req, res) => {

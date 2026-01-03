@@ -45,7 +45,7 @@ import { NoInternet } from "./components/NoInternet";
 import { setAddressSlice, setAllAddressSlice, setIsAddressLoaded, setIsAllAddressLoaded } from "./store/addressSlice";
 import OrderSuccess from "./pages/OrderSuccess";
 import OrderDetails from "./pages/OrderDetails";
-import { setIsOrderLoaded, setOrderSliceData } from "./store/orderSlice";
+import { setAdminOrderSliceData, setAllUserSliceData, setIsOrderLoaded, setOrderSliceData } from "./store/orderSlice";
 import AdminOrders from "./pages/AdminOrders";
 
 export const App = () => {
@@ -193,7 +193,46 @@ export const App = () => {
     if (!isOrderLoaded) {
       fetchOrders()
     }
-  }, [])
+  }, [isOrderLoaded])
+
+  const fetchAllUsers = async () => {
+    try {
+      const response = await Axios({
+        ...SummaryApi.allUserDetails
+      })
+      if (response.data.success) {
+        dispatch(setAllUserSliceData(response.data.data))
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
+  const isAllUserLoaded = useSelector((state) => state.orders.isAllUserLoaded)
+  useEffect(() => {
+    if (!isAllUserLoaded) {
+      fetchAllUsers()
+    }
+  }, [isAllUserLoaded])
+  const fetchAdminOrders = async () => {
+    try {
+      const response = await Axios({
+        ...SummaryApi.adminOrders
+      })
+      if (response.data.success) {
+        dispatch(setIsAllAddressLoaded(false))
+        dispatch(setAdminOrderSliceData(response.data.data))
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
+  const isAdminOrderLoaded = useSelector((state) => state.orders.isAdminOrderLoaded)
+  useEffect(() => {
+    if (!isAdminOrderLoaded) {
+      fetchAdminOrders()
+    }
+  }, [isAdminOrderLoaded])
+
   useEffect(() => {
     fetchUser();
     fetchCategory();

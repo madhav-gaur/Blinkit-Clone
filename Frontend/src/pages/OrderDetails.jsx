@@ -1,56 +1,43 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
+import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { calcBill } from '../components/calcBill'
 import { RiEBike2Fill, RiFileList2Fill } from 'react-icons/ri'
+import { FaAngleRight } from "react-icons/fa6";
 import { GiShoppingBag } from 'react-icons/gi'
+import { statusFinder } from '../utils/statusFinder'
+import Axios from '../utils/axios'
+import SummaryApi from '../common/summaryAPI'
+import { setIsOrderLoaded } from '../store/orderSlice'
+import { toast } from 'react-toastify'
 const OrderDetails = () => {
 
     const param = useParams()
-
+    const [isButton, setIsButton] = useState(false)
     const tempOrders = useSelector((state) => state.orders.orderSliceData)
     const temp = tempOrders.filter((item) => item.orderId == param.orderId)
     const order = temp[0]
-
+    const dispach = useDispatch()
     const { totalSaving, totalPayblePrice, productTotal, handlingCharge } = calcBill(order?.items)
 
     const tempAddrress = useSelector((state) => state.address.address)
     const temp2 = tempAddrress.filter((item) => item._id == order?.delivery_address)
     const address = temp2[0]
-    // const st = order.order_status;
-    const statusFinder = (status) => {
-        switch (status) {
-            case "CONFIRMED":
-                return "Order confirmed";
-            case "PACKED":
-                return "Order Packed";
-            case "OUT_FOR_DELIVERY":
-                return "Order Out of Delivery";
-            case "DELIVERED":
-                return "Order Successfully Delivered";
-            case "CANCELLED_BY_USER":
-                return "Order Cancelled By You";
-            case "CANCELLED_BY_ADMIN":
-                return "Order Cancelled due to technical issues";
-            case "CANCELLED_OUT_OF_STOCK":
-                return "Items Out of Stock, Order Cancelled"
-
-            case "DELIVERY_FAILED":
-                return "Delvery Failed Will attempt ASAP";
-            case "RETURN_REQUESTED":
-                return "You Requested To return items";
-            case "RETURNED":
-                return "Ordered Returned";
-            case "REFUNDED":
-                return "Refund Completed"
-            default:
-                return "Unknown Status";
+    const updateStatus = async (update) => {
+        try {
+            const response = await Axios({
+                ...SummaryApi.updateOrderStatusUser,
+                data: { id: order._id, update }
+            })
+            console.log(response)
+            if (response.data.success) {
+                dispach(setIsOrderLoaded(false))
+                toast.success(update=="CANCELLED_BY_USER"? "Order Cancelled": "Order Return Requested")
+            }
+        } catch (error) {
+            console.error(error)
         }
-
     }
-
-    // console.log(address)
-    console.log(order)
     return (
         <div className='order-detail-wrapper'>
             <div className='order-detail-hero'>
@@ -149,6 +136,23 @@ const OrderDetails = () => {
                             })}
                         </div>
                     </div>
+                    <div className='order-control-wrapper'>
+                        {(order?.order_status === "CONFIRMED" ||
+                            order?.order_status === "OUT_FOR_DELIVERY" ||
+                            order?.order_status === "PACKED") && (
+                                <div className='order-control-item'>
+                                    <p onClick={() => setIsButton(true)}>Cancel Order</p>
+                                    {isButton && <button onClick={()=>updateStatus("CANCELLED_BY_USER")}>Cancel Order <FaAngleRight /></button>}
+                                </div>
+                            )}
+                        {(order?.order_status === "DELIVERED") && (
+                            <div className='order-control-item'>
+                                <p onClick={() => setIsButton(true)}>Request Return</p>
+                                {isButton && <button onClick={()=>updateStatus("RETURN_REQUESTED")}>Request Return <FaAngleRight /></button>}
+                            </div>
+                        )}
+                    </div>
+
                     <div>
                     </div>
 

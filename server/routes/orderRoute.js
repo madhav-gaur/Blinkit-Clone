@@ -5,6 +5,7 @@ import {
   getOrderItems,
   placeCODOrder,
   updateOrderStatus,
+  userOrderControl,
 } from "../controllers/orderController.js";
 import { admin } from "../middleware/admin.js";
 
@@ -14,3 +15,4 @@ orderRouter.post("/cash-on-delivery", auth, placeCODOrder);
 orderRouter.get("/order-list", auth, getOrderItems);
 orderRouter.get("/admin-orders", auth, admin, adminOrders);
 orderRouter.post("/update-order-status", auth, admin, updateOrderStatus);
+orderRouter.post("/update-order-status-user", auth, userOrderControl);

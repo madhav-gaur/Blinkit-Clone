@@ -13,7 +13,6 @@ const initialVal = {
   shoopping_cart: [],
   order_history: [],
   role: "",
-
 };
 
 const userSlice = createSlice({

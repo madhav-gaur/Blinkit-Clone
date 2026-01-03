@@ -5,6 +5,7 @@ import '../pages/stylesheets/Orders.css'
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { formatDate } from '../utils/formatDate'
+import { statusFinder } from '../utils/statusFinder'
 const Orders = () => {
   const navigate = useNavigate()
   const orders = useSelector((state) => state.orders.orderSliceData)
@@ -18,15 +19,10 @@ const Orders = () => {
     <div className='order-page-wrapper'>
       <div className='order-page-container'>
         <h2 className='order-head'> My Orders</h2>
-        {/* <hr /> */}
         <div className='order-list'>
           {
             orders.map((orderItem, idx1) => {
               const orderDate = formatDate(orderItem.createdAt)
-              // const temptDate = orderDate[1] + "/" + orderDate[0] + "/" + orderDate[2]
-
-              // if
-
               return <div
                 className='order-item'
                 key={orderItem._id + idx1}
@@ -34,7 +30,7 @@ const Orders = () => {
               >
                 <p className='order-date'>Ordered on {orderDate}</p>
                 <span className='order-price'>₹{orderItem.totalAmt}</span>
-                <div className='order-status'>{ }</div>
+                <div className='order-status'>Order Status: {statusFinder(orderItem.order_status)}</div>
                 <div className='order-images' >
                   {orderItem.items.slice(0, 7).map((productItem, idx2) => {
                     return <div className='order-image-item' key={productItem._id + idx1 + idx2}>
