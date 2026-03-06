@@ -102,8 +102,8 @@ const UploadSubCategoryModal = ({ close, fetchData }) => {
         }
     }
     return (
-        <section className='upload-category-modal-wrapper'>
-            <div className='upload-category-modal' style={{ "maxWidth": "35rem" }}>
+    <section className="upload-category-modal-wrapper" onClick={close}>
+      <div className="upload-category-modal" onClick={(e)=> e.stopPropagation()} style={{ "maxWidth": "35rem" }}>
                 <div className='category-model-head'>
                     <h1>
                         Sub Category

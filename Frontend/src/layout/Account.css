@@ -95,7 +95,7 @@
 
 .account-content {
   padding: 2rem;
-  max-width: 900px;
+  /* max-width: 900px; */
   min-height: 400px;
   width: 100%;
   a:active {

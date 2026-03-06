@@ -74,8 +74,8 @@ const EditCategoryModal = ({ close, fetchData, category }) => {
   const isUnchanged = name === category?.name && image === category?.image;
 
   return (
-    <section className="upload-category-modal-wrapper">
-      <div className="upload-category-modal">
+    <section className="upload-category-modal-wrapper" onClick={close}>
+      <div className="upload-category-modal" onClick={(e)=> e.stopPropagation()}>
         <div className="category-model-head">
           <h1>Edit Category</h1>
           <button onClick={close}>

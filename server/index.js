@@ -22,8 +22,8 @@ app.use(express.json());
 
 const allowedOrigins = [
   "https://blinkit-clone-wi73.vercel.app",
-  "https://blinkit-clone-wi73-bm2x0xlbp-madhav-gaurs-projects-9013d5a2.vercel.app", // current deployment
-  "http://localhost:5173", // for local dev
+  "https://blinkit-clone-wi73-bm2x0xlbp-madhav-gaurs-projects-9013d5a2.vercel.app",
+  "http://localhost:5173",
 ];
 
 app.use(
@@ -47,7 +47,7 @@ app.use(
   })
 );
 app.get("/", (req, res) => {
-  res.send("SERVER RUNNIG");
+  res.send("SERVER RUNNING");
 });
 
 app.use("/api/user", userRouter);
@@ -58,10 +58,6 @@ app.use("/api/product", productRouter);
 app.use("/api/cart", cartRouter);
 app.use("/api/address", addressRouter);
 app.use("/api/order", orderRouter);
-app.get('/loaderio-c719def3bb6016b7456cd3cac6b006a0.txt', (req, res) => {
-  res.type('text/plain');
-  res.send('loaderio-c719def3bb6016b7456cd3cac6b006a0');
-});
 const PORT = process.env.PORT || 4000;
 
 connectDB().then(() => {

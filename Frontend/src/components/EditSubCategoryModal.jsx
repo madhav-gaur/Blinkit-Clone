@@ -78,8 +78,8 @@ const EditSubCategoryModal = ({ close, data, fetchData }) => {
   };
 
   return (
-    <section className='upload-category-modal-wrapper'>
-      <div className='upload-category-modal'>
+    <section className="upload-category-modal-wrapper" onClick={close}>
+      <div className="upload-category-modal" onClick={(e)=> e.stopPropagation()}>
         <div className='category-model-head'>
           <h1>Edit Sub Category</h1>
           <button onClick={close}><IoClose /></button>

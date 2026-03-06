@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react'
 import SummaryApi from '../common/summaryAPI'
 import Axios from '../utils/axios'
@@ -9,77 +7,65 @@ import ProductCardAdmin from '../components/ProductCardAdmin'
 import './stylesheets/ProductAdmin.css'
 import { GoSearch } from "react-icons/go";
 import { IoClose } from "react-icons/io5";
-import AdminProductLoading from '../components/AdminProductLoading';
 import { useSelector } from 'react-redux';
 import { IoMdArrowDropdown } from 'react-icons/io';
+import { smartSearch } from '../utils/Search/smartSearch';
+import ButtonLoading from '../components/ButtonLoading';
 const ProductAdmin = () => {
-  const [productData, setProductData] = useState([])
+  // const [productData, setProductData] = useState([])
   const [page, setPage] = useState(1)
   const [itemPerPage, setItemPerPage] = useState(10)
-  const totalPage = Math.ceil(productData.length / itemPerPage);
   const [search, setSearch] = useState('')
   const [isSearch, setIsSearch] = useState(false)
   const [openMenuId, setOpenMenuId] = useState(null)
   const [selectDrop, setSelectDrop] = useState(false)
-  const prod = useSelector(state => state.product.product)
-  let temp = prod
-  useEffect(() => {
-    if (prod?.length) {
-      const reversed = [...prod].reverse()
-      setProductData(reversed)
-    }
-  }, [prod])
-  // const fetchProductData = async () => {
-  //   try {
-  //     setLoading(true)
-  //     const response = await Axios({
-  //       ...SummaryApi.getProduct,
-  //       data: {
-  //         page: page,
-  //         limit: 10,
-  //         search: search
-  //       }
-  //     })
-  //     if (response.data.success) {
-  //       setTotalPageCount(response.data.totalNoPage)
-  //       setProductData(response.data.data)
-  //       setIsLoaded(true)
-  //     }
+  const products = useSelector(state => state.product.product);
+  const allCategory = useSelector(state => state.product.allCategory);
+  const [results, setResults] = useState([]);
+  const [isSearching, setIsSearching] = useState(false);
+  const totalPage = Math.ceil(results.length / itemPerPage);
 
-  //   } catch (error) {
-  //     console.log(error)
-  //   } finally {
-  //     setLoading(false)
-  //   }
-  // }
+  useEffect(() => {
+    if (products?.length) {
+      const reversed = [...products].reverse()
+      setResults(reversed)
+    }
+  }, [products])
+  useEffect(() => {
+    if (!search.trim() || search.length < 2) {
+      setResults(products);
+      return;
+    }
+
+    setIsSearching(true);
+
+    const timer = setTimeout(() => {
+      const res = smartSearch(search, products, allCategory);
+      setResults(res);
+      setIsSearching(false);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [search, products, allCategory])
   const handlePage = (type) => {
     if (type == "back" && page != 1)
       setPage(page - 1)
     if (type == "next" && page != totalPage) setPage(page + 1)
   }
-  const handleSearch = (e) => {
-    const { value } = e.target
-    setSearch(value)
-    setPage(1)
-  }
+  useEffect(() => {
+    setPage(1);
+  }, [search]);
+
   return (
     <section className='upload-product-wrapper'>
       <div className='product-admin-head'>
         <h2>Products</h2>
         <div className='product-admin-head-left'>
-
-          {!isSearch && (
-            <div
-              className='product-admin-search-btn'
-              style={{ cursor: 'pointer' }}
-              onClick={() => setIsSearch(true)}
-            >
-              <GoSearch size={20} />
-            </div>
-          )}
           {isSearch && (
             <div className={`product-admin-search show`}>
-              <GoSearch size={20} />
+              <span>
+                <GoSearch />
+              </span>
               <input
                 type="text"
                 value={search}
@@ -90,17 +76,26 @@ const ProductAdmin = () => {
                 }}
                 placeholder='Search Products here...'
               />
-              <IoClose
-                size={20}
-                style={{ cursor: 'pointer' }}
-                onClick={() => {
-                  setSearch('')
-                  setPage(1)
-                  setIsSearch(false)
-                }}
-              />
+              <span>
+                <IoClose
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => {
+                    setSearch('')
+                    setPage(1)
+                    setIsSearch(false)
+                  }}
+                />
+              </span>
             </div>
           )}
+          <div
+            className='product-admin-search-btn'
+            style={{ cursor: 'pointer' }}
+            onClick={() => setIsSearch(true)}
+          >
+            <GoSearch size={20} />
+          </div>
+
 
           <div className='item-per-page-container'>
             <button className='item-per-page-btn' onClick={() => setSelectDrop(!selectDrop)}>{itemPerPage}<IoMdArrowDropdown /> </button>
@@ -132,13 +127,47 @@ const ProductAdmin = () => {
         </div>
       </div>
 
-
+      {isSearch && (
+        <div className={`product-admin-search product-admin-search-sc show`}>
+          <div>
+            <span>
+              <GoSearch />
+            </span>
+            <input
+              type="text"
+              value={search}
+              autoFocus
+              onChange={(e) => {
+                setSearch(e.target.value)
+                setPage(1)
+              }}
+              placeholder='Search Products here...'
+            />
+          </div>
+          <span>
+            <IoClose
+              style={{ cursor: 'pointer' }}
+              onClick={() => {
+                setSearch('')
+                setPage(1)
+                setIsSearch(false)
+              }}
+            />
+          </span>
+        </div>
+      )}
       <div className='admin-product-wrapper'>
         <div className='admin-product'>
           {
-            productData?.slice((page - 1) * itemPerPage, page * itemPerPage).map((p, index) => {
+            results?.slice((page - 1) * itemPerPage, page * itemPerPage).map((p, index) => {
               return <ProductCardAdmin key={p._id + index} data={p} openMenuId={openMenuId} setOpenMenuId={setOpenMenuId} />
             })
+          }
+          {
+            isSearching && <Loading />
+          }
+          {
+            search && !isSearching && !results[0] && < p>No Matching Products Found...</p>
           }
         </div>
         <div className='admin-product-pagination'>
@@ -179,9 +208,6 @@ const ProductAdmin = () => {
           </button>
 
         </div>
-        {/* {
-          loading && <AdminProductLoading />
-        } */}
       </div>
     </section>
   )

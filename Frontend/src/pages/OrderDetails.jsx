@@ -8,7 +8,7 @@ import { GiShoppingBag } from 'react-icons/gi'
 import { statusFinder } from '../utils/statusFinder'
 import Axios from '../utils/axios'
 import SummaryApi from '../common/summaryAPI'
-import { setIsOrderLoaded } from '../store/orderSlice'
+import { setIsAdminOrderLoaded, setIsOrderLoaded } from '../store/orderSlice'
 import { toast } from 'react-toastify'
 const OrderDetails = () => {
 
@@ -32,7 +32,8 @@ const OrderDetails = () => {
             console.log(response)
             if (response.data.success) {
                 dispach(setIsOrderLoaded(false))
-                toast.success(update=="CANCELLED_BY_USER"? "Order Cancelled": "Order Return Requested")
+                dispach(setIsAdminOrderLoaded(false))
+                toast.success(update=="CANCELLED_BY_USER"? "Order Cancelled": "Order Return Requested ")
             }
         } catch (error) {
             console.error(error)

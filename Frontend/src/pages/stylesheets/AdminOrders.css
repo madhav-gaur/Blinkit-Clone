@@ -247,6 +247,7 @@
   box-shadow: rgba(0, 0, 0, 0.1) 0px 5px 15px;
   justify-content: center;
   display: none;
+  z-index: 1000;
 }
 .order-filter-right-item:hover .order-tooltip {
   display: flex;
@@ -360,4 +361,13 @@
   &:hover .order-filter-sub-dropdown {
     display: flex;
   }
+}
+
+
+.order-page-hero .product-admin-search{
+  display: flex !important; 
+  justify-content: space-between;
+  margin-bottom: 10px ;
+  width: 100%;
+  max-width: none;
 }

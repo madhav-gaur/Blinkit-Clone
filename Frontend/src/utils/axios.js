@@ -6,7 +6,6 @@ const Axios = axios.create({
   withCredentials: true,
 });
 
-// attach access token before each request
 Axios.interceptors.request.use(
   (config) => {
     const accessToken = localStorage.getItem("accessToken");
@@ -21,7 +20,6 @@ Axios.interceptors.request.use(
 // handle responses + auto refresh
 Axios.interceptors.response.use(
   async (response) => {
-    // ✅ case: backend sends 200 but with "jwt expired" in body
     if (
       response.data?.message?.toLowerCase().includes("jwt expired") &&
       localStorage.getItem("refreshToken")
@@ -43,7 +41,6 @@ Axios.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    // ✅ case: backend sends proper 401
     if (
       error.response?.status === 401 &&
       !originalRequest._retry &&
@@ -67,14 +64,13 @@ Axios.interceptors.response.use(
   }
 );
 
-// helper to call refresh token API
 const refreshAccessToken = async () => {
   const refreshToken = localStorage.getItem("refreshToken");
   if (!refreshToken) return null;
 
   try {
     const response = await Axios({
-      ...SummaryApi.refreshToken,
+    ...SummaryApi.refreshToken,
       headers: {
         Authorization: `Bearer ${refreshToken}`,
       },

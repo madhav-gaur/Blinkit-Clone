@@ -91,7 +91,7 @@ const Account = () => {
           </div>
         </div>
         {location.pathname != "/account" && <div className='account-content' style={{ marginLeft: isAdmin(user.role) ? "3.5rem" : "" }}>
-          <Outlet />
+          <Outlet />  
         </div>}
       </div>
     </section >
